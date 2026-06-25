@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catalog Tineri PRO</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: white;
+    text-align: center;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+.card {
+    background: rgba(255,255,255,0.08);
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.rules {
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: white;
+    color: #203a43;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #ffd369;
+    transform: scale(1.02);
+}
+
+.deleteBtn {
+    background: #ff4d4d;
+    color: white;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    display: none;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>📊 Catalog Tineri PRO</h1>
+
+<!-- REGULI -->
+<div class="card rules">
+<h3>📜 Reguli</h3>
+
+La fiecare 4 puncte de penalizare, persoana va avea o pedeapsă.<br><br>
+
+Punctele de penalizare se dau când:<br>
+• plecăm în parc în timpul programului<br>
+• vorbim urât la biserică<br>
+• țipăm unii la alții<br>
+• ne comportăm ca niște copii<br>
+• ne supărăm din nimicuri<br>
+• ne amenințăm<br>
+• ne jignim<br>
+• ne lovim<br>
+• nu suntem serioși la repetiții sau în program<br>
+• folosim telefonul în timpul programului (max 2 minute)<br><br>
+
+<b>Pedeapsa:</b><br>
+Persoana aduce suc și prăjituri pentru grup<br>
+și trebuie să învețe și să spună un verset biblic ales de grup.
+</div>
+
+<!-- +1 PUNCT -->
+<div class="card">
+<h3>➕ +1 Punct</h3>
+
+<button onclick="adauga('Felix')">Felix</button>
+<button onclick="adauga('Diana')">Diana</button>
+<button onclick="adauga('Federico')">Federico</button>
+<button onclick="adauga('Giorgio')">Giorgio</button>
+<button onclick="adauga('Sara')">Sara</button>
+<button onclick="adauga('Debora')">Debora</button>
+</div>
+
+<!-- STERGERE -->
+<div class="card">
+<h3>🗑️ Ștergere puncte</h3>
+
+<button class="deleteBtn" onclick="showSelect()">Șterge puncte</button>
+
+<select id="personSelect">
+    <option>Felix</option>
+    <option>Diana</option>
+    <option>Federico</option>
+    <option>Giorgio</option>
+    <option>Sara</option>
+    <option>Debora</option>
+</select>
+
+<button id="confirmDelete" class="deleteBtn" style="display:none;">
+    Confirmă ștergerea
+</button>
+</div>
+
+<!-- TABEL -->
+<div class="card">
+<h3>📋 Puncte live</h3>
+
+<table>
+<thead>
+<tr>
+<th>Nume</th>
+<th>Puncte</th>
+</tr>
+</thead>
+<tbody id="tableBody"></tbody>
+</table>
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  deleteDoc,
+  onSnapshot,
+  collection
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDKO99h9zibkcz2yD0Cn091yRWFgV9HLNA",
+  authDomain: "catalog-absente.firebaseapp.com",
+  projectId: "catalog-absente",
+  storageBucket: "catalog-absente.firebasestorage.app",
+  messagingSenderId: "1042227111577",
+  appId: "1:1042227111577:web:3d09dfb323420a5f5fba08",
+  measurementId: "G-N1MZF02LX5"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ➕ +1 punct
+window.adauga = async function(nume) {
+    const ref = doc(db, "puncte", nume);
+    const snap = await getDoc(ref);
+
+    let p = 0;
+    if (snap.exists()) p = snap.data().puncte;
+
+    await setDoc(ref, { puncte: p + 1 });
+}
+
+// 🧹 arată select
+window.showSelect = function() {
+    document.getElementById("personSelect").style.display = "block";
+    document.getElementById("confirmDelete").style.display = "block";
+}
+
+// 🗑️ ștergere puncte
+document.getElementById("confirmDelete").onclick = async function() {
+    let nume = document.getElementById("personSelect").value;
+
+    await deleteDoc(doc(db, "puncte", nume));
+}
+
+// 📊 live tabel
+onSnapshot(collection(db, "puncte"), (snapshot) => {
+    let html = "";
+
+    snapshot.forEach(d => {
+        html += `
+        <tr>
+            <td>${d.id}</td>
+            <td>${d.data().puncte}</td>
+        </tr>
+        `;
+    });
+
+    document.getElementById("tableBody").innerHTML = html;
+});
+
+</script>
+
+</body>
+</html>
