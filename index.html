@@ -178,9 +178,12 @@ Confirmă ștergerea
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      // Inregistram fisierul fizic sw.js creat pe GitHub
-      navigator.serviceWorker.register('sw.js')
-        .then(() => console.log('Service Worker inregistrat cu succes!'))
+      // Calculăm calea exactă a folderului pe GitHub Pages
+      const caleaCurenta = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+      
+      // Înregistrăm sw.js cu calea completă și scope-ul corect
+      navigator.serviceWorker.register(caleaCurenta + 'sw.js', { scope: caleaCurenta })
+        .then((reg) => console.log('Service Worker înregistrat pe calea: ' + caleaCurenta, reg))
         .catch(err => console.error('Eroare Service Worker:', err));
     });
   }
@@ -191,7 +194,7 @@ Confirmă ștergerea
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    btnInstaleaza.style.display = 'block'; // Afisam butonul tau custom
+    btnInstaleaza.style.display = 'block'; // Afișăm butonul tău custom
   });
 
   btnInstaleaza.addEventListener('click', async () => {
