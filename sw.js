@@ -7,5 +7,5 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  // Lăsat gol intenționat pentru a îndeplini criteriile PWA ale browserului
+  // Necesar pentru a activa funcția de PWA
 });
