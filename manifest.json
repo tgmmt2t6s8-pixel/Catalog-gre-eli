@@ -3,10 +3,16 @@
   "name": "Catalog Tineri PRO",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/3503/3503140.png",
+      "src": "icon-192.png?v=4",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png?v=4",
       "type": "image/png",
       "sizes": "512x512",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ],
   "start_url": "index.html",
