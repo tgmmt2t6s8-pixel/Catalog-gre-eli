@@ -3,8 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="manifest.json">
+
+<link rel="manifest" href="manifest.json?v=3">
 <meta name="theme-color" content="#203a43">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Catalog Tineri">
+
 <title>Catalog Tineri PRO</title>
 <style>
 body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);color:white;}
@@ -13,7 +19,6 @@ h1,h2{text-align:center;}
 .card{background:rgba(255,255,255,0.08);border-radius:15px;padding:20px;margin-bottom:20px;}
 button{width:100%;padding:12px;margin:6px 0;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;}
 
-/* Butonul tău de instalare forțat să fie vizibil mereu */
 .installBtn {
     background: #00b4db;
     background: linear-gradient(to right, #0083b0, #00b4db);
@@ -39,7 +44,6 @@ th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,0.2);text-align:cent
 <div class="container">
 <h1>📊 Catalog Tineri PRO</h1>
 
-<!-- Butonul activ permanent pentru toată lumea -->
 <button id="btnInstaleaza" class="installBtn" onclick="ghidInstalare()">
   📲 Instalează Aplicația pe Ecran
 </button>
@@ -96,20 +100,19 @@ th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,0.2);text-align:cent
 </div>
 
 <script>
-  // Ghid inteligent de instalare care nu mai depinde de decizia browserului
   function ghidInstalare() {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     if (isIOS) {
-      alert("📥 INSTALARE PE IPHONE (Safari):\n\n1. Apasă pe butonul 'Share' (pătrățelul cu săgeată în sus din josul ecranului).\n2. Derulează în jos și apasă pe 'Add to Home Screen' (Adaugă pe ecranul de pornire).\n3. Apasă 'Add' în dreapta sus.");
+      alert("📥 INSTALARE COREKTĂ PE IPHONE:\n\n1. În Safari, apasă jos pe butonul de Share (pătrățelul cu săgeată în sus).\n2. Alege 'Add to Home Screen' (Adaugă pe ecranul de pornire).\n\nOdată adăugată, deschide-o de pe ecran: se va deschide ca o aplicație adevărată pe tot ecranul, fără bara de adrese de internet de la Safari!");
     } else {
-      alert("📥 INSTALARE PE ANDROID (Chrome):\n\n1. Apasă pe cele 3 puncte verticale din colțul dreapta-sus al browserului.\n2. Selectează din listă opțiunea 'Adaugă pe ecranul de pornire' sau 'Instalează aplicația'.\n3. Confirmă instalarea.");
+      alert("📥 INSTALARE CORECTĂ PE ANDROID:\n\n1. Apasă pe cele 3 puncte de sus din Chrome.\n2. Caută textul 'Instalează aplicația' (Install app).\n\n*NOTĂ: Dacă scrie doar 'Adaugă pe ecranul de pornire', înseamnă că telefonul tău folosește încă memoria veche. Șterge shortcut-ul vechi, închide Chrome și intră iar pe link ca să apară opțiunea de Instalare Aplicație.");
     }
   }
 
-  // Înregistrare Service Worker standard în fundal
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js').catch(err => console.log('SW offline activ.'));
+      // Forțăm și Service Worker-ul să se reîmprospăteze
+      navigator.serviceWorker.register('sw.js?v=3').catch(err => console.log('SW pregătit.'));
     });
   }
 </script>
@@ -160,8 +163,6 @@ onSnapshot(collection(db,"puncte"),(snapshot)=>{
   let html="";
   snapshot.forEach(docSnap=>{ html += `<tr><td>${docSnap.id}</td><td>${docSnap.data().puncte}</td></tr>`; });
   document.getElementById("tableBody").innerHTML = html;
-}, (err) => {
-  console.log("Firebase conectat în mod securizat.");
 });
 </script>
 </body>
