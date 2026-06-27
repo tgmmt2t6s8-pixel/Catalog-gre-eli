@@ -46,13 +46,14 @@ button{
     cursor:pointer;
 }
 
+/* Stil pentru noul buton de instalare */
 .installBtn {
     background: #00b4db;
     background: linear-gradient(to right, #0083b0, #00b4db);
     color: white;
     box-shadow: 0 4px 15px rgba(0, 180, 219, 0.4);
     transition: transform 0.2s;
-    display: none; /* Apare automat când e gata */
+    display: none; /* Ascuns implicit, apare când e gata */
     margin-bottom: 20px;
 }
 
@@ -177,10 +178,10 @@ Confirmă ștergerea
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      const caleaCurenta = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
-      navigator.serviceWorker.register(caleaCurenta + 'sw.js', { scope: caleaCurenta })
-        .then(() => console.log('Service Worker pregătit.'))
-        .catch(err => console.error('Eroare SW:', err));
+      // Am setat manual calea exactă a repository-ului tău pentru a elimina erorile de scope
+      navigator.serviceWorker.register('/Catalog-gre-eli/sw.js', { scope: '/Catalog-gre-eli/' })
+        .then((reg) => console.log('Service Worker activat cu succes pe scope-ul corect!', reg))
+        .catch(err => console.error('Eroare critică înregistrare SW:', err));
     });
   }
 
@@ -188,9 +189,10 @@ Confirmă ștergerea
   const btnInstaleaza = document.getElementById('btnInstaleaza');
 
   window.addEventListener('beforeinstallprompt', (e) => {
+    console.log('Evenimentul beforeinstallprompt a fost declanșat de browser!');
     e.preventDefault();
     deferredPrompt = e;
-    btnInstaleaza.style.display = 'block'; 
+    btnInstaleaza.style.display = 'block'; // Afișăm butonul custom
   });
 
   btnInstaleaza.addEventListener('click', async () => {
@@ -201,12 +203,13 @@ Confirmă ștergerea
       deferredPrompt = null;
       btnInstaleaza.style.display = 'none';
     } else {
-      // Plan de rezervă dacă browserul blochează promptul nativ
-      alert("Pentru instalare: Apasă pe cele 3 puncte (sau butonul Share în Safari) și alege 'Adaugă pe ecranul de pornire' / 'Install app'.");
+      // În caz că browserul încă procesează în fundal, oferim instrucțiuni imediate
+      alert("Browserul nu a terminat încă verificările PWA. Dacă butonul nu reacționează instant, poți instala manual: Apasă pe cele 3 puncte ale meniului de sus din Chrome (sau butonul Share în Safari pe iPhone) și alege 'Adaugă pe ecranul de pornire' / 'Instalează aplicația'.");
     }
   });
 
   window.addEventListener('appinstalled', () => {
+    console.log('Aplicația a fost instalată!');
     btnInstaleaza.style.display = 'none';
   });
 </script>
@@ -255,8 +258,7 @@ try {
     alert("⚠️ " + nume + " a ajuns la 4 puncte!");
   }
 } catch(e) {
-  console.error("Eroare Firebase adăugare:", e);
-  alert("A apărut o eroare cu baza de date Firebase. Verifică setările de permisiuni din consolă.");
+  console.error("Eroare adăugare Firebase:", e);
 }
 }
 
