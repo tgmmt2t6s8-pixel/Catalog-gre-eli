@@ -1,16 +1,19 @@
-```html
 <!DOCTYPE html>
-<html lang="ro"><link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#203a43">
+<html lang="ro">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#203a43">
+
 <title>Catalog Tineri PRO</title>
 
 <style>
 body{
     margin:0;
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
     background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
     color:white;
 }
@@ -21,7 +24,7 @@ body{
     padding:20px;
 }
 
-h1,h2,h3{
+h1,h2{
     text-align:center;
 }
 
@@ -30,10 +33,6 @@ h1,h2,h3{
     border-radius:15px;
     padding:20px;
     margin-bottom:20px;
-}
-
-.rules{
-    line-height:1.7;
 }
 
 button{
@@ -45,12 +44,6 @@ button{
     font-size:16px;
     font-weight:bold;
     cursor:pointer;
-    background:white;
-    color:#203a43;
-}
-
-button:hover{
-    transform:scale(1.02);
 }
 
 .deleteBtn{
@@ -61,7 +54,6 @@ button:hover{
 table{
     width:100%;
     border-collapse:collapse;
-    margin-top:10px;
 }
 
 th,td{
@@ -73,27 +65,21 @@ th,td{
 #deleteOptions{
     display:none;
     margin-top:15px;
-    text-align:left;
-}
-
-#deleteOptions label{
-    display:block;
-    margin:10px 0;
 }
 </style>
+
 </head>
+
 <body>
 
 <div class="container">
 
 <h1>📊 Catalog Tineri PRO</h1>
 
-<div class="card rules">
+<div class="card">
 <h2>📜 Reguli</h2>
 
-<p>La fiecare <b>4 puncte de penalizare</b>, persoana care a dobândit 4 puncte va primi o pedeapsă.</p>
-
-<p>Punctele de penalizare se dobândesc atunci când:</p>
+<p>La fiecare <b>4 puncte</b>, persoana primește pedeapsă.</p>
 
 <ul>
 <li>Plecăm în parc în timpul programului.</li>
@@ -104,16 +90,16 @@ th,td{
 <li>Ne amenințăm.</li>
 <li>Ne jignim.</li>
 <li>Ne lovim.</li>
-<li>Nu suntem serioși la repetiții sau în timpul programului.</li>
-<li>Stăm pe telefoane în timpul programului (maxim 2 minute).</li>
+<li>Nu suntem serioși la repetiții.</li>
+<li>Stăm pe telefon în timpul programului.</li>
 </ul>
 
-<p><b>Pedeapsa:</b><br>
-Persoana aduce suc și prăjituri pentru toți și trebuie să învețe și să spună un verset biblic ales de grup.</p>
+<p><b>Pedeapsa:</b> suc + prăjituri + verset biblic.</p>
 
 </div>
 
 <div class="card">
+
 <h2>➕ Adaugă punct</h2>
 
 <button onclick="adauga('Felix')">Felix</button>
@@ -135,12 +121,12 @@ Persoana aduce suc și prăjituri pentru toți și trebuie să învețe și să 
 
 <div id="deleteOptions">
 
-<label><input type="checkbox" value="Felix"> Felix</label>
-<label><input type="checkbox" value="Diana"> Diana</label>
-<label><input type="checkbox" value="Federico"> Federico</label>
-<label><input type="checkbox" value="Giorgio"> Giorgio</label>
-<label><input type="checkbox" value="Sara"> Sara</label>
-<label><input type="checkbox" value="Debora"> Debora</label>
+<label><input type="checkbox" value="Felix"> Felix</label><br>
+<label><input type="checkbox" value="Diana"> Diana</label><br>
+<label><input type="checkbox" value="Federico"> Federico</label><br>
+<label><input type="checkbox" value="Giorgio"> Giorgio</label><br>
+<label><input type="checkbox" value="Sara"> Sara</label><br>
+<label><input type="checkbox" value="Debora"> Debora</label><br>
 
 <button id="confirmDelete" class="deleteBtn">
 Confirmă ștergerea
@@ -184,24 +170,19 @@ onSnapshot,
 collection
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-
-// ÎNLOCUIEȘTE CU CONFIGUL TĂU FIREBASE
 const firebaseConfig = {
-
-apiKey: "PUNE_AICI",
-authDomain: "PUNE_AICI",
-projectId: "catalog-absente",
-storageBucket: "PUNE_AICI",
-messagingSenderId: "PUNE_AICI",
-appId: "PUNE_AICI"
-
+  apiKey: "AIzaSyDKO99h9zibkcz2yD0Cn091yRWFgV9HLNA",
+  authDomain: "catalog-absente.firebaseapp.com",
+  projectId: "catalog-absente",
+  storageBucket: "catalog-absente.firebasestorage.app",
+  messagingSenderId: "1042227111577",
+  appId: "1:1042227111577:web:3d09dfb323420a5f5fba08",
+  measurementId: "G-N1MZF02LX5"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-
-// ADAUGĂ PUNCT
 window.adauga = async function(nume){
 
 const ref = doc(db,"puncte",nume);
@@ -213,45 +194,37 @@ if(snap.exists()){
 puncte = snap.data().puncte;
 }
 
-await setDoc(ref,{
-puncte: puncte + 1
-});
+let noi = puncte + 1;
+
+await setDoc(ref,{ puncte: noi });
+
+if(noi === 4){
+alert("⚠️ " + nume + " a ajuns la 4 puncte!");
+}
 
 }
 
-
-// AFIȘARE ȘTERGERE
 window.showDeleteOptions = function(){
-
-document.getElementById("deleteOptions").style.display = "block";
-
+document.getElementById("deleteOptions").style.display="block";
 }
 
-
-// ȘTERGERE PUNCTE
 document.getElementById("confirmDelete").onclick = async function(){
 
-const selectate = document.querySelectorAll(
-'#deleteOptions input[type="checkbox"]:checked'
-);
+const selectate = document.querySelectorAll('#deleteOptions input:checked');
 
 for(const persoana of selectate){
-
 await deleteDoc(doc(db,"puncte",persoana.value));
-
 }
 
-selectate.forEach(x => x.checked = false);
+selectate.forEach(x=>x.checked=false);
 
 alert("Punctele au fost șterse.");
 
 }
 
-
-// TABEL LIVE
 onSnapshot(collection(db,"puncte"),(snapshot)=>{
 
-let html = "";
+let html="";
 
 snapshot.forEach(docSnap=>{
 
@@ -272,4 +245,4 @@ document.getElementById("tableBody").innerHTML = html;
 
 </body>
 </html>
-```
+17:17 27.06.2026
