@@ -46,14 +46,13 @@ button{
     cursor:pointer;
 }
 
-/* Stilul noului tău buton de instalare */
 .installBtn {
     background: #00b4db;
     background: linear-gradient(to right, #0083b0, #00b4db);
     color: white;
     box-shadow: 0 4px 15px rgba(0, 180, 219, 0.4);
     transition: transform 0.2s;
-    display: none; /* Ascuns implicit, apare doar dacă se poate instala */
+    display: none; /* Apare automat când e gata */
     margin-bottom: 20px;
 }
 
@@ -178,13 +177,10 @@ Confirmă ștergerea
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      // Calculăm calea exactă a folderului pe GitHub Pages
       const caleaCurenta = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
-      
-      // Înregistrăm sw.js cu calea completă și scope-ul corect
       navigator.serviceWorker.register(caleaCurenta + 'sw.js', { scope: caleaCurenta })
-        .then((reg) => console.log('Service Worker înregistrat pe calea: ' + caleaCurenta, reg))
-        .catch(err => console.error('Eroare Service Worker:', err));
+        .then(() => console.log('Service Worker pregătit.'))
+        .catch(err => console.error('Eroare SW:', err));
     });
   }
 
@@ -194,7 +190,7 @@ Confirmă ștergerea
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    btnInstaleaza.style.display = 'block'; // Afișăm butonul tău custom
+    btnInstaleaza.style.display = 'block'; 
   });
 
   btnInstaleaza.addEventListener('click', async () => {
@@ -204,6 +200,9 @@ Confirmă ștergerea
       console.log(`Utilizatorul a ales: ${outcome}`);
       deferredPrompt = null;
       btnInstaleaza.style.display = 'none';
+    } else {
+      // Plan de rezervă dacă browserul blochează promptul nativ
+      alert("Pentru instalare: Apasă pe cele 3 puncte (sau butonul Share în Safari) și alege 'Adaugă pe ecranul de pornire' / 'Install app'.");
     }
   });
 
@@ -240,24 +239,25 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 window.adauga = async function(nume){
+try {
+  const ref = doc(db,"puncte",nume);
+  const snap = await getDoc(ref);
 
-const ref = doc(db,"puncte",nume);
-const snap = await getDoc(ref);
+  let puncte = 0;
+  if(snap.exists()){
+    puncte = snap.data().puncte;
+  }
 
-let puncte = 0;
+  let noi = puncte + 1;
+  await setDoc(ref,{ puncte: noi });
 
-if(snap.exists()){
-puncte = snap.data().puncte;
+  if(noi === 4){
+    alert("⚠️ " + nume + " a ajuns la 4 puncte!");
+  }
+} catch(e) {
+  console.error("Eroare Firebase adăugare:", e);
+  alert("A apărut o eroare cu baza de date Firebase. Verifică setările de permisiuni din consolă.");
 }
-
-let noi = puncte + 1;
-
-await setDoc(ref,{ puncte: noi });
-
-if(noi === 4){
-alert("⚠️ " + nume + " a ajuns la 4 puncte!");
-}
-
 }
 
 window.showDeleteOptions = function(){
@@ -265,36 +265,29 @@ document.getElementById("deleteOptions").style.display="block";
 }
 
 document.getElementById("confirmDelete").onclick = async function(){
-
 const selectate = document.querySelectorAll('#deleteOptions input:checked');
 
 for(const persoana of selectate){
-await deleteDoc(doc(db,"puncte",persoana.value));
+  await deleteDoc(doc(db,"puncte",persoana.value));
 }
 
 selectate.forEach(x=>x.checked=false);
-
 alert("Punctele au fost șterse.");
-
 }
 
 onSnapshot(collection(db,"puncte"),(snapshot)=>{
-
 let html="";
-
 snapshot.forEach(docSnap=>{
-
-html += `
-<tr>
-<td>${docSnap.id}</td>
-<td>${docSnap.data().puncte}</td>
-</tr>
-`;
-
+  html += `
+  <tr>
+  <td>${docSnap.id}</td>
+  <td>${docSnap.data().puncte}</td>
+  </tr>
+  `;
 });
-
 document.getElementById("tableBody").innerHTML = html;
-
+}, (error) => {
+  console.error("Eroare Snapshot Firebase:", error);
 });
 
 </script>
