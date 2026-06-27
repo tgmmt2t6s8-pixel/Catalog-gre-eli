@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="manifest" href="manifest.json?v=3">
+<link rel="manifest" href="manifest.json?v=4">
 <meta name="theme-color" content="#203a43">
+
+<link rel="apple-touch-icon" href="icon-192.png?v=4">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -103,16 +105,15 @@ th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,0.2);text-align:cent
   function ghidInstalare() {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     if (isIOS) {
-      alert("📥 INSTALARE COREKTĂ PE IPHONE:\n\n1. În Safari, apasă jos pe butonul de Share (pătrățelul cu săgeată în sus).\n2. Alege 'Add to Home Screen' (Adaugă pe ecranul de pornire).\n\nOdată adăugată, deschide-o de pe ecran: se va deschide ca o aplicație adevărată pe tot ecranul, fără bara de adrese de internet de la Safari!");
+      alert("📥 INSTALARE PE IPHONE:\n\n1. În Safari, apasă pe butonul de Share (pătrățelul cu săgeată în sus).\n2. Alege 'Add to Home Screen' (Adaugă pe ecranul de pornire).\n\nAplicația se va instala direct cu poza ta!");
     } else {
-      alert("📥 INSTALARE CORECTĂ PE ANDROID:\n\n1. Apasă pe cele 3 puncte de sus din Chrome.\n2. Caută textul 'Instalează aplicația' (Install app).\n\n*NOTĂ: Dacă scrie doar 'Adaugă pe ecranul de pornire', înseamnă că telefonul tău folosește încă memoria veche. Șterge shortcut-ul vechi, închide Chrome și intră iar pe link ca să apară opțiunea de Instalare Aplicație.");
+      alert("📥 INSTALARE PE ANDROID:\n\n1. Apasă pe cele 3 puncte de sus din Chrome.\n2. Caută și apasă pe 'Instalează aplicația' (sau 'Adaugă pe ecran').");
     }
   }
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      // Forțăm și Service Worker-ul să se reîmprospăteze
-      navigator.serviceWorker.register('sw.js?v=3').catch(err => console.log('SW pregătit.'));
+      navigator.serviceWorker.register('sw.js?v=4').catch(err => console.log('SW gata.'));
     });
   }
 </script>
