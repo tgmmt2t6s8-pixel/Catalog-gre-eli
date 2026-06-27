@@ -3,9 +3,9 @@ self.addEventListener('install', (e) => {
 });
 
 self.addEventListener('activate', (e) => {
-  return self.clients.claim();
+  e.waitUntil(self.clients.claim());
 });
 
 self.addEventListener('fetch', (e) => {
-  // Necesar pentru a activa funcția de PWA
+  // Obligatoriu lăsat deschis pentru a trece testul de instalare PWA
 });
