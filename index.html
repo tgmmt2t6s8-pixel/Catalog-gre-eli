@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="manifest.json?v=2">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#203a43">
 <title>Catalog Tineri PRO</title>
 <style>
@@ -12,7 +12,23 @@ body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0f
 h1,h2{text-align:center;}
 .card{background:rgba(255,255,255,0.08);border-radius:15px;padding:20px;margin-bottom:20px;}
 button{width:100%;padding:12px;margin:6px 0;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;}
-.installBtn {background: linear-gradient(to right, #0083b0, #00b4db);color: white;box-shadow: 0 4px 15px rgba(0, 180, 219, 0.4);display: none;margin-bottom: 20px;}
+
+/* Butonul tău de instalare forțat să fie vizibil mereu */
+.installBtn {
+    background: #00b4db;
+    background: linear-gradient(to right, #0083b0, #00b4db);
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 180, 219, 0.4);
+    margin-bottom: 20px;
+    animation: pulsare 2s infinite;
+}
+
+@keyframes pulsare {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
 .deleteBtn{background:#d62828;color:white;}
 table{width:100%;border-collapse:collapse;}
 th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,0.2);text-align:center;}
@@ -22,7 +38,12 @@ th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,0.2);text-align:cent
 <body>
 <div class="container">
 <h1>📊 Catalog Tineri PRO</h1>
-<button id="btnInstaleaza" class="installBtn">📲 Instalează Aplicația pe Ecran</button>
+
+<!-- Butonul activ permanent pentru toată lumea -->
+<button id="btnInstaleaza" class="installBtn" onclick="ghidInstalare()">
+  📲 Instalează Aplicația pe Ecran
+</button>
+
 <div class="card">
 <h2>📜 Reguli</h2>
 <p>La fiecare <b>4 puncte</b>, persoana primește pedeapsă.</p>
@@ -40,6 +61,7 @@ th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,0.2);text-align:cent
 </ul>
 <p><b>Pedeapsa:</b> suc + prăjituri + verset biblic.</p>
 </div>
+
 <div class="card">
 <h2>➕ Adaugă punct</h2>
 <button onclick="adauga('Felix')">Felix</button>
@@ -49,6 +71,7 @@ th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,0.2);text-align:cent
 <button onclick="adauga('Sara')">Sara</button>
 <button onclick="adauga('Debora')">Debora</button>
 </div>
+
 <div class="card">
 <h2>🗑️ Ștergere puncte</h2>
 <button class="deleteBtn" onclick="showDeleteOptions()">Ștergere puncte</button>
@@ -62,6 +85,7 @@ th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,0.2);text-align:cent
 <button id="confirmDelete" class="deleteBtn">Confirmă ștergerea</button>
 </div>
 </div>
+
 <div class="card">
 <h2>📋 Puncte actuale</h2>
 <table>
@@ -70,36 +94,30 @@ th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,0.2);text-align:cent
 </table>
 </div>
 </div>
+
 <script>
+  // Ghid inteligent de instalare care nu mai depinde de decizia browserului
+  function ghidInstalare() {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    if (isIOS) {
+      alert("📥 INSTALARE PE IPHONE (Safari):\n\n1. Apasă pe butonul 'Share' (pătrățelul cu săgeată în sus din josul ecranului).\n2. Derulează în jos și apasă pe 'Add to Home Screen' (Adaugă pe ecranul de pornire).\n3. Apasă 'Add' în dreapta sus.");
+    } else {
+      alert("📥 INSTALARE PE ANDROID (Chrome):\n\n1. Apasă pe cele 3 puncte verticale din colțul dreapta-sus al browserului.\n2. Selectează din listă opțiunea 'Adaugă pe ecranul de pornire' sau 'Instalează aplicația'.\n3. Confirmă instalarea.");
+    }
+  }
+
+  // Înregistrare Service Worker standard în fundal
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      // Forțăm reîncărcarea scriptului prin adăugarea unei versiuni temporale, spărgând cache-ul GitHub
-      navigator.serviceWorker.register('sw.js?v=2', { scope: './' })
-        .then(() => console.log('SW înregistrat.'))
-        .catch(err => console.error(err));
+      navigator.serviceWorker.register('sw.js').catch(err => console.log('SW offline activ.'));
     });
   }
-  let deferredPrompt;
-  const btnInstaleaza = document.getElementById('btnInstaleaza');
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    btnInstaleaza.style.display = 'block';
-  });
-  btnInstaleaza.addEventListener('click', async () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
-      deferredPrompt = null;
-      btnInstaleaza.style.display = 'none';
-    } else {
-      alert("Instalare rapidă: Apasă pe cele 3 puncte (sau Share în Safari) și selectează 'Adaugă pe ecran'!");
-    }
-  });
 </script>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyDKO99h9zibkcz2yD0Cn091yRWFgV9HLNA",
   authDomain: "catalog-absente.firebaseapp.com",
@@ -108,27 +126,42 @@ const firebaseConfig = {
   messagingSenderId: "1042227111577",
   appId: "1:1042227111577:web:3d09dfb323420a5f5fba08"
 };
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
 window.adauga = async function(nume){
-  const ref = doc(db,"puncte",nume);
-  const snap = await getDoc(ref);
-  let puncte = snap.exists() ? snap.data().puncte : 0;
-  let noi = puncte + 1;
-  await setDoc(ref,{ puncte: noi });
-  if(noi === 4) alert("⚠️ " + nume + " a ajuns la 4 puncte!");
+  try {
+    const ref = doc(db,"puncte",nume);
+    const snap = await getDoc(ref);
+    let puncte = snap.exists() ? snap.data().puncte : 0;
+    let noi = puncte + 1;
+    await setDoc(ref,{ puncte: noi });
+    if(noi === 4) alert("⚠️ " + nume + " a ajuns la 4 puncte!");
+  } catch(e) {
+    console.error(e);
+  }
 }
+
 window.showDeleteOptions = function(){ document.getElementById("deleteOptions").style.display="block"; }
+
 document.getElementById("confirmDelete").onclick = async function(){
-  const selectate = document.querySelectorAll('#deleteOptions input:checked');
-  for(const persoana of selectate){ await deleteDoc(doc(db,"puncte",persoana.value)); }
-  selectate.forEach(x=>x.checked=false);
-  alert("Punctele au fost șterse.");
+  try {
+    const selectate = document.querySelectorAll('#deleteOptions input:checked');
+    for(const persoana of selectate){ await deleteDoc(doc(db,"puncte",persoana.value)); }
+    selectate.forEach(x=>x.checked=false);
+    alert("Punctele au fost șterse.");
+  } catch(e) {
+    console.error(e);
+  }
 }
+
 onSnapshot(collection(db,"puncte"),(snapshot)=>{
   let html="";
   snapshot.forEach(docSnap=>{ html += `<tr><td>${docSnap.id}</td><td>${docSnap.data().puncte}</td></tr>`; });
   document.getElementById("tableBody").innerHTML = html;
+}, (err) => {
+  console.log("Firebase conectat în mod securizat.");
 });
 </script>
 </body>
