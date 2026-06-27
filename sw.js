@@ -7,5 +7,5 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  // Lasat gol intenționat pentru a permite instalarea PWA
+  // Lăsat gol intenționat pentru a îndeplini criteriile PWA ale browserului
 });
