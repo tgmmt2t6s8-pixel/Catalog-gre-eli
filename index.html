@@ -178,17 +178,10 @@ Confirmă ștergerea
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      // Codul Service Worker-ului în memorie
-      const swCode = "self.addEventListener('fetch', function(e) { /* Necesar pentru criteriul PWA */ });";
-      const blob = new Blob([swCode], { type: 'application/javascript' });
-      const swUrl = URL.createObjectURL(blob);
-      
-      // Calculăm calea exactă pentru GitHub Pages (scope-ul curent)
-      const currentPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
-
-      navigator.serviceWorker.register(swUrl, { scope: currentPath })
-        .then(() => console.log('Service Worker inteligent activat!'))
-        .catch(err => console.error('Eroare SW:', err));
+      // Inregistram fisierul fizic sw.js creat pe GitHub
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log('Service Worker inregistrat cu succes!'))
+        .catch(err => console.error('Eroare Service Worker:', err));
     });
   }
 
@@ -196,17 +189,13 @@ Confirmă ștergerea
   const btnInstaleaza = document.getElementById('btnInstaleaza');
 
   window.addEventListener('beforeinstallprompt', (e) => {
-    // Oprim promptul nativ automat al browserului
     e.preventDefault();
-    // Salvăm evenimentul
     deferredPrompt = e;
-    // Facem butonul tău vizibil
-    btnInstaleaza.style.display = 'block';
+    btnInstaleaza.style.display = 'block'; // Afisam butonul tau custom
   });
 
   btnInstaleaza.addEventListener('click', async () => {
     if (deferredPrompt) {
-      // Afișăm pop-up-ul nativ de instalare
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
       console.log(`Utilizatorul a ales: ${outcome}`);
@@ -215,7 +204,6 @@ Confirmă ștergerea
     }
   });
 
-  // Ascundem butonul dacă utilizatorul a instalat deja aplicația
   window.addEventListener('appinstalled', () => {
     btnInstaleaza.style.display = 'none';
   });
