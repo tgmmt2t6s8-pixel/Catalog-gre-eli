@@ -46,6 +46,20 @@ button{
     cursor:pointer;
 }
 
+/* Stil pentru noul buton de instalare */
+.installBtn {
+    background: #00b4db;
+    background: linear-gradient(to right, #0083b0, #00b4db);
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 180, 219, 0.4);
+    transition: transform 0.2s;
+    display: none; /* Ascuns implicit */
+}
+
+.installBtn:active {
+    transform: scale(0.98);
+}
+
 .deleteBtn{
     background:#d62828;
     color:white;
@@ -75,6 +89,10 @@ th,td{
 <div class="container">
 
 <h1>📊 Catalog Tineri PRO</h1>
+
+<button id="btnInstaleaza" class="installBtn">
+  📲 Instalează Aplicația pe Ecran
+</button>
 
 <div class="card">
 <h2>📜 Reguli</h2>
@@ -155,6 +173,44 @@ Confirmă ștergerea
 </div>
 
 </div>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      // Generăm codul Service Worker-ului direct dintr-un șir de text (Blob)
+      const swCode = "self.addEventListener('fetch', function(e) { /* gol, dar pacaleste browserul */ });";
+      const blob = new Blob([swCode], { type: 'application/javascript' });
+      const swUrl = URL.createObjectURL(blob);
+      
+      navigator.serviceWorker.register(swUrl, { scope: '/' })
+        .then(() => console.log('Service Worker generat intern cu succes!'))
+        .catch(err => console.error('Eroare SW:', err));
+    });
+  }
+
+  let deferredPrompt;
+  const btnInstaleaza = document.getElementById('btnInstaleaza');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    btnInstaleaza.style.display = 'block'; // Afișează butonul
+  });
+
+  btnInstaleaza.addEventListener('click', async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`Utilizatorul a ales: ${outcome}`);
+      deferredPrompt = null;
+      btnInstaleaza.style.display = 'none';
+    }
+  });
+
+  window.addEventListener('appinstalled', () => {
+    btnInstaleaza.style.display = 'none';
+  });
+</script>
 
 <script type="module">
 
@@ -245,4 +301,3 @@ document.getElementById("tableBody").innerHTML = html;
 
 </body>
 </html>
-17:17 27.06.2026
