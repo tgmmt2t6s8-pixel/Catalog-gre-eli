@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link rel="manifest" href="manifest.json?v=14">
-<meta name="theme-color" content="#07090e">
+<link rel="manifest" href="manifest.json?v=16">
+<meta name="theme-color" content="#06070a">
 
-<link class="apple-touch-icon" href="icon-192.png?v=14">
+<link class="apple-touch-icon" href="icon-192.png?v=16">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -22,7 +22,7 @@ html, body {
     overflow: hidden;
     overscroll-behavior: none;
     height: 100%;
-    background-color: #07090e;
+    background-color: #06070a;
 }
 
 body {
@@ -32,7 +32,7 @@ body {
     position: relative;
 }
 
-/* Fundalul tău personalizat - curățat de elemente iOS și optimizat pentru contrast */
+/* Fixare și centrare perfectă pentru poza ta curățată */
 body::before {
     content: "";
     position: fixed;
@@ -40,8 +40,8 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    /* Încarcă imaginea ta, poziționată perfect pe centru și ușor întunecată uniform pentru lizibilitate */
-    background: linear-gradient(rgba(7, 9, 14, 0.45), rgba(7, 9, 14, 0.65)), url('https://res.cloudinary.com/demo/image/fetch/https://s3.amazonaws.com/files.anthropic.com/file_01R8Z4jXpUj5LByyGZt7r37p') center 48% / cover no-repeat;
+    /* Încarcă imaginea locală și adaugă o mască fină de contrast pentru lizibilitate */
+    background: linear-gradient(rgba(6, 7, 10, 0.35), rgba(6, 7, 10, 0.6)), url('fundal.png') center center / cover no-repeat;
     z-index: -1;
 }
 
@@ -56,7 +56,7 @@ body::before {
     -webkit-overflow-scrolling: touch;
 }
 
-/* Titlu în stil Apple Premium */
+/* Titlu vizibil cu umbră 3D adâncă */
 h1 {
     font-size: 28px;
     font-weight: 800;
@@ -64,7 +64,7 @@ h1 {
     margin: 15px 0 25px 0;
     letter-spacing: -0.5px;
     color: #ffffff;
-    text-shadow: 0 4px 15px rgba(0,0,0,0.9);
+    text-shadow: 0 4px 12px rgba(0,0,0,0.95);
 }
 
 h2 {
@@ -72,21 +72,26 @@ h2 {
     font-weight: 700;
     margin-top: 0;
     margin-bottom: 16px;
-    color: rgba(255, 255, 255, 0.75);
+    color: #ffffff;
     text-transform: uppercase;
-    letter-spacing: 1.2px;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+    letter-spacing: 1.5px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.85);
 }
 
-/* Carduri cu efectul de sticlă lichidă (Liquid Glass) MULT MAI EVIDENT */
+/* EFFECT LIQUID GLASS ULTRA-EVIDENT ȘI GLOSSY */
 .card {
-    background: rgba(255, 255, 255, 0.07);
-    backdrop-filter: blur(25px) saturate(200%);
-    -webkit-backdrop-filter: blur(25px) saturate(200%);
-    /* Margine groasă lucioasă care imită reflexia luminii pe sticlă */
-    border: 1.5px solid rgba(255, 255, 255, 0.25);
-    /* Strălucire interioară pe margini */
-    box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.3), 0 15px 35px rgba(0, 0, 0, 0.75);
+    background: rgba(255, 255, 255, 0.12); /* Opacitate crescută pentru a evidenția textura sticlei */
+    backdrop-filter: blur(25px) saturate(220%);
+    -webkit-backdrop-filter: blur(25px) saturate(220%);
+    
+    /* Margine groasă, lucioasă (efect de reflexie pe muchie) */
+    border: 2.5px solid rgba(255, 255, 255, 0.4); 
+    
+    /* Strălucire interioară pe margini și umbră masivă dedesubt */
+    box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.5), 
+                inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+                0 20px 45px rgba(0, 0, 0, 0.85);
+                
     border-radius: 24px;
     padding: 20px;
     margin-bottom: 20px;
@@ -95,7 +100,7 @@ h2 {
 /* Butonul de Instalare Liquid Style */
 .installBtn {
     background: #ffffff;
-    color: #07090e;
+    color: #06070a;
     border: none;
     border-radius: 16px;
     padding: 14px;
@@ -105,13 +110,7 @@ h2 {
     cursor: pointer;
     margin-bottom: 20px;
     display: none;
-    animation: pulsare 2.5s infinite ease-in-out;
-}
-
-@keyframes pulsare {
-    0% { transform: scale(1); opacity: 0.95; }
-    50% { transform: scale(1.01); opacity: 1; }
-    100% { transform: scale(1); opacity: 0.95; }
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 
 /* Layout Ergonomic */
@@ -123,27 +122,27 @@ h2 {
 
 /* Butoane tip sticlă lucioasă pronunțată */
 .btn-nume {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
     color: #ffffff;
     border-radius: 16px;
     padding: 12px;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     text-align: left;
     display: flex;
     align-items: center;
     gap: 12px;
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.3), 0 4px 10px rgba(0,0,0,0.4);
     transition: background 0.2s, transform 0.1s;
     -webkit-tap-highlight-color: transparent;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.8);
 }
 
 .btn-nume:active {
-    background: rgba(255, 255, 255, 0.18);
-    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
     transform: scale(0.96);
 }
 
@@ -153,11 +152,10 @@ h2 {
     height: 38px;
     border-radius: 50%;
     object-fit: cover;
-    border: 1.5px solid rgba(255, 255, 255, 0.4);
-    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
-/* Liste text extrem de lizibile peste sticlă */
+/* Liste text perfect albe și lizibile peste sticlă */
 ul {
     margin: 0;
     padding-left: 20px;
@@ -168,28 +166,30 @@ li {
     margin-bottom: 8px;
     font-size: 14px;
     line-height: 1.5;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    font-weight: 500;
+    text-shadow: 0 1.5px 3px rgba(0,0,0,0.9);
 }
 
 /* Secțiunea Ștergere */
 .btn-toggle-del {
     background: transparent;
-    border: 1px dashed rgba(255, 255, 255, 0.3);
-    color: rgba(255, 255, 255, 0.8);
+    border: 1.5px dashed rgba(255, 255, 255, 0.4);
+    color: #ffffff;
     border-radius: 14px;
     padding: 11px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     width: 100%;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
 #deleteOptions {
     display: none;
     margin-top: 15px;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.65);
     padding: 14px;
     border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
 }
 
 .check-del {
@@ -198,6 +198,7 @@ li {
     gap: 10px;
     margin: 10px 0;
     font-size: 15px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
 .btn-confirm-del {
@@ -209,6 +210,7 @@ li {
     font-weight: 700;
     width: 100%;
     margin-top: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
 }
 
 /* Tabel Clasament */
@@ -219,12 +221,13 @@ table {
 
 th {
     padding: 10px;
-    color: rgba(255, 255, 255, 0.6);
+    color: #ffffff;
     font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    letter-spacing: 0.8px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
     text-align: left;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
 th:last-child { text-align: center; }
@@ -232,11 +235,11 @@ th:last-child { text-align: center; }
 td {
     padding: 12px 10px;
     font-size: 15px;
-    font-weight: 600;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 700;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     text-align: left;
     vertical-align: middle;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    text-shadow: 0 1.5px 3px rgba(0,0,0,0.9);
 }
 
 .td-profil {
@@ -250,7 +253,7 @@ td {
     height: 32px;
     border-radius: 50%;
     object-fit: cover;
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
 }
 
 td:last-child {
@@ -258,8 +261,8 @@ td:last-child {
     font-weight: 800;
     color: #ffffff;
     font-size: 15px;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.25);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
     border-radius: 10px;
     padding: 4px 10px;
     display: inline-block;
@@ -323,19 +326,19 @@ tr:last-child td { border: none; }
 
     <div class="card">
         <h2>📜 Regulament de Ordine</h2>
-        <p style="margin-top:0; font-size:14px; color:#ffffff;">La fiecare <b>4 puncte</b> acumulate, se aplică pedeapsa.</p>
-        <p style="color: #67e8f9; font-size: 13px; font-weight: 700; margin-bottom: 12px;">⏱️ Resetare automată după 30 de zile de la ultimul punct primit.</p>
+        <p style="margin-top:0; font-size:14px; color:#ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">La fiecare <b>4 puncte</b> acumulate, se aplică pedeapsa.</p>
+        <p style="color: #67e8f9; font-size: 13px; font-weight: 800; margin-bottom: 12px; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">⏱️ Resetare automată după 30 de zile de la ultimul punct primit.</p>
         <ul>
             <li>Plecăm în parc în timpul programului.</li>
             <li>Vorbim urât la biserică.</li>
-            <li>Țipăm unii alții.</li>
+            <li>Țipăm unii la alții.</li>
             <li>Ne comportăm ca niște copii.</li>
             <li>Ne supărăm din nimicuri.</li>
             <li>Ne amenințăm / Ne jignim / Ne lovim.</li>
             <li>Nu suntem serioși la repetiții.</li>
             <li>Stăm pe telefon în timpul programului.</li>
         </ul>
-        <p style="margin-bottom:0; font-size:14px; color:#f87171; font-weight:700; margin-top:12px;">Pedeapsa: suc + prăjituri + verset biblic.</p>
+        <p style="margin-bottom:0; font-size:14px; color:#f87171; font-weight:800; margin-top:12px; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">Pedeapsa: suc + prăjituri + verset biblic.</p>
     </div>
 
     <div class="card">
@@ -366,7 +369,7 @@ tr:last-child td { border: none; }
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js?v=14').catch(err => console.log('SW gata.'));
+      navigator.serviceWorker.register('sw.js?v=16').catch(err => console.log('SW gata.'));
     });
   }
 </script>
