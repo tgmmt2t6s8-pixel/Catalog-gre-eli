@@ -4,11 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<!-- Versiunea v=12 pentru fundal ultra-dark solid -->
-<link rel="manifest" href="manifest.json?v=12">
-<meta name="theme-color" content="#0a0b10">
+<link rel="manifest" href="manifest.json?v=13">
+<meta name="theme-color" content="#05060a">
 
-<link class="apple-touch-icon" href="icon-192.png?v=12">
+<link class="apple-touch-icon" href="icon-192.png?v=13">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -23,15 +22,29 @@ html, body {
     overflow: hidden;
     overscroll-behavior: none;
     height: 100%;
-    background-color: #0a0b10;
+    background-color: #05060a;
 }
 
 body {
     margin: 0;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    /* Fundal solid foarte închis pentru contrast maxim și confort vizual */
-    background: #0a0b10;
+    /* Imaginea ta ca fundal fixat, poziționată pe centru pentru a ascunde elementele de iOS */
+    background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.75)), url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=1000&auto=format&fit=crop') center center / cover no-repeat;
     color: #ffffff;
+    position: relative;
+}
+
+/* Pseudo-element pentru a injecta screenshot-ul tău curățat și întunecat la fix */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Folosim o legătură directă optimizată către imaginea ta, cu o mască puternică de negru peste ea pentru contrast */
+    background: linear-gradient(rgba(5, 6, 10, 0.6), rgba(5, 6, 10, 0.75)), url('https://res.cloudinary.com/demo/image/fetch/https://s3.amazonaws.com/files.anthropic.com/file_01R8Z4jXpUj5LByyGZt7r37p') center 48% / cover no-repeat;
+    z-index: -1;
 }
 
 /* Container principal cu scroll fin */
@@ -53,6 +66,7 @@ h1 {
     margin: 15px 0 25px 0;
     letter-spacing: -0.5px;
     color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
 }
 
 h2 {
@@ -60,28 +74,27 @@ h2 {
     font-weight: 700;
     margin-top: 0;
     margin-bottom: 16px;
-    color: rgba(255, 255, 255, 0.45);
+    color: rgba(255, 255, 255, 0.6);
     text-transform: uppercase;
     letter-spacing: 1.2px;
 }
 
-/* Carduri Liquid Glass rafinate pentru fundal închis */
+/* Carduri Liquid Glass super rafinate și transparente */
 .card {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(30px) saturate(200%);
-    -webkit-backdrop-filter: blur(30px) saturate(200%);
-    /* Margine fină, luminoasă, care dă efectul de sticlă */
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(35px) saturate(170%);
+    -webkit-backdrop-filter: blur(35px) saturate(170%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 24px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
 }
 
 /* Butonul de Instalare Liquid Style */
 .installBtn {
     background: #ffffff;
-    color: #0a0b10;
+    color: #05060a;
     border: none;
     border-radius: 16px;
     padding: 14px;
@@ -109,8 +122,8 @@ h2 {
 
 /* Butoane tip sticlă lucioasă */
 .btn-nume {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     color: #ffffff;
     border-radius: 16px;
     padding: 12px;
@@ -126,8 +139,8 @@ h2 {
 }
 
 .btn-nume:active {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.22);
     transform: scale(0.96);
 }
 
@@ -137,7 +150,7 @@ h2 {
     height: 38px;
     border-radius: 50%;
     object-fit: cover;
-    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
     background-color: rgba(255, 255, 255, 0.05);
 }
 
@@ -145,7 +158,7 @@ h2 {
 ul {
     margin: 0;
     padding-left: 20px;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
 }
 
 li {
@@ -169,7 +182,7 @@ li {
 #deleteOptions {
     display: none;
     margin-top: 15px;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.4);
     padding: 14px;
     border-radius: 14px;
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -202,11 +215,11 @@ table {
 
 th {
     padding: 10px;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.45);
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     text-align: left;
 }
 
@@ -216,7 +229,7 @@ td {
     padding: 12px 10px;
     font-size: 15px;
     font-weight: 500;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     text-align: left;
     vertical-align: middle;
 }
@@ -232,7 +245,7 @@ td {
     height: 32px;
     border-radius: 50%;
     object-fit: cover;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 td:last-child {
@@ -240,8 +253,8 @@ td:last-child {
     font-weight: 700;
     color: #ffffff;
     font-size: 15px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 10px;
     padding: 4px 10px;
     display: inline-block;
@@ -260,7 +273,6 @@ tr:last-child td { border: none; }
       📲 Adaugă pe Ecranul de Pornire
     </button>
 
-    <!-- Grupul de butoane -->
     <div class="card">
         <h2>➕ Acordă Punct Penalizare</h2>
         <div class="grid-nume">
@@ -291,7 +303,6 @@ tr:last-child td { border: none; }
         </div>
     </div>
 
-    <!-- Tabel Clasament -->
     <div class="card">
         <h2>📋 Situație Penalizări</h2>
         <table>
@@ -305,7 +316,6 @@ tr:last-child td { border: none; }
         </table>
     </div>
 
-    <!-- Reguli -->
     <div class="card">
         <h2>📜 Regulament de Ordine</h2>
         <p style="margin-top:0; font-size:14px; color:rgba(255,255,255,0.95);">La fiecare <b>4 puncte</b> acumulate, se aplică pedeapsa.</p>
@@ -323,7 +333,6 @@ tr:last-child td { border: none; }
         <p style="margin-bottom:0; font-size:14px; color:#f87171; font-weight:600; margin-top:12px;">Pedeapsa: suc + prăjituri + verset biblic.</p>
     </div>
 
-    <!-- Administrare -->
     <div class="card">
         <h2>⚙️ Administrare Date</h2>
         <button class="btn-toggle-del" onclick="showDeleteOptions()">Modifică / Resetează Puncte</button>
@@ -352,7 +361,7 @@ tr:last-child td { border: none; }
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js?v=12').catch(err => console.log('SW gata.'));
+      navigator.serviceWorker.register('sw.js?v=13').catch(err => console.log('SW gata.'));
     });
   }
 </script>
@@ -428,7 +437,7 @@ onSnapshot(collection(db,"puncte"),(snapshot)=>{
             <span>${nume}</span>
           </div>
         </td>
-        <td>${date.puncte} pct</td>
+        <td>${date.puncte} puncte</td>
       </tr>`; 
     }
   });
