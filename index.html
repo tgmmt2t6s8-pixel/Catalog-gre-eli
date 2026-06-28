@@ -4,10 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link rel="manifest" href="manifest.json?v=22">
-<meta name="theme-color" content="#06070a">
-
-<link class="apple-touch-icon" href="icon-192.png?v=22">
+<link rel="manifest" href="manifest.json?v=24">
+<meta name="theme-color" content="#090b11">
+<link class="apple-touch-icon" href="icon-192.png?v=24">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -22,7 +21,7 @@ html, body {
     overflow: hidden;
     overscroll-behavior: none;
     height: 100%;
-    background-color: #06070a;
+    background-color: #090b11;
 }
 
 body {
@@ -32,7 +31,7 @@ body {
     position: relative;
 }
 
-/* Mergem la sigur pe imaginea urcată de tine */
+/* FUNDAL ATMOSFERIC CU CRUCE LUMINOASĂ */
 body::before {
     content: "";
     position: fixed;
@@ -40,8 +39,8 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(rgba(6, 7, 10, 0.4), rgba(6, 7, 10, 0.65)), 
-                url('image.png') center center / cover no-repeat;
+    background: linear-gradient(rgba(9, 11, 17, 0.45), rgba(9, 11, 17, 0.75)), 
+                url('https://images.unsplash.com/photo-1545128485-c400e7702796?q=80&w=1000&auto=format&fit=crop') center center / cover no-repeat;
     z-index: -1;
 }
 
@@ -56,7 +55,7 @@ body::before {
     -webkit-overflow-scrolling: touch;
 }
 
-/* Titlu vizibil cu umbră 3D adâncă */
+/* Titlu stilizat cu umbră intensă */
 h1 {
     font-size: 28px;
     font-weight: 800;
@@ -64,7 +63,7 @@ h1 {
     margin: 15px 0 25px 0;
     letter-spacing: -0.5px;
     color: #ffffff;
-    text-shadow: 0 4px 12px rgba(0,0,0,0.95);
+    text-shadow: 0 4px 15px rgba(0,0,0,0.95);
 }
 
 h2 {
@@ -72,42 +71,31 @@ h2 {
     font-weight: 700;
     margin-top: 0;
     margin-bottom: 16px;
-    color: #ffffff;
+    color: #67e8f9;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     text-shadow: 0 2px 4px rgba(0,0,0,0.85);
 }
 
-/* EFFECT LIQUID GLASS ULTRA-EVIDENT ȘI GLOSSY */
+/* EFECT STICLĂ APPLE (FROSTED GLASS Ultra Glossy) */
 .card {
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(25px) saturate(220%);
-    -webkit-backdrop-filter: blur(25px) saturate(220%);
-    border: 2.5px solid rgba(255, 255, 255, 0.4); 
-    box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.5), 
-                inset 0 -2px 4px rgba(0, 0, 0, 0.2),
-                0 20px 45px rgba(0, 0, 0, 0.85);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(30px) saturate(210%);
+    -webkit-backdrop-filter: blur(30px) saturate(210%);
+    
+    /* Muchie fină luminoasă tip iOS */
+    border: 1.5px solid rgba(255, 255, 255, 0.25); 
+    
+    /* Umbră adâncă și reflexie internă */
+    box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.3),
+                0 25px 50px rgba(0, 0, 0, 0.75);
+                
     border-radius: 24px;
     padding: 20px;
     margin-bottom: 20px;
 }
 
-/* Butonul de Instalare Liquid Style */
-.installBtn {
-    background: #ffffff;
-    color: #06070a;
-    border: none;
-    border-radius: 16px;
-    padding: 14px;
-    font-size: 15px;
-    font-weight: 700;
-    width: 100%;
-    cursor: pointer;
-    margin-bottom: 20px;
-    display: none;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-}
-
+/* Butoane tip sticlă pentru membri */
 .grid-nume {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -115,8 +103,8 @@ h2 {
 }
 
 .btn-nume {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     color: #ffffff;
     border-radius: 16px;
     padding: 12px;
@@ -127,15 +115,14 @@ h2 {
     display: flex;
     align-items: center;
     gap: 12px;
-    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.3), 0 4px 10px rgba(0,0,0,0.4);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2), 0 4px 10px rgba(0,0,0,0.3);
     transition: background 0.2s, transform 0.1s;
     -webkit-tap-highlight-color: transparent;
     text-shadow: 0 1px 4px rgba(0,0,0,0.8);
 }
 
 .btn-nume:active {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.2);
     transform: scale(0.96);
 }
 
@@ -144,7 +131,7 @@ h2 {
     height: 38px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
 }
 
 ul {
@@ -163,23 +150,22 @@ li {
 
 .btn-toggle-del {
     background: transparent;
-    border: 1.5px dashed rgba(255, 255, 255, 0.4);
+    border: 1.5px dashed rgba(255, 255, 255, 0.3);
     color: #ffffff;
     border-radius: 14px;
     padding: 11px;
     font-size: 14px;
     font-weight: 600;
     width: 100%;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
 #deleteOptions {
     display: none;
     margin-top: 15px;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(0, 0, 0, 0.7);
     padding: 14px;
     border-radius: 14px;
-    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .check-del {
@@ -188,7 +174,6 @@ li {
     gap: 10px;
     margin: 10px 0;
     font-size: 15px;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
 .btn-confirm-del {
@@ -200,7 +185,6 @@ li {
     font-weight: 700;
     width: 100%;
     margin-top: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
 }
 
 table {
@@ -210,13 +194,12 @@ table {
 
 th {
     padding: 10px;
-    color: #ffffff;
-    font-size: 12px;
+    color: #a5f3fc;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    letter-spacing: 1px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
     text-align: left;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
 th:last-child { text-align: center; }
@@ -225,7 +208,7 @@ td {
     padding: 12px 10px;
     font-size: 15px;
     font-weight: 700;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     text-align: left;
     vertical-align: middle;
     text-shadow: 0 1.5px 3px rgba(0,0,0,0.9);
@@ -242,17 +225,17 @@ td {
     height: 32px;
     border-radius: 50%;
     object-fit: cover;
-    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
 }
 
 td:last-child {
     text-align: center;
     font-weight: 800;
     color: #ffffff;
-    font-size: 15px;
-    background: rgba(255, 255, 255, 0.25);
-    border: 1.5px solid rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
     padding: 4px 10px;
     display: inline-block;
     margin-top: 12px;
@@ -265,10 +248,6 @@ tr:last-child td { border: none; }
 
 <div class="container">
     <h1>📊 Catalog Tineri PRO</h1>
-
-    <button id="btnInstaleaza" class="installBtn" onclick="ghidInstalare()">
-      📲 Adaugă pe Ecranul de Pornire
-    </button>
 
     <div class="card">
         <h2>➕ Acordă Punct Penalizare</h2>
@@ -315,25 +294,23 @@ tr:last-child td { border: none; }
 
     <div class="card">
         <h2>📜 Regulament de Ordine</h2>
-        <p style="margin-top:0; font-size:14px; color:#ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">La fiecare <b>4 puncte</b> acumulate, se aplică pedeapsa.</p>
-        <p style="color: #67e8f9; font-size: 13px; font-weight: 800; margin-bottom: 12px; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">⏱️ Resetare automată după 30 de zile de la ultimul punct primit.</p>
+        <p style="margin-top:0; font-size:14px; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">La fiecare <b>4 puncte</b> acumulate, se aplică pedeapsa.</p>
+        <p style="color: #67e8f9; font-size: 13px; font-weight: 800; margin-bottom: 12px;">⏱️ Resetare automată după 30 de zile.</p>
         <ul>
             <li>Plecăm în parc în timpul programului.</li>
             <li>Vorbim urât la biserică.</li>
             <li>Țipăm unii la alții.</li>
             <li>Ne comportăm ca niște copii.</li>
             <li>Ne supărăm din nimicuri.</li>
-            <li>Ne amenințăm / Ne jignim / Ne lovim.</li>
             <li>Nu suntem serioși la repetiții.</li>
             <li>Stăm pe telefon în timpul programului.</li>
         </ul>
-        <p style="margin-bottom:0; font-size:14px; color:#f87171; font-weight:800; margin-top:12px; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">Pedeapsa: suc + prăjituri + verset biblic.</p>
+        <p style="margin-bottom:0; font-size:14px; color:#f87171; font-weight:800; margin-top:12px;">Pedeapsa: suc + prăjituri + verset biblic.</p>
     </div>
 
     <div class="card">
         <h2>⚙️ Administrare Date</h2>
         <button class="btn-toggle-del" onclick="showDeleteOptions()">Modifică / Resetează Puncte</button>
-        
         <div id="deleteOptions">
             <label class="check-del"><input type="checkbox" value="Felix"> Felix</label>
             <label class="check-del"><input type="checkbox" value="Diana"> Diana</label>
@@ -347,27 +324,12 @@ tr:last-child td { border: none; }
 </div>
 
 <script>
-  function ghidInstalare() {
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    if (isIOS) {
-      alert("📥 INSTALARE PE IPHONE:\n\n1. În Safari, apasă pe butonul de Share.\n2. Alege 'Add to Home Screen'.");
-    } else {
-      alert("📥 INSTALARE PE ANDROID:\n\n1. Apasă pe cele 3 puncte de sus din Chrome.\n2. Caută și apasă pe 'Instalează aplicația'.");
-    }
-  }
-
-  // FORCE CACHE CLEAR COMPLET LA PORNIRE
+  // Forțăm ștergerea cache-ului vechi pentru a aplica noul fundal imediat
   if ('caches' in window) {
-      caches.keys().then(function(names) {
-          for (let name of names) caches.delete(name);
-      });
+      caches.keys().then(names => { for (let name of names) caches.delete(name); });
   }
-
-  // Deconectăm complet Service Worker-ul blocat
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(function(registrations) {
-        for(let registration of registrations) { registration.unregister(); }
-    });
+    navigator.serviceWorker.getRegistrations().then(regs => { for(let r of regs) r.unregister(); });
   }
 </script>
 
@@ -394,15 +356,9 @@ window.adauga = async function(nume){
     let puncte = snap.exists() ? snap.data().puncte : 0;
     let noi = puncte + 1;
     
-    await setDoc(ref,{ 
-      puncte: noi,
-      ultimaModificare: Date.now()
-    });
-    
+    await setDoc(ref,{ puncte: noi, ultimaModificare: Date.now() });
     if(noi === 4) alert("⚠️ " + nume + " a ajuns la 4 puncte!");
-  } catch(e) {
-    console.error(e);
-  }
+  } catch(e) { console.error(e); }
 }
 
 window.showDeleteOptions = function(){ 
@@ -417,9 +373,7 @@ document.getElementById("confirmDelete").onclick = async function(){
     selectate.forEach(x=>x.checked=false);
     document.getElementById("deleteOptions").style.display = "none";
     alert("Datele au fost actualizate.");
-  } catch(e) {
-    console.error(e);
-  }
+  } catch(e) { console.error(e); }
 }
 
 onSnapshot(collection(db,"puncte"),(snapshot)=>{
@@ -446,7 +400,6 @@ onSnapshot(collection(db,"puncte"),(snapshot)=>{
       </tr>`; 
     }
   });
-  
   document.getElementById("tableBody").innerHTML = html;
 });
 </script>
