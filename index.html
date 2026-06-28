@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<!-- Versiunea v=11 pentru contrast optimizat și sticlă ultra-transparentă -->
-<link rel="manifest" href="manifest.json?v=11">
-<meta name="theme-color" content="#030407">
+<!-- Versiunea v=12 pentru fundal ultra-dark solid -->
+<link rel="manifest" href="manifest.json?v=12">
+<meta name="theme-color" content="#0a0b10">
 
-<link class="apple-touch-icon" href="icon-192.png?v=11">
+<link class="apple-touch-icon" href="icon-192.png?v=12">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -23,14 +23,14 @@ html, body {
     overflow: hidden;
     overscroll-behavior: none;
     height: 100%;
-    background-color: #030407;
+    background-color: #0a0b10;
 }
 
 body {
     margin: 0;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    /* Fundal abstract ultra-dark pentru lizibilitate maximă și confort vizual */
-    background: url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=1000&auto=format&fit=crop') center center / cover no-repeat;
+    /* Fundal solid foarte închis pentru contrast maxim și confort vizual */
+    background: #0a0b10;
     color: #ffffff;
 }
 
@@ -53,7 +53,6 @@ h1 {
     margin: 15px 0 25px 0;
     letter-spacing: -0.5px;
     color: #ffffff;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
 }
 
 h2 {
@@ -61,29 +60,28 @@ h2 {
     font-weight: 700;
     margin-top: 0;
     margin-bottom: 16px;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.45);
     text-transform: uppercase;
     letter-spacing: 1.2px;
 }
 
-/* Carduri cu efectul Apple "Liquid Glass" amplificat și mai transparent */
+/* Carduri Liquid Glass rafinate pentru fundal închis */
 .card {
     background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(40px) saturate(200%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
-    /* Margine fină lucioasă pentru delimitare perfectă */
+    backdrop-filter: blur(30px) saturate(200%);
+    -webkit-backdrop-filter: blur(30px) saturate(200%);
+    /* Margine fină, luminoasă, care dă efectul de sticlă */
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 24px;
     padding: 20px;
     margin-bottom: 20px;
-    /* Umbră adâncă pentru detașare de fundal */
-    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.55);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 /* Butonul de Instalare Liquid Style */
 .installBtn {
-    background: rgba(255, 255, 255, 0.95);
-    color: #030407;
+    background: #ffffff;
+    color: #0a0b10;
     border: none;
     border-radius: 16px;
     padding: 14px;
@@ -91,7 +89,6 @@ h2 {
     font-weight: 700;
     width: 100%;
     cursor: pointer;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
     margin-bottom: 20px;
     display: none;
     animation: pulsare 2.5s infinite ease-in-out;
@@ -110,10 +107,10 @@ h2 {
     gap: 12px;
 }
 
-/* Butoane tip sticlă lucioasă ultra-transparentă */
+/* Butoane tip sticlă lucioasă */
 .btn-nume {
     background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     color: #ffffff;
     border-radius: 16px;
     padding: 12px;
@@ -124,38 +121,37 @@ h2 {
     display: flex;
     align-items: center;
     gap: 12px;
-    transition: background 0.3s, transform 0.1s, border-color 0.3s;
+    transition: background 0.2s, transform 0.1s;
     -webkit-tap-highlight-color: transparent;
 }
 
 .btn-nume:active {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.25);
-    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: scale(0.96);
 }
 
-/* Avatar rotund cu fotografie reală */
+/* Avatar rotund */
 .avatar-foto {
     width: 38px;
     height: 38px;
     border-radius: 50%;
     object-fit: cover;
-    border: 1.5px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
     background-color: rgba(255, 255, 255, 0.05);
 }
 
-/* Liste text perfect lizibile */
+/* Liste text extrem de lizibile */
 ul {
     margin: 0;
     padding-left: 20px;
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 li {
     margin-bottom: 8px;
     font-size: 14px;
-    line-height: 1.45;
+    line-height: 1.5;
 }
 
 /* Secțiunea Ștergere */
@@ -173,7 +169,7 @@ li {
 #deleteOptions {
     display: none;
     margin-top: 15px;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.3);
     padding: 14px;
     border-radius: 14px;
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -185,7 +181,6 @@ li {
     gap: 10px;
     margin: 10px 0;
     font-size: 15px;
-    color: #ffffff;
 }
 
 .btn-confirm-del {
@@ -199,7 +194,7 @@ li {
     margin-top: 12px;
 }
 
-/* Tabel Clasament Elegant */
+/* Tabel Clasament */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -207,11 +202,11 @@ table {
 
 th {
     padding: 10px;
-    color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.4);
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     text-align: left;
 }
 
@@ -221,7 +216,7 @@ td {
     padding: 12px 10px;
     font-size: 15px;
     font-weight: 500;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     text-align: left;
     vertical-align: middle;
 }
@@ -265,7 +260,7 @@ tr:last-child td { border: none; }
       📲 Adaugă pe Ecranul de Pornire
     </button>
 
-    <!-- Butoane cu efect Liquid Glass și Avataruri -->
+    <!-- Grupul de butoane -->
     <div class="card">
         <h2>➕ Acordă Punct Penalizare</h2>
         <div class="grid-nume">
@@ -296,7 +291,7 @@ tr:last-child td { border: none; }
         </div>
     </div>
 
-    <!-- Tabel Clasament încorporat în sticlă fluidă -->
+    <!-- Tabel Clasament -->
     <div class="card">
         <h2>📋 Situație Penalizări</h2>
         <table>
@@ -357,7 +352,7 @@ tr:last-child td { border: none; }
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js?v=11').catch(err => console.log('SW gata.'));
+      navigator.serviceWorker.register('sw.js?v=12').catch(err => console.log('SW gata.'));
     });
   }
 </script>
