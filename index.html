@@ -4,11 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<!-- Versiunea v=9 pentru noul design cu avataruri reale .jpeg -->
-<link rel="manifest" href="manifest.json?v=9">
-<meta name="theme-color" content="#0b0f19">
+<link rel="manifest" href="manifest.json?v=10">
+<meta name="theme-color" content="#070a12">
 
-<link rel="apple-touch-icon" href="icon-192.png?v=9">
+<link rel="apple-touch-icon" href="icon-192.png?v=10">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -23,14 +22,15 @@ html, body {
     overflow: hidden;
     overscroll-behavior: none;
     height: 100%;
-    background-color: #0b0f19;
+    background-color: #070a12;
 }
 
 body {
     margin: 0;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: radial-gradient(circle at top right, #111827, #0b0f19);
-    color: #f1f5f9;
+    /* Imagine premium fluidă pe fundal */
+    background: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop') center center / cover no-repeat;
+    color: #f8fafc;
 }
 
 /* Container principal cu scroll fin */
@@ -44,109 +44,111 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
-/* Titlu Modern Cyber-Style */
+/* Titlu în stil Apple Premium */
 h1 {
     font-size: 28px;
     font-weight: 800;
     text-align: center;
-    margin: 10px 0 20px 0;
+    margin: 15px 0 25px 0;
     letter-spacing: -0.5px;
-    background: linear-gradient(to right, #06b6d4, #6366f1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 h2 {
-    font-size: 15px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 700;
     margin-top: 0;
     margin-bottom: 16px;
-    color: #94a3b8;
+    color: rgba(255, 255, 255, 0.6);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
 }
 
-/* Carduri tip Neon-Glass */
+/* Carduri cu efectul Apple "Liquid Glass" */
 .card {
-    background: rgba(17, 24, 39, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    /* Marginea lucioasă specifică sticlei */
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
     padding: 20px;
-    margin-bottom: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    margin-bottom: 20px;
+    /* Umbră fluidă, adâncă */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
-/* Butonul de Instalare */
+/* Butonul de Instalare Liquid Style */
 .installBtn {
-    background: linear-gradient(135deg, #06b6d4, #3b82f6);
-    color: white;
+    background: rgba(255, 255, 255, 0.9);
+    color: #070a12;
     border: none;
-    border-radius: 14px;
+    border-radius: 16px;
     padding: 14px;
     font-size: 15px;
     font-weight: 700;
     width: 100%;
     cursor: pointer;
-    box-shadow: 0 4px 20px rgba(6, 182, 212, 0.3);
-    margin-bottom: 16px;
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
     display: none;
-    animation: pulsare 2s infinite ease-in-out;
+    animation: pulsare 2.5s infinite ease-in-out;
 }
 
 @keyframes pulsare {
-    0% { transform: scale(1); box-shadow: 0 4px 20px rgba(6, 182, 212, 0.3); }
-    50% { transform: scale(1.01); box-shadow: 0 4px 25px rgba(6, 182, 212, 0.5); }
-    100% { transform: scale(1); box-shadow: 0 4px 20px rgba(6, 182, 212, 0.3); }
+    0% { transform: scale(1); opacity: 0.95; }
+    50% { transform: scale(1.01); opacity: 1; box-shadow: 0 4px 35px rgba(255, 255, 255, 0.3); }
+    100% { transform: scale(1); opacity: 0.95; }
 }
 
-/* Layout Ergonomic pe 2 Coloane */
+/* Layout Ergonomic */
 .grid-nume {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
 }
 
+/* Butoane tip sticlă lucioasă */
 .btn-nume {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    color: #f1f5f9;
-    border-radius: 14px;
-    padding: 12px 10px;
-    font-size: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    border-radius: 16px;
+    padding: 12px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     text-align: left;
     display: flex;
     align-items: center;
     gap: 12px;
-    transition: background 0.2s, transform 0.1s, border-color 0.2s;
+    transition: background 0.3s, transform 0.1s, border-color 0.3s;
     -webkit-tap-highlight-color: transparent;
 }
 
 .btn-nume:active {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(6, 182, 212, 0.4);
-    transform: scale(0.96);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: scale(0.95);
 }
 
-/* Avatar cu fotografie reală */
+/* Avatar rotund cu fotografie reală */
 .avatar-foto {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid rgba(6, 182, 212, 0.5);
-    background-color: #1f2937; /* Fundal de rezervă */
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Listă Reguli */
+/* Liste text */
 ul {
     margin: 0;
     padding-left: 20px;
-    color: #cbd5e1;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 li {
@@ -158,9 +160,9 @@ li {
 /* Secțiunea Ștergere */
 .btn-toggle-del {
     background: transparent;
-    border: 1px dashed rgba(239, 68, 68, 0.3);
-    color: #f87171;
-    border-radius: 12px;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.6);
+    border-radius: 14px;
     padding: 11px;
     font-size: 14px;
     font-weight: 500;
@@ -170,10 +172,10 @@ li {
 #deleteOptions {
     display: none;
     margin-top: 15px;
-    background: rgba(239, 68, 68, 0.03);
+    background: rgba(0, 0, 0, 0.2);
     padding: 14px;
-    border-radius: 12px;
-    border: 1px solid rgba(239, 68, 68, 0.1);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .check-del {
@@ -182,22 +184,21 @@ li {
     gap: 10px;
     margin: 10px 0;
     font-size: 15px;
-    color: #e2e8f0;
+    color: #ffffff;
 }
 
 .btn-confirm-del {
     background: #ef4444;
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 12px;
     font-weight: 700;
     width: 100%;
     margin-top: 12px;
-    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
 }
 
-/* Tabel Clasament Jucători Premium */
+/* Tabel Clasament Elegant */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -205,11 +206,11 @@ table {
 
 th {
     padding: 10px;
-    color: #4b5563;
+    color: rgba(255, 255, 255, 0.4);
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     text-align: left;
 }
 
@@ -219,12 +220,11 @@ td {
     padding: 12px 10px;
     font-size: 15px;
     font-weight: 500;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     text-align: left;
     vertical-align: middle;
 }
 
-/* Aliniere elemente celulă tabel */
 .td-profil {
     display: flex;
     align-items: center;
@@ -232,19 +232,23 @@ td {
 }
 
 .avatar-tabel {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     object-fit: cover;
-    border: 1.5px solid rgba(99, 102, 241, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 td:last-child {
     text-align: center;
     font-weight: 700;
-    color: #06b6d4;
+    color: #ffffff;
     font-size: 16px;
-    text-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 4px 8px;
+    display: inline-block;
+    margin-top: 14px;
 }
 
 tr:last-child td { border: none; }
@@ -259,44 +263,42 @@ tr:last-child td { border: none; }
       📲 Adaugă pe Ecranul de Pornire
     </button>
 
-    <!-- Adăugare Puncte cu Avataruri Reale (.jpeg) -->
     <div class="card">
         <h2>➕ Acordă Punct Penalizare</h2>
         <div class="grid-nume">
             <button class="btn-nume" onclick="adauga('Felix')">
-                <img src="felix.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%2364748b\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
+                <img src="felix.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
                 Felix
             </button>
             <button class="btn-nume" onclick="adauga('Diana')">
-                <img src="diana.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%2364748b\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
+                <img src="diana.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
                 Diana
             </button>
             <button class="btn-nume" onclick="adauga('Federico')">
-                <img src="federico.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%2364748b\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
+                <img src="federico.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
                 Federico
             </button>
             <button class="btn-nume" onclick="adauga('Giorgio')">
-                <img src="giorgio.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%2364748b\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
+                <img src="giorgio.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
                 Giorgio
             </button>
             <button class="btn-nume" onclick="adauga('Sara')">
-                <img src="sara.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%2364748b\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
+                <img src="sara.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
                 Sara
             </button>
             <button class="btn-nume" onclick="adauga('Debora')">
-                <img src="debora.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%2364748b\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
+                <img src="debora.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
                 Debora
             </button>
         </div>
     </div>
 
-    <!-- Puncte Actuale / Clasament cu Mini-Avataruri -->
     <div class="card">
         <h2>📋 Situație Penalizări</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Jucător</th>
+                    <th>Membru</th>
                     <th>Scor</th>
                 </tr>
             </thead>
@@ -304,25 +306,23 @@ tr:last-child td { border: none; }
         </table>
     </div>
 
-    <!-- Reguli și Informații -->
     <div class="card">
         <h2>📜 Regulament de Ordine</h2>
-        <p style="margin-top:0; font-size:14px; color:#cbd5e1;">La fiecare <b>4 puncte</b> acumulate, se aplică pedeapsa.</p>
-        <p style="color: #06b6d4; font-size: 13px; font-weight: 600; margin-bottom: 12px;">⏱️ Resetare automată după 30 de zile de la ultimul punct primit.</p>
+        <p style="margin-top:0; font-size:14px; color:rgba(255,255,255,0.9);">La fiecare <b>4 puncte</b> acumulate, se aplică pedeapsa.</p>
+        <p style="color: #67e8f9; font-size: 13px; font-weight: 600; margin-bottom: 12px;">⏱️ Resetare automată după 30 de zile de la ultimul punct primit.</p>
         <ul>
             <li>Plecăm în parc în timpul programului.</li>
             <li>Vorbim urât la biserică.</li>
-            <li>Țipăm unii alții.</li>
+            <li>Țipăm unii la alții.</li>
             <li>Ne comportăm ca niște copii.</li>
             <li>Ne supărăm din nimicuri.</li>
             <li>Ne amenințăm / Ne jignim / Ne lovim.</li>
             <li>Nu suntem serioși la repetiții.</li>
             <li>Stăm pe telefon în timpul programului.</li>
         </ul>
-        <p style="margin-bottom:0; font-size:14px; color:#f43f5e; font-weight:600; margin-top:12px;">Pedeapsa: suc + prăjituri + verset biblic.</p>
+        <p style="margin-bottom:0; font-size:14px; color:#f87171; font-weight:600; margin-top:12px;">Pedeapsa: suc + prăjituri + verset biblic.</p>
     </div>
 
-    <!-- Panou Administrare -->
     <div class="card">
         <h2>⚙️ Administrare Date</h2>
         <button class="btn-toggle-del" onclick="showDeleteOptions()">Modifică / Resetează Puncte</button>
@@ -351,7 +351,7 @@ tr:last-child td { border: none; }
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js?v=9').catch(err => console.log('SW gata.'));
+      navigator.serviceWorker.register('sw.js?v=10').catch(err => console.log('SW gata.'));
     });
   }
 </script>
@@ -423,11 +423,11 @@ onSnapshot(collection(db,"puncte"),(snapshot)=>{
       html += `<tr>
         <td>
           <div class="td-profil">
-            <img src="${numeFisier}.jpeg" class="avatar-tabel" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%2364748b\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'">
+            <img src="${numeFisier}.jpeg" class="avatar-tabel" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'">
             <span>${nume}</span>
           </div>
         </td>
-        <td>${date.puncte} puncte</td>
+        <td>${date.puncte} pct</td>
       </tr>`; 
     }
   });
