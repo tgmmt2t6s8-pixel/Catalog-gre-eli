@@ -2,12 +2,13 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link rel="manifest" href="manifest.json?v=4">
+<!-- Am crescut versiunea la v=6 pentru ca telefoanele să aplice instant noua logică cu ștergerea la o lună -->
+<link rel="manifest" href="manifest.json?v=6">
 <meta name="theme-color" content="#203a43">
 
-<link rel="apple-touch-icon" href="icon-192.png?v=4">
+<link rel="apple-touch-icon" href="icon-192.png?v=6">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -15,11 +16,15 @@
 
 <title>Catalog Tineri PRO</title>
 <style>
+html, body {
+    touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
+}
 body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);color:white;}
 .container{max-width:900px;margin:auto;padding:20px;}
 h1,h2{text-align:center;}
 .card{background:rgba(255,255,255,0.08);border-radius:15px;padding:20px;margin-bottom:20px;}
-button{width:100%;padding:12px;margin:6px 0;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;}
+button{width:100%;padding:12px;margin:6px 0;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;-webkit-tap-highlight-color: transparent;}
 
 .installBtn {
     background: #00b4db;
@@ -53,6 +58,7 @@ th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,0.2);text-align:cent
 <div class="card">
 <h2>📜 Reguli</h2>
 <p>La fiecare <b>4 puncte</b>, persoana primește pedeapsă.</p>
+<p style="color: #00b4db; font-weight: bold;">⏱️ Punctele se resetează automat după 30 de zile de inactivitate!</p>
 <ul>
 <li>Plecăm în parc în timpul programului.</li>
 <li>Vorbim urât la biserică.</li>
@@ -105,7 +111,7 @@ th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,0.2);text-align:cent
   function ghidInstalare() {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     if (isIOS) {
-      alert("📥 INSTALARE PE IPHONE:\n\n1. În Safari, apasă pe butonul de Share (pătrățelul cu săgeată în sus).\n2. Alege 'Add to Home Screen' (Adaugă pe ecranul de pornire).\n\nAplicația se va instala direct cu poza ta!");
+      alert("📥 INSTALARE PE IPHONE:\n\n1. În Safari, apasă pe butonul de Share (pătrățelul cu săgeată în sus).\n2. Alege 'Add to Home Screen' (Adaugă pe ecranul de pornire).");
     } else {
       alert("📥 INSTALARE PE ANDROID:\n\n1. Apasă pe cele 3 puncte de sus din Chrome.\n2. Caută și apasă pe 'Instalează aplicația' (sau 'Adaugă pe ecran').");
     }
@@ -113,7 +119,7 @@ th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,0.2);text-align:cent
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js?v=4').catch(err => console.log('SW gata.'));
+      navigator.serviceWorker.register('sw.js?v=6').catch(err => console.log('SW gata.'));
     });
   }
 </script>
@@ -140,7 +146,13 @@ window.adauga = async function(nume){
     const snap = await getDoc(ref);
     let puncte = snap.exists() ? snap.data().puncte : 0;
     let noi = puncte + 1;
-    await setDoc(ref,{ puncte: noi });
+    
+    // Salvăm numărul de puncte și data curentă în milisecunde
+    await setDoc(ref,{ 
+      puncte: noi,
+      ultimaModificare: Date.now()
+    });
+    
     if(noi === 4) alert("⚠️ " + nume + " a ajuns la 4 puncte!");
   } catch(e) {
     console.error(e);
@@ -160,9 +172,25 @@ document.getElementById("confirmDelete").onclick = async function(){
   }
 }
 
-onSnapshot(collection(db,"puncte"),(snapshot)=>{
+// Monitorizare în timp real și verificare automată a timpului expirator
+onSnapshot(collection(db,"puncte"), (snapshot)=>{
   let html="";
-  snapshot.forEach(docSnap=>{ html += `<tr><td>${docSnap.id}</td><td>${docSnap.data().puncte}</td></tr>`; });
+  const oLunaInMilisecunde = 30 * 24 * 60 * 60 * 1000; // 30 de zile
+  const acum = Date.now();
+
+  snapshot.forEach(async (docSnap)=>{ 
+    const date = docSnap.data();
+    const nume = docSnap.id;
+    
+    // Verificăm dacă documentul are salvată o dată și dacă a expirat luna
+    if(date.ultimaModificare && (acum - date.ultimaModificare > oLunaInMilisecunde)) {
+      // A trecut o lună, deci ștergem automat punctele persoanei din baza de date
+      await deleteDoc(doc(db,"puncte",nume));
+    } else {
+      html += `<tr><td>${nume}</td><td>${date.puncte}</td></tr>`; 
+    }
+  });
+  
   document.getElementById("tableBody").innerHTML = html;
 });
 </script>
