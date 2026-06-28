@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<!-- Am crescut versiunea la v=6 pentru ca telefoanele să aplice instant noua logică cu ștergerea la o lună -->
-<link rel="manifest" href="manifest.json?v=6">
+<!-- Am crescut versiunea la v=7 pentru a forța telefoanele să aplice oprirea efectului de bounce -->
+<link rel="manifest" href="manifest.json?v=7">
 <meta name="theme-color" content="#203a43">
 
-<link rel="apple-touch-icon" href="icon-192.png?v=6">
+<link rel="apple-touch-icon" href="icon-192.png?v=7">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -16,12 +16,33 @@
 
 <title>Catalog Tineri PRO</title>
 <style>
+/* Blocăm complet derularea elastică și efectul de bară albă la capetele paginii */
 html, body {
     touch-action: manipulation;
     -webkit-text-size-adjust: 100%;
+    overflow: hidden; /* Oprește scroll-ul general al ferestrei browserului */
+    overscroll-behavior: none; /* Oprește bounce-ul pe Android/Chrome */
+    height: 100%;
 }
-body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);color:white;}
-.container{max-width:900px;margin:auto;padding:20px;}
+
+body {
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:white;
+}
+
+/* Containerul principal devine scrollabil doar în interiorul lui dacă regulile depășesc ecranul */
+.container {
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: auto; /* Permite scroll curat în interior doar dacă e nevoie */
+    -webkit-overflow-scrolling: touch; /* Asigură un scroll fin pe iPhone */
+}
+
 h1,h2{text-align:center;}
 .card{background:rgba(255,255,255,0.08);border-radius:15px;padding:20px;margin-bottom:20px;}
 button{width:100%;padding:12px;margin:6px 0;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;-webkit-tap-highlight-color: transparent;}
@@ -119,7 +140,7 @@ th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,0.2);text-align:cent
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js?v=6').catch(err => console.log('SW gata.'));
+      navigator.serviceWorker.register('sw.js?v=7').catch(err => console.log('SW gata.'));
     });
   }
 </script>
@@ -147,7 +168,6 @@ window.adauga = async function(nume){
     let puncte = snap.exists() ? snap.data().puncte : 0;
     let noi = puncte + 1;
     
-    // Salvăm numărul de puncte și data curentă în milisecunde
     await setDoc(ref,{ 
       puncte: noi,
       ultimaModificare: Date.now()
@@ -172,19 +192,16 @@ document.getElementById("confirmDelete").onclick = async function(){
   }
 }
 
-// Monitorizare în timp real și verificare automată a timpului expirator
-onSnapshot(collection(db,"puncte"), (snapshot)=>{
+onSnapshot(collection(db,"puncte"),(snapshot)=>{
   let html="";
-  const oLunaInMilisecunde = 30 * 24 * 60 * 60 * 1000; // 30 de zile
+  const oLunaInMilisecunde = 30 * 24 * 60 * 60 * 1000;
   const acum = Date.now();
 
   snapshot.forEach(async (docSnap)=>{ 
     const date = docSnap.data();
     const nume = docSnap.id;
     
-    // Verificăm dacă documentul are salvată o dată și dacă a expirat luna
     if(date.ultimaModificare && (acum - date.ultimaModificare > oLunaInMilisecunde)) {
-      // A trecut o lună, deci ștergem automat punctele persoanei din baza de date
       await deleteDoc(doc(db,"puncte",nume));
     } else {
       html += `<tr><td>${nume}</td><td>${date.puncte}</td></tr>`; 
