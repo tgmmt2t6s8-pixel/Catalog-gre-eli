@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link rel="manifest" href="manifest.json?v=17">
+<link rel="manifest" href="manifest.json?v=18">
 <meta name="theme-color" content="#06070a">
 
-<link class="apple-touch-icon" href="icon-192.png?v=17">
+<link class="apple-touch-icon" href="icon-192.png?v=18">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -32,7 +32,7 @@ body {
     position: relative;
 }
 
-/* Fixare și centrare perfectă pentru poza ta .jpeg */
+/* Încărcare inteligentă: încearcă .jpeg, iar dacă nu merge, folosește .jpg ca rezervă */
 body::before {
     content: "";
     position: fixed;
@@ -40,8 +40,9 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    /* Am schimbat aici în fundal.jpeg + mască fină pentru contrast */
-    background: linear-gradient(rgba(6, 7, 10, 0.35), rgba(6, 7, 10, 0.6)), url('fundal.jpeg') center center / cover no-repeat;
+    background: linear-gradient(rgba(6, 7, 10, 0.35), rgba(6, 7, 10, 0.6)), 
+                url('fundal.jpeg'), 
+                url('fundal.jpg') center center / cover no-repeat;
     z-index: -1;
 }
 
@@ -369,7 +370,7 @@ tr:last-child td { border: none; }
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js?v=17').catch(err => console.log('SW gata.'));
+      navigator.serviceWorker.register('sw.js?v=18').catch(err => console.log('SW gata.'));
     });
   }
 </script>
