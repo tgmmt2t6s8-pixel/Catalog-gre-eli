@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link rel="manifest" href="manifest.json?v=16">
+<link rel="manifest" href="manifest.json?v=17">
 <meta name="theme-color" content="#06070a">
 
-<link class="apple-touch-icon" href="icon-192.png?v=16">
+<link class="apple-touch-icon" href="icon-192.png?v=17">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -32,7 +32,7 @@ body {
     position: relative;
 }
 
-/* Fixare și centrare perfectă pentru poza ta curățată */
+/* Fixare și centrare perfectă pentru poza ta .jpeg */
 body::before {
     content: "";
     position: fixed;
@@ -40,8 +40,8 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    /* Încarcă imaginea locală și adaugă o mască fină de contrast pentru lizibilitate */
-    background: linear-gradient(rgba(6, 7, 10, 0.35), rgba(6, 7, 10, 0.6)), url('fundal.png') center center / cover no-repeat;
+    /* Am schimbat aici în fundal.jpeg + mască fină pentru contrast */
+    background: linear-gradient(rgba(6, 7, 10, 0.35), rgba(6, 7, 10, 0.6)), url('fundal.jpeg') center center / cover no-repeat;
     z-index: -1;
 }
 
@@ -80,7 +80,7 @@ h2 {
 
 /* EFFECT LIQUID GLASS ULTRA-EVIDENT ȘI GLOSSY */
 .card {
-    background: rgba(255, 255, 255, 0.12); /* Opacitate crescută pentru a evidenția textura sticlei */
+    background: rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(25px) saturate(220%);
     -webkit-backdrop-filter: blur(25px) saturate(220%);
     
@@ -369,7 +369,7 @@ tr:last-child td { border: none; }
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js?v=16').catch(err => console.log('SW gata.'));
+      navigator.serviceWorker.register('sw.js?v=17').catch(err => console.log('SW gata.'));
     });
   }
 </script>
