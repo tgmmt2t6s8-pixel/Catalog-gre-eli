@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link rel="manifest" href="manifest.json?v=21">
+<link rel="manifest" href="manifest.json?v=22">
 <meta name="theme-color" content="#06070a">
 
-<link class="apple-touch-icon" href="icon-192.png?v=21">
+<link class="apple-touch-icon" href="icon-192.png?v=22">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -32,7 +32,7 @@ body {
     position: relative;
 }
 
-/* Fundal curat: Caută exact imaginea corectată fundal.jpg */
+/* Mergem la sigur pe imaginea urcată de tine */
 body::before {
     content: "";
     position: fixed;
@@ -41,7 +41,7 @@ body::before {
     right: 0;
     bottom: 0;
     background: linear-gradient(rgba(6, 7, 10, 0.4), rgba(6, 7, 10, 0.65)), 
-                url('fundal.jpg?v=21') center center / cover no-repeat;
+                url('image.png') center center / cover no-repeat;
     z-index: -1;
 }
 
@@ -83,15 +83,10 @@ h2 {
     background: rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(25px) saturate(220%);
     -webkit-backdrop-filter: blur(25px) saturate(220%);
-    
-    /* Margine groasă, lucioasă (efect de reflexie pe muchie) */
     border: 2.5px solid rgba(255, 255, 255, 0.4); 
-    
-    /* Strălucire interioară pe margini și umbră masivă dedesubt */
     box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.5), 
                 inset 0 -2px 4px rgba(0, 0, 0, 0.2),
                 0 20px 45px rgba(0, 0, 0, 0.85);
-                
     border-radius: 24px;
     padding: 20px;
     margin-bottom: 20px;
@@ -113,14 +108,12 @@ h2 {
     box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 
-/* Layout Ergonomic */
 .grid-nume {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
 }
 
-/* Butoane tip sticlă lucioasă pronunțată */
 .btn-nume {
     background: rgba(255, 255, 255, 0.1);
     border: 1.5px solid rgba(255, 255, 255, 0.25);
@@ -146,7 +139,6 @@ h2 {
     transform: scale(0.96);
 }
 
-/* Avatar rotund */
 .avatar-foto {
     width: 38px;
     height: 38px;
@@ -155,7 +147,6 @@ h2 {
     border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
-/* Liste text perfect albe și lizibile peste sticlă */
 ul {
     margin: 0;
     padding-left: 20px;
@@ -170,7 +161,6 @@ li {
     text-shadow: 0 1.5px 3px rgba(0,0,0,0.9);
 }
 
-/* Secțiunea Ștergere */
 .btn-toggle-del {
     background: transparent;
     border: 1.5px dashed rgba(255, 255, 255, 0.4);
@@ -213,7 +203,6 @@ li {
     box-shadow: 0 4px 15px rgba(0,0,0,0.4);
 }
 
-/* Tabel Clasament */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -367,9 +356,17 @@ tr:last-child td { border: none; }
     }
   }
 
+  // FORCE CACHE CLEAR COMPLET LA PORNIRE
+  if ('caches' in window) {
+      caches.keys().then(function(names) {
+          for (let name of names) caches.delete(name);
+      });
+  }
+
+  // Deconectăm complet Service Worker-ul blocat
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js?v=21').catch(err => console.log('SW gata.'));
+    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for(let registration of registrations) { registration.unregister(); }
     });
   }
 </script>
