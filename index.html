@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<!-- Am crescut versiunea la v=7 pentru a forța telefoanele să aplice oprirea efectului de bounce -->
-<link rel="manifest" href="manifest.json?v=7">
-<meta name="theme-color" content="#203a43">
+<!-- Versiunea v=8 aduce noul layout vizual -->
+<link rel="manifest" href="manifest.json?v=8">
+<meta name="theme-color" content="#0f172a">
 
-<link rel="apple-touch-icon" href="icon-192.png?v=7">
+<link rel="apple-touch-icon" href="icon-192.png?v=8">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -16,116 +16,291 @@
 
 <title>Catalog Tineri PRO</title>
 <style>
-/* Blocăm complet derularea elastică și efectul de bară albă la capetele paginii */
+/* Reset și optimizare ecran fix */
 html, body {
     touch-action: manipulation;
     -webkit-text-size-adjust: 100%;
-    overflow: hidden; /* Oprește scroll-ul general al ferestrei browserului */
-    overscroll-behavior: none; /* Oprește bounce-ul pe Android/Chrome */
+    overflow: hidden;
+    overscroll-behavior: none;
     height: 100%;
+    background-color: #0f172a;
 }
 
 body {
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-    color:white;
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: radial-gradient(circle at top right, #1e1b4b, #0f172a);
+    color: #f8fafc;
 }
 
-/* Containerul principal devine scrollabil doar în interiorul lui dacă regulile depășesc ecranul */
+/* Container principal cu scroll fin */
 .container {
-    max-width:900px;
-    margin:auto;
-    padding:20px;
+    max-width: 600px;
+    margin: auto;
+    padding: 16px;
     height: 100%;
     box-sizing: border-box;
-    overflow-y: auto; /* Permite scroll curat în interior doar dacă e nevoie */
-    -webkit-overflow-scrolling: touch; /* Asigură un scroll fin pe iPhone */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
-h1,h2{text-align:center;}
-.card{background:rgba(255,255,255,0.08);border-radius:15px;padding:20px;margin-bottom:20px;}
-button{width:100%;padding:12px;margin:6px 0;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;-webkit-tap-highlight-color: transparent;}
+/* Titlu Modern */
+h1 {
+    font-size: 26px;
+    font-weight: 800;
+    text-align: center;
+    margin: 10px 0 20px 0;
+    letter-spacing: -0.5px;
+    background: linear-gradient(to right, #38bdf8, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
+h2 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 14px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Carduri tip Glassmorphism */
+.card {
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Butonul de Instalare Premium */
 .installBtn {
-    background: #00b4db;
-    background: linear-gradient(to right, #0083b0, #00b4db);
+    background: linear-gradient(135deg, #0284c7, #4f46e5);
     color: white;
-    box-shadow: 0 4px 15px rgba(0, 180, 219, 0.4);
-    margin-bottom: 20px;
-    animation: pulsare 2s infinite;
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    width: 100%;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
+    margin-bottom: 16px;
+    display: none;
+    animation: pulsare 2s infinite ease-in-out;
 }
 
 @keyframes pulsare {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-    100% { transform: scale(1); }
+    0% { transform: scale(1); box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3); }
+    50% { transform: scale(1.01); box-shadow: 0 4px 25px rgba(79, 70, 229, 0.5); }
+    100% { transform: scale(1); box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3); }
 }
 
-.deleteBtn{background:#d62828;color:white;}
-table{width:100%;border-collapse:collapse;}
-th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,0.2);text-align:center;}
-#deleteOptions{display:none;margin-top:15px;}
+/* Layout Butoane Nume pe 2 Coloane (Ergonomic) */
+.grid-nume {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.btn-nume {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.2s, transform 0.1s;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn-nume:active {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(0.96);
+}
+
+/* Avatar mic stilizat în buton */
+.avatar-init {
+    background: linear-gradient(135deg, #38bdf8, #0369a1);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* Listă Reguli Elegantă */
+ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #cbd5e1;
+}
+
+li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* Secțiunea Ștergere */
+.btn-toggle-del {
+    background: transparent;
+    border: 1px dashed rgba(239, 68, 68, 0.4);
+    color: #f87171;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    width: 100%;
+}
+
+#deleteOptions {
+    display: none;
+    margin-top: 15px;
+    background: rgba(239, 68, 68, 0.05);
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(239, 68, 68, 0.1);
+}
+
+.check-del {
+    display: block;
+    margin: 8px 0;
+    font-size: 15px;
+    color: #e2e8f0;
+}
+
+.btn-confirm-del {
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: 700;
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Tabel Clasament Premium */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    padding: 10px;
+    color: #64748b;
+    font-size: 13px;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: left;
+}
+
+th:last-child { text-align: center; }
+
+td {
+    padding: 14px 10px;
+    font-size: 15px;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    text-align: left;
+}
+
+td:last-child {
+    text-align: center;
+    font-weight: 700;
+    color: #38bdf8;
+    font-size: 16px;
+}
+
+tr:last-child td { border: none; }
 </style>
 </head>
 <body>
+
 <div class="container">
-<h1>📊 Catalog Tineri PRO</h1>
+    <h1>📊 Catalog Tineri PRO</h1>
 
-<button id="btnInstaleaza" class="installBtn" onclick="ghidInstalare()">
-  📲 Instalează Aplicația pe Ecran
-</button>
+    <!-- Butonul de Instalare Premium -->
+    <button id="btnInstaleaza" class="installBtn" onclick="ghidInstalare()">
+      📲 Adaugă pe Ecranul de Pornire
+    </button>
 
-<div class="card">
-<h2>📜 Reguli</h2>
-<p>La fiecare <b>4 puncte</b>, persoana primește pedeapsă.</p>
-<p style="color: #00b4db; font-weight: bold;">⏱️ Punctele se resetează automat după 30 de zile de inactivitate!</p>
-<ul>
-<li>Plecăm în parc în timpul programului.</li>
-<li>Vorbim urât la biserică.</li>
-<li>Țipăm unii la alții.</li>
-<li>Ne comportăm ca niște copii.</li>
-<li>Ne supărăm din nimicuri.</li>
-<li>Ne amenințăm.</li>
-<li>Ne jignim.</li>
-<li>Ne lovim.</li>
-<li>Nu suntem serioși la repetiții.</li>
-<li>Stăm pe telefon în timpul programului.</li>
-</ul>
-<p><b>Pedeapsa:</b> suc + prăjituri + verset biblic.</p>
-</div>
+    <!-- Adăugare Puncte (Layout Ergonomic) -->
+    <div class="card">
+        <h2>➕ Acordă Punct Penalizare</h2>
+        <div class="grid-nume">
+            <button class="btn-nume" onclick="adauga('Felix')"><div class="avatar-init">F</div> Felix</button>
+            <button class="btn-nume" onclick="adauga('Diana')"><div class="avatar-init">D</div> Diana</button>
+            <button class="btn-nume" onclick="adauga('Federico')"><div class="avatar-init">F</div> Federico</button>
+            <button class="btn-nume" onclick="adauga('Giorgio')"><div class="avatar-init">G</div> Giorgio</button>
+            <button class="btn-nume" onclick="adauga('Sara')"><div class="avatar-init">S</div> Sara</button>
+            <button class="btn-nume" onclick="adauga('Debora')"><div class="avatar-init">D</div> Debora</button>
+        </div>
+    </div>
 
-<div class="card">
-<h2>➕ Adaugă punct</h2>
-<button onclick="adauga('Felix')">Felix</button>
-<button onclick="adauga('Diana')">Diana</button>
-<button onclick="adauga('Federico')">Federico</button>
-<button onclick="adauga('Giorgio')">Giorgio</button>
-<button onclick="adauga('Sara')">Sara</button>
-<button onclick="adauga('Debora')">Debora</button>
-</div>
+    <!-- Puncte Actuale / Clasament -->
+    <div class="card">
+        <h2>📋 Situație Penalizări</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nume Membru</th>
+                    <th>Puncte</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
 
-<div class="card">
-<h2>🗑️ Ștergere puncte</h2>
-<button class="deleteBtn" onclick="showDeleteOptions()">Ștergere puncte</button>
-<div id="deleteOptions">
-<label><input type="checkbox" value="Felix"> Felix</label><br>
-<label><input type="checkbox" value="Diana"> Diana</label><br>
-<label><input type="checkbox" value="Federico"> Federico</label><br>
-<label><input type="checkbox" value="Giorgio"> Giorgio</label><br>
-<label><input type="checkbox" value="Sara"> Sara</label><br>
-<label><input type="checkbox" value="Debora"> Debora</label><br>
-<button id="confirmDelete" class="deleteBtn">Confirmă ștergerea</button>
-</div>
-</div>
+    <!-- Reguli și Informații -->
+    <div class="card">
+        <h2>📜 Regulament de Ordine</h2>
+        <p style="margin-top:0; font-size:14px; color:#cbd5e1;">La fiecare <b>4 puncte</b> acumulate, se aplică pedeapsa.</p>
+        <p style="color: #38bdf8; font-size: 13px; font-weight: 600; margin-bottom: 12px;">⏱️ Resetare automată după 30 de zile de la ultimul punct primit.</p>
+        <ul>
+            <li>Plecăm în parc în timpul programului.</li>
+            <li>Vorbim urât la biserică.</li>
+            <li>Țipăm unii la alții.</li>
+            <li>Ne comportăm ca niște copii.</li>
+            <li>Ne supărăm din nimicuri.</li>
+            <li>Ne amenințăm / Ne jignim / Ne lovim.</li>
+            <li>Nu suntem serioși la repetiții.</li>
+            <li>Stăm pe telefon în timpul programului.</li>
+        </ul>
+        <p style="margin-bottom:0; font-size:14px; color:#f43f5e; font-weight:600; margin-top:12px;">Pedeapsa: suc + prăjituri + verset biblic.</p>
+    </div>
 
-<div class="card">
-<h2>📋 Puncte actuale</h2>
-<table>
-<thead><tr><th>Nume</th><th>Puncte</th></tr></thead>
-<tbody id="tableBody"></tbody>
-</table>
-</div>
+    <!-- Panou Management Administrare (Ștergere) -->
+    <div class="card">
+        <h2>⚙️ Administrare Date</h2>
+        <button class="btn-toggle-del" onclick="showDeleteOptions()">Modifică / Resetează Puncte</button>
+        
+        <div id="deleteOptions">
+            <label class="check-del"><input type="checkbox" value="Felix"> Felix</label>
+            <label class="check-del"><input type="checkbox" value="Diana"> Diana</label>
+            <label class="check-del"><input type="checkbox" value="Federico"> Federico</label>
+            <label class="check-del"><input type="checkbox" value="Giorgio"> Giorgio</label>
+            <label class="check-del"><input type="checkbox" value="Sara"> Sara</label>
+            <label class="check-del"><input type="checkbox" value="Debora"> Debora</label>
+            <button id="confirmDelete" class="btn-confirm-del">Elimină Punctele Selectate</button>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -140,7 +315,7 @@ th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,0.2);text-align:cent
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js?v=7').catch(err => console.log('SW gata.'));
+      navigator.serviceWorker.register('sw.js?v=8').catch(err => console.log('SW gata.'));
     });
   }
 </script>
@@ -179,14 +354,18 @@ window.adauga = async function(nume){
   }
 }
 
-window.showDeleteOptions = function(){ document.getElementById("deleteOptions").style.display="block"; }
+window.showDeleteOptions = function(){ 
+    const el = document.getElementById("deleteOptions");
+    el.style.display = (el.style.display === "block") ? "none" : "block";
+}
 
 document.getElementById("confirmDelete").onclick = async function(){
   try {
     const selectate = document.querySelectorAll('#deleteOptions input:checked');
     for(const persoana of selectate){ await deleteDoc(doc(db,"puncte",persoana.value)); }
     selectate.forEach(x=>x.checked=false);
-    alert("Punctele au fost șterse.");
+    document.getElementById("deleteOptions").style.display = "none";
+    alert("Datele au fost actualizate.");
   } catch(e) {
     console.error(e);
   }
@@ -204,7 +383,7 @@ onSnapshot(collection(db,"puncte"),(snapshot)=>{
     if(date.ultimaModificare && (acum - date.ultimaModificare > oLunaInMilisecunde)) {
       await deleteDoc(doc(db,"puncte",nume));
     } else {
-      html += `<tr><td>${nume}</td><td>${date.puncte}</td></tr>`; 
+      html += `<tr><td>👤 ${nume}</td><td>${date.puncte} puncte</td></tr>`; 
     }
   });
   
