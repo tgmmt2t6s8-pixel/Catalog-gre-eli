@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link rel="manifest" href="manifest.json?v=38">
+<link rel="manifest" href="manifest.json?v=39">
 <meta name="theme-color" content="#090b11">
-<link class="apple-touch-icon" href="icon-192.png?v=38">
+<link class="apple-touch-icon" href="icon-192.png?v=39">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -238,7 +238,6 @@ td {
     word-break: break-word;
 }
 
-/* PLAYLIST ZILEI - ZONA SELECTATE PENTRU PROGRAM PRO */
 .zona-alegere-azi {
     display: grid;
     grid-template-columns: 1fr;
@@ -278,7 +277,6 @@ td {
     padding: 0 4px;
 }
 
-/* GRID PARALEL REPERTORIU MELODII */
 .container-cantari-paralel {
     display: grid;
     grid-template-columns: 1fr;
@@ -421,6 +419,7 @@ ul.reguli-list li { margin-bottom: 6px; font-size: 13px; font-weight: 500; }
     </div>
 </div>
 
+<!-- MENIUL 1: CATALOG -->
 <div id="catalog-tab" class="tab-content active">
     <h1>📊 Catalog Tineri PRO</h1>
     
@@ -462,11 +461,18 @@ ul.reguli-list li { margin-bottom: 6px; font-size: 13px; font-weight: 500; }
         <h2>⚙️ Administrare Date</h2>
         <button class="btn-admin" onclick="showDeleteOptions()">Modifică / Resetează Puncte</button>
         <div id="deleteOptions">
+            <label class="check-del"><input type="checkbox" value="Felix"> Felix</label>
+            <label class="check-del"><input type="checkbox" value="Diana"> Diana</label>
+            <label class="check-del"><input type="checkbox" value="Federico"> Federico</label>
+            <label class="check-del"><input type="checkbox" value="Giorgio"> Giorgio</label>
+            <label class="check-del"><input type="checkbox" value="Sara"> Sara</label>
+            <label class="check-del"><input type="checkbox" value="Debora"> Debora</label>
             <button id="confirmDelete" class="btn-confirm-del">Elimină Punctele Selectate</button>
         </div>
     </div>
 </div>
 
+<!-- MENIUL 2: CANTARI -->
 <div id="cantari-tab" class="tab-content">
     <h1>🎵 Playlist & Repertoriu</h1>
 
@@ -482,6 +488,7 @@ ul.reguli-list li { margin-bottom: 6px; font-size: 13px; font-weight: 500; }
     </div>
 
     <div class="container-cantari-paralel">
+        <!-- Rugăciune -->
         <div class="card">
             <div class="header-sectiune">
                 <h2>🙏 Toate de Rugăciune</h2>
@@ -494,6 +501,7 @@ ul.reguli-list li { margin-bottom: 6px; font-size: 13px; font-weight: 500; }
             <ul id="listaRugaciune" class="lista-cantari"></ul>
         </div>
 
+        <!-- Program -->
         <div class="card">
             <div class="header-sectiune">
                 <h2>⛪ Toate de Program</h2>
@@ -543,7 +551,6 @@ const verseteMembri = {
   "Debora": "„Toate lucrurile să se facă în chip cuviincios şi cu rânduială.” – 1 Corinteni 14:40"
 };
 
-// State local pentru Playlist-ul curent
 let selectateRugaciune = [];
 let selectateProgram = [];
 
@@ -555,6 +562,21 @@ window.adauga = async function(nume){
     let noi = puncte + 1;
     await setDoc(ref,{ puncte: noi, ultimaModificare: Date.now() });
     if(noi === 4) alert(`⚠️ ${nume} a atins pragul de 4 puncte!\nVerset: ${verseteMembri[nume]}`);
+  } catch(e) { console.error(e); }
+}
+
+window.showDeleteOptions = function(){ 
+    const el = document.getElementById("deleteOptions");
+    el.style.display = (el.style.display === "block") ? "none" : "block";
+}
+
+document.getElementById("confirmDelete").onclick = async function(){
+  try {
+    const selectate = document.querySelectorAll('#deleteOptions input:checked');
+    for(const persoana of selectate){ await deleteDoc(doc(db,"puncte",persoana.value)); }
+    selectate.forEach(x=>x.checked=false);
+    document.getElementById("deleteOptions").style.display = "none";
+    alert("Resetat cu succes.");
   } catch(e) { console.error(e); }
 }
 
@@ -583,7 +605,7 @@ onSnapshot(collection(db,"puncte"),(snapshot)=>{
 });
 
 // --- SISTEM MANAGEMENT REPERTORIU & PLAYLIST ---
-let modCurent = null; // 'sterge' sau 'editeaza'
+let modCurent = null; 
 let cantariSelectate = [];
 
 window.activeazaMod = function(tipMod) {
@@ -617,10 +639,8 @@ function actualizeazaNumarSelectate() {
     document.getElementById('txtNumarSelectate').innerText = `${cantariSelectate.length} elemente`;
 }
 
-// Click pe melodie
 window.toggleSelectieCantare = function(element, id, categorieCurenta, titlu) {
     if (modCurent) {
-        // Dacă suntem în mod Ștergere / Editare
         const index = cantariSelectate.findIndex(x => x.id === id);
         if (index > -1) {
             cantariSelectate.splice(index, 1);
@@ -631,7 +651,6 @@ window.toggleSelectieCantare = function(element, id, categorieCurenta, titlu) {
         }
         actualizeazaNumarSelectate();
     } else {
-        // Mod Standard: Adăugare în Playlist-ul de 4 melodii
         const optiune = prompt(`Unde adaugi cântarea "${titlu}"?\n1 - La Rugăciune\n2 - La Program`);
         if (optiune === "1") {
             if (selectateRugaciune.length >= 4) return alert("Ai atins deja maximul de 4 cântări la Rugăciune!");
@@ -707,7 +726,6 @@ window.adaugaCantare = async function(categorie) {
     catch(e) { console.error(e); }
 }
 
-// Live Sync Liste
 onSnapshot(query(collection(db, "cantari_rugaciune"), orderBy("creatLa", "asc")), (snapshot) => {
     let html = ""; let idx = 1;
     snapshot.forEach((docSnap) => {
@@ -736,7 +754,6 @@ onSnapshot(query(collection(db, "cantari_program"), orderBy("creatLa", "asc")), 
     document.getElementById("listaProgram").innerHTML = html || `<p style="text-align:center;font-size:12px;opacity:0.5;width:100%;">Nicio melodie.</p>`;
 });
 
-// Inițializare playlist gol la pornire
 randeazaPlaylist();
 </script>
 </body>
