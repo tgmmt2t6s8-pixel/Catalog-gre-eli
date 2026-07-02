@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link rel="manifest" href="manifest.json?v=42">
+<link rel="manifest" href="manifest.json?v=45">
 <meta name="theme-color" content="#090b11">
-<link class="apple-touch-icon" href="icon-192.png?v=42">
+<link class="apple-touch-icon" href="icon-192.png?v=45">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -142,9 +142,6 @@ h2 {
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
 }
 
 table {
@@ -170,67 +167,20 @@ td {
     vertical-align: top;
 }
 
-.td-profil {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-}
-
-.avatar-tabel {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1.5px solid rgba(255, 255, 255, 0.25);
-}
-
-.nume-container {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    flex: 1;
-}
-
-.badge-scor {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
-    padding: 3px 8px;
-    font-size: 12px;
-}
-
-.badge-scor.pericol {
-    background: rgba(239, 68, 68, 0.25);
-    border-color: #ef4444;
-    color: #fca5a5;
-}
-
-.verset-box {
-    font-size: 12px;
-    font-weight: 500;
-    color: #67e8f9;
-    font-style: italic;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 8px 10px;
-    border-left: 3px solid #67e8f9;
-    border-radius: 6px;
-    line-height: 1.4;
-    margin-top: 6px;
-}
-
-.zona-alegere-azi {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
+/* STRUCTURA NOUĂ PENTRU TABELUL DE CÂNTĂRI SELECTATE */
+.tabel-playlisturi {
+    width: 100%;
     margin-bottom: 16px;
 }
 
-@media(min-width: 768px) {
-    .zona-alegere-azi { grid-template-columns: repeat(2, 1fr); }
+.tabel-playlisturi td {
+    border: none;
+    padding: 8px;
+    width: 50%;
 }
 
 .slot-cantec {
-    background: rgba(103, 232, 249, 0.06);
+    background: rgba(103, 232, 249, 0.07);
     border: 1px dashed rgba(103, 232, 249, 0.3);
     padding: 10px 12px;
     border-radius: 12px;
@@ -275,22 +225,6 @@ td {
 
 .header-sectiune h2 { margin: 0; }
 
-.controale-sectiune {
-    display: flex;
-    gap: 5px;
-}
-
-.btn-actiune {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-    border-radius: 8px;
-    padding: 6px 10px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
 .lista-cantari {
     list-style: none;
     padding: 0;
@@ -300,25 +234,45 @@ td {
 .lista-cantari li {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.06);
-    padding: 11px 12px;
-    border-radius: 10px;
-    margin-bottom: 6px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    margin-bottom: 8px;
     font-size: 14px;
     font-weight: 600;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;
 }
 
-.btn-item-op {
-    background: transparent;
-    border: none;
-    font-size: 14px;
-    cursor: pointer;
-    padding: 4px;
+.actiuni-inline-cantari {
+    display: flex;
+    gap: 6px;
 }
 
+.btn-inline {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: white;
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.btn-inline.selecteaza { background: #67e8f9; color: #090b11; border: none; }
+.btn-inline.sterge { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border-color: rgba(239, 68, 68, 0.4); }
+
+.verset-box {
+    font-size: 12px;
+    font-weight: 500;
+    color: #67e8f9;
+    font-style: italic;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 8px 10px;
+    border-left: 3px solid #67e8f9;
+    border-radius: 6px;
+    margin-top: 6px;
+}
 .btn-admin { background: transparent; border: 1px dashed rgba(255, 255, 255, 0.2); color: white; padding: 10px; width: 100%; border-radius: 10px; font-weight: 600; font-size: 13px; }
 #deleteOptions { display: none; margin-top: 12px; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 10px; }
 .check-del { display: block; margin: 6px 0; font-size: 13.5px; }
@@ -384,17 +338,215 @@ td {
 <div id="cantari-tab" class="tab-content">
     <h1>🎵 Playlist & Repertoriu</h1>
 
-    <div class="zona-alegere-azi">
-        <div class="card">
-            <h2>🙏 La Rugăciune (Max 4 pentru Azi)</h2>
-            <div id="playlistRugaciune"></div>
-        </div>
-        <div class="card">
-            <h2>⛪ La Program (Max 4 pentru Azi)</h2>
-            <div id="playlistProgram"></div>
-        </div>
+    <div class="card">
+        <h2>🗓️ Cântări Selectate pentru Azi</h2>
+        <table class="tabel-playlisturi">
+            <tr>
+                <td>
+                    <div style="font-size:12px; font-weight:700; color:#67e8f9; margin-bottom:8px; text-transform:uppercase;">🙏 Rugăciune (Max 4)</div>
+                    <div id="playlistRugaciune"></div>
+                </td>
+                <td>
+                    <div style="font-size:12px; font-weight:700; color:#67e8f9; margin-bottom:8px; text-transform:uppercase;">⛪ Program (Max 4)</div>
+                    <div id="playlistProgram"></div>
+                </td>
+            </tr>
+        </table>
     </div>
 
     <div class="container-cantari-paralel">
         <div class="card">
-            <div class="header-sect
+            <div class="header-sectiune">
+                <h2>🙏 Toate de Rugăciune</h2>
+                <button class="btn-inline" style="background:#fff; color:#000; font-size:13px;" onclick="window.adaugaCantare('rugaciune')">➕ Adaugă</button>
+            </div>
+            <ul id="listaRugaciune" class="lista-cantari"></ul>
+        </div>
+
+        <div class="card">
+            <div class="header-sectiune">
+                <h2>⛪ Toate de Program</h2>
+                <button class="btn-inline" style="background:#fff; color:#000; font-size:13px;" onclick="window.adaugaCantare('program')">➕ Adaugă</button>
+            </div>
+            <ul id="listaProgram" class="lista-cantari"></ul>
+        </div>
+    </div>
+</div>
+
+<script>
+  function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+  }
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, deleteDoc, onSnapshot, collection, addDoc, query, orderBy, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDKO99h9zibkcz2yD0Cn091yRWFgV9HLNA",
+  authDomain: "catalog-absente.firebaseapp.com",
+  projectId: "catalog-absente",
+  storageBucket: "catalog-absente.firebasestorage.app",
+  messagingSenderId: "1042227111577",
+  appId: "1:1042227111577:web:3d09dfb323420a5f5fba08"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const verseteMembri = {
+  "Felix": "„Pune, Doamne, o strajă înaintea gurii mele, şi păzeşte uşa buzelor mele!” – Psalmul 141:3",
+  "Diana": "„Fii o pildă pentru credincioşi: în vorbire, în purtare, în dragoste, în credinţă, în curăţie.” – 1 Timotei 4:12",
+  "Federico": "„Cine este chibzuit la vorbă stăpâneşte o ştiinţă adevărată, şi cine are duhul potolit este un om priceput.” – Proverbe 17:27",
+  "Giorgio": "„Un răspuns blând potoleşte mânia, dar o vorbă aspră aţâţă mânia.” – Proverbe 15:1",
+  "Sara": "„Învăţaţi de la Mine, căci Eu sunt blând şi smerit cu inima; şi veţi găsi odihnă pentru sufletele voastre.” – Matei 11:29",
+  "Debora": "„Toate lucrurile să se facă în chip cuviincios şi cu rânduială.” – 1 Corinteni 14:40"
+};
+
+let selectateRugaciune = [];
+let selectateProgram = [];
+
+window.adauga = async function(nume){
+  try {
+    const ref = doc(db,"puncte",nume);
+    const snap = await getDoc(ref);
+    let puncte = snap.exists() ? snap.data().puncte : 0;
+    let noi = puncte + 1;
+    await setDoc(ref,{ puncte: noi, ultimaModificare: Date.now() });
+    if(noi === 4) alert(`⚠️ ${nume} a atins pragul de 4 puncte!\nVerset: ${verseteMembri[nume]}`);
+  } catch(e) { console.error(e); }
+}
+
+window.showDeleteOptions = function(){ 
+    const el = document.getElementById("deleteOptions");
+    el.style.display = (el.style.display === "block") ? "none" : "block";
+}
+
+document.getElementById("btnConfirmareReset").onclick = async function(){
+  try {
+    const selectate = document.querySelectorAll('#deleteOptions input:checked');
+    for(const persoana of selectate){ await deleteDoc(doc(db,"puncte",persoana.value)); }
+    selectate.forEach(x=>x.checked=false);
+    document.getElementById("deleteOptions").style.display = "none";
+    alert("Resetat cu succes.");
+  } catch(e) { console.error(e); }
+}
+
+onSnapshot(collection(db,"puncte"), (snapshot)=>{
+  let html="";
+  snapshot.forEach((docSnap)=>{ 
+    const date = docSnap.data();
+    const nume = docSnap.id;
+    const afiseazaVerset = date.puncte >= 4;
+    html += `<tr>
+      <td>
+        <div style="font-size: 15px;">${nume}</div>
+        ${afiseazaVerset ? `<div class="verset-box">📖 ${verseteMembri[nume]}</div>` : ''}
+      </td>
+      <td style="text-align: right;"><span class="badge-scor ${afiseazaVerset ? 'pericol' : ''}">${date.puncte} pct</span></td>
+    </tr>`; 
+  });
+  document.getElementById("tableBody").innerHTML = html;
+});
+
+// --- MANAGEMENT PLAYLIST & DISPOZITIVE DE CÂNTARE ---
+window.trimiteInPlaylist = function(titlu, categorie) {
+    if (categorie === 'rugaciune') {
+        if (selectateRugaciune.length >= 4) return alert("Ai selectat deja maximul de 4 cântări la Rugăciune!");
+        if (selectateRugaciune.includes(titlu)) return alert("Cântarea este deja adăugată!");
+        selectateRugaciune.push(titlu);
+    } else {
+        if (selectateProgram.length >= 4) return alert("Ai selectat deja maximul de 4 cântări la Program!");
+        if (selectateProgram.includes(titlu)) return alert("Cântarea este deja adăugată!");
+        selectateProgram.push(titlu);
+    }
+    randeazaPlaylisturiAzi();
+}
+
+function randeazaPlaylisturiAzi() {
+    let htmlR = "";
+    for(let i=0; i<4; i++){
+        if(selectateRugaciune[i]) {
+            htmlR += `<div class="slot-cantec ocupat"><span>${selectateRugaciune[i]}</span><button class="btn-elimina-slot" onclick="window.scoateSlot('rugaciune', ${i})">×</button></div>`;
+        } else {
+            htmlR += `<div class="slot-cantec" style="opacity:0.4;"><span>Liber</span></div>`;
+        }
+    }
+    document.getElementById("playlistRugaciune").innerHTML = htmlR;
+
+    let htmlP = "";
+    for(let i=0; i<4; i++){
+        if(selectateProgram[i]) {
+            htmlP += `<div class="slot-cantec ocupat"><span>${selectateProgram[i]}</span><button class="btn-elimina-slot" onclick="window.scoateSlot('program', ${i})">×</button></div>`;
+        } else {
+            htmlP += `<div class="slot-cantec" style="opacity:0.4;"><span>Liber</span></div>`;
+        }
+    }
+    document.getElementById("playlistProgram").innerHTML = htmlP;
+}
+
+window.scoateSlot = function(categorie, index) {
+    if(categorie === 'rugaciune') selectateRugaciune.splice(index, 1);
+    else selectateProgram.splice(index, 1);
+    randeazaPlaylisturiAzi();
+}
+
+window.adaugaCantare = async function(categorie) {
+    let t = prompt("Numele melodiei noi:");
+    if(!t || t.trim() === "") return;
+    try { await addDoc(collection(db, `cantari_${categorie}`), { titlu: t.trim(), creatLa: Date.now() }); } catch(e){ console.error(e); }
+}
+
+window.editeazaCantare = async function(id, titluVechi, categorie) {
+    let t = prompt("Modifică numele melodiei:", titluVechi);
+    if(!t || t.trim() === "" || t.trim() === titluVechi) return;
+    try { await updateDoc(doc(db, `cantari_${categorie}`, id), { titlu: t.trim() }); } catch(e){ console.error(e); }
+}
+
+window.stergeCantare = async function(id, categorie) {
+    if(confirm("Ștergi definitiv această melodie?")) {
+        try { await deleteDoc(doc(db, `cantari_${categorie}`, id)); } catch(e){ console.error(e); }
+    }
+}
+
+// Live Synchronizer
+onSnapshot(query(collection(db, "cantari_rugaciune"), orderBy("creatLa", "asc")), (snapshot) => {
+    let html = "";
+    snapshot.forEach((docSnap) => {
+        const d = docSnap.data();
+        html += `<li>
+            <span>${d.titlu}</span>
+            <div class="actiuni-inline-cantari">
+                <button class="btn-inline selecteaza" onclick="window.trimiteInPlaylist('${d.titlu}', 'rugaciune')">Alege</button>
+                <button class="btn-inline" onclick="window.editeazaCantare('${docSnap.id}', '${d.titlu}', 'rugaciune')">✏️</button>
+                <button class="btn-inline sterge" onclick="window.stergeCantare('${docSnap.id}', 'rugaciune')">🗑️</button>
+            </div>
+        </li>`;
+    });
+    document.getElementById("listaRugaciune").innerHTML = html || `<p style="opacity:0.5; font-size:12px; padding:10px;">Listă goală.</p>`;
+});
+
+onSnapshot(query(collection(db, "cantari_program"), orderBy("creatLa", "asc")), (snapshot) => {
+    let html = "";
+    snapshot.forEach((docSnap) => {
+        const d = docSnap.data();
+        html += `<li>
+            <span>${d.titlu}</span>
+            <div class="actiuni-inline-cantari">
+                <button class="btn-inline selecteaza" onclick="window.trimiteInPlaylist('${d.titlu}', 'program')">Alege</button>
+                <button class="btn-inline" onclick="window.editeazaCantare('${docSnap.id}', '${d.titlu}', 'program')">✏️</button>
+                <button class="btn-inline sterge" onclick="window.stergeCantare('${docSnap.id}', 'program')">🗑️</button>
+            </div>
+        </li>`;
+    });
+    document.getElementById("listaProgram").innerHTML = html || `<p style="opacity:0.5; font-size:12px; padding:10px;">Listă goală.</p>`;
+});
+
+randeazaPlaylisturiAzi();
+</script>
+</body>
+</html>
