@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link rel="manifest" href="manifest.json?v=24">
+<link rel="manifest" href="manifest.json?v=35">
 <meta name="theme-color" content="#090b11">
-<link class="apple-touch-icon" href="icon-192.png?v=24">
+<link class="apple-touch-icon" href="icon-192.png?v=35">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -31,7 +31,7 @@ body {
     position: relative;
 }
 
-/* FUNDAL ATMOSFERIC CU CRUCE LUMINOASĂ */
+/* Fundal premium cu Cruce Atmosferică */
 body::before {
     content: "";
     position: fixed;
@@ -44,58 +44,97 @@ body::before {
     z-index: -1;
 }
 
-/* Container principal cu scroll fin */
-.container {
+/* Navigație tip Apple (Meniul de jos) */
+.nav-tabs {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 65px;
+    background: rgba(15, 20, 32, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.nav-tab {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 50%;
+    transition: color 0.2s;
+}
+
+.nav-tab.active {
+    color: #67e8f9;
+}
+
+.nav-tab svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+}
+
+/* Containere Meniu */
+.tab-content {
+    display: none;
     max-width: 600px;
     margin: auto;
-    padding: 16px;
+    padding: 16px 16px 95px 16px;
     height: 100%;
     box-sizing: border-box;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
 
-/* Titlu stilizat cu umbră intensă */
+.tab-content.active {
+    display: block;
+}
+
 h1 {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 800;
     text-align: center;
     margin: 15px 0 25px 0;
     letter-spacing: -0.5px;
-    color: #ffffff;
     text-shadow: 0 4px 15px rgba(0,0,0,0.95);
 }
 
 h2 {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     margin-top: 0;
     margin-bottom: 16px;
     color: #67e8f9;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.85);
 }
 
-/* EFECT STICLĂ APPLE (FROSTED GLASS Ultra Glossy) */
+/* Efect Sticlă Apple Premium */
 .card {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(30px) saturate(210%);
-    -webkit-backdrop-filter: blur(30px) saturate(210%);
-    
-    /* Muchie fină luminoasă tip iOS */
-    border: 1.5px solid rgba(255, 255, 255, 0.25); 
-    
-    /* Umbră adâncă și reflexie internă */
-    box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.3),
-                0 25px 50px rgba(0, 0, 0, 0.75);
-                
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(25px) saturate(200%);
+    -webkit-backdrop-filter: blur(25px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.2), 0 20px 45px rgba(0, 0, 0, 0.65);
     border-radius: 24px;
     padding: 20px;
     margin-bottom: 20px;
 }
 
-/* Butoane tip sticlă pentru membri */
+/* Grid Membri */
 .grid-nume {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -104,89 +143,34 @@ h2 {
 
 .btn-nume {
     background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     color: #ffffff;
     border-radius: 16px;
     padding: 12px;
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
-    text-align: left;
     display: flex;
     align-items: center;
     gap: 12px;
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2), 0 4px 10px rgba(0,0,0,0.3);
-    transition: background 0.2s, transform 0.1s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     -webkit-tap-highlight-color: transparent;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.8);
 }
 
 .btn-nume:active {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
     transform: scale(0.96);
 }
 
 .avatar-foto {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     object-fit: cover;
     border: 1.5px solid rgba(255, 255, 255, 0.4);
 }
 
-ul {
-    margin: 0;
-    padding-left: 20px;
-    color: #ffffff;
-}
-
-li {
-    margin-bottom: 8px;
-    font-size: 14px;
-    line-height: 1.5;
-    font-weight: 500;
-    text-shadow: 0 1.5px 3px rgba(0,0,0,0.9);
-}
-
-.btn-toggle-del {
-    background: transparent;
-    border: 1.5px dashed rgba(255, 255, 255, 0.3);
-    color: #ffffff;
-    border-radius: 14px;
-    padding: 11px;
-    font-size: 14px;
-    font-weight: 600;
-    width: 100%;
-}
-
-#deleteOptions {
-    display: none;
-    margin-top: 15px;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 14px;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.check-del {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 10px 0;
-    font-size: 15px;
-}
-
-.btn-confirm-del {
-    background: #ef4444;
-    color: white;
-    border: none;
-    border-radius: 14px;
-    padding: 12px;
-    font-weight: 700;
-    width: 100%;
-    margin-top: 12px;
-}
-
+/* Tabel clasament */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -194,24 +178,19 @@ table {
 
 th {
     padding: 10px;
-    color: #a5f3fc;
+    color: rgba(255, 255, 255, 0.6);
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.15);
     text-align: left;
 }
 
-th:last-child { text-align: center; }
-
 td {
-    padding: 12px 10px;
+    padding: 14px 10px;
     font-size: 15px;
     font-weight: 700;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     text-align: left;
-    vertical-align: middle;
-    text-shadow: 0 1.5px 3px rgba(0,0,0,0.9);
 }
 
 .td-profil {
@@ -220,61 +199,219 @@ td {
     gap: 12px;
 }
 
-.avatar-tabel {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1.5px solid rgba(255, 255, 255, 0.3);
-}
-
-td:last-child {
-    text-align: center;
-    font-weight: 800;
-    color: #ffffff;
-    font-size: 14px;
+.badge-scor {
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 8px;
     padding: 4px 10px;
-    display: inline-block;
-    margin-top: 12px;
+    font-size: 13px;
+    white-space: nowrap;
 }
 
-tr:last-child td { border: none; }
+.badge-scor.pericol {
+    background: rgba(239, 68, 68, 0.25);
+    border-color: #ef4444;
+    color: #fca5a5;
+}
+
+.verset-box {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #67e8f9;
+    font-style: italic;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 8px 12px;
+    border-left: 3px solid #67e8f9;
+    border-radius: 4px;
+    margin-top: 6px;
+    line-height: 1.4;
+}
+
+/* Secțiune Cântări */
+.btn-adauga-cantec {
+    background: #ffffff;
+    color: #090b11;
+    border: none;
+    border-radius: 14px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+.btn-muta-mod {
+    background: rgba(103, 232, 249, 0.2);
+    border: 1px solid #67e8f9;
+    color: #67e8f9;
+    border-radius: 14px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.header-sectiune {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-sectiune h2 { margin: 0; }
+
+.lista-cantari {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lista-cantari li {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s;
+}
+
+.lista-cantari li.selected {
+    background: rgba(103, 232, 249, 0.15);
+    border-color: rgba(103, 232, 249, 0.5);
+}
+
+.cantare-stanga {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Buline pentru mutare */
+.bulina-selectie {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+li.selected .bulina-selectie {
+    background: #67e8f9;
+    border-color: #67e8f9;
+    box-shadow: 0 0 8px #67e8f9;
+}
+
+.cantare-nr {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 13px;
+}
+
+.btn-sterge-cantare {
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* Bara plutitoare pentru mutare în masă */
+.bara-mutare-actiuni {
+    position: fixed;
+    bottom: 80px;
+    left: 16px;
+    right: 16px;
+    background: rgba(9, 11, 17, 0.95);
+    border: 1px solid #67e8f9;
+    border-radius: 16px;
+    padding: 12px;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    z-index: 110;
+}
+
+.bara-mutare-actiuni span {
+    font-size: 14px;
+    font-weight: 700;
+    color: #67e8f9;
+}
+
+.bara-mutare-actiuni button {
+    background: #67e8f9;
+    color: #090b11;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* Reguli și admin */
+ul.reguli-list { padding-left: 20px; margin: 0; }
+ul.reguli-list li { margin-bottom: 8px; font-size: 14px; font-weight: 500; }
+.btn-admin { background: transparent; border: 1px dashed rgba(255, 255, 255, 0.3); color: white; padding: 10px; width: 100%; border-radius: 12px; font-weight: 600; }
+#deleteOptions { display: none; margin-top: 15px; background: rgba(0,0,0,0.5); padding: 12px; border-radius: 12px; }
+.check-del { display: block; margin: 8px 0; font-size: 14px; }
+.btn-confirm-del { background: #ef4444; color: white; border: none; padding: 10px; width: 100%; border-radius: 12px; font-weight: 700; margin-top: 10px; }
 </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>📊 Catalog Tineri PRO</h1>
+<!-- NAVIGATIA DE JOS (MENIURILE) -->
+<nav class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab('catalog-tab')">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0-4H7V7h10v2zm0 8H7v-2h10v2z"/></svg>
+        <span>Catalog Tineri</span>
+    </button>
+    <button class="nav-tab" onclick="switchTab('cantari-tab')">
+        <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+        <span>Repertoriu Biserică</span>
+    </button>
+</nav>
 
+<!-- BARA PLUTITOARE MUTARE MULTIPLA -->
+<div id="baraMutare" class="bara-mutare-actiuni">
+    <span id="txtNumarSelectate">0 selectate</span>
+    <div style="display: flex; gap: 8px;">
+        <button onclick="proceseazaMutareaMasa()" style="background:#67e8f9; color:#090b11;">Muta selectia</button>
+        <button onclick="anuleazaModMutare()" style="background:rgba(255,255,255,0.2); color:white;">Gata</button>
+    </div>
+</div>
+
+<!-- MENIUL 1: CATALOG PENALIZARI -->
+<div id="catalog-tab" class="tab-content active">
+    <h1>📊 Catalog Tineri PRO</h1>
+    
     <div class="card">
         <h2>➕ Acordă Punct Penalizare</h2>
         <div class="grid-nume">
             <button class="btn-nume" onclick="adauga('Felix')">
-                <img src="felix.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
-                Felix
+                <img src="felix.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Felix
             </button>
             <button class="btn-nume" onclick="adauga('Diana')">
-                <img src="diana.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
-                Diana
+                <img src="diana.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Diana
             </button>
             <button class="btn-nume" onclick="adauga('Federico')">
-                <img src="federico.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
-                Federico
+                <img src="federico.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Federico
             </button>
             <button class="btn-nume" onclick="adauga('Giorgio')">
-                <img src="giorgio.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
-                Giorgio
+                <img src="giorgio.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Giorgio
             </button>
             <button class="btn-nume" onclick="adauga('Sara')">
-                <img src="sara.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
-                Sara
+                <img src="sara.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Sara
             </button>
             <button class="btn-nume" onclick="adauga('Debora')">
-                <img src="debora.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> 
-                Debora
+                <img src="debora.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Debora
             </button>
         </div>
     </div>
@@ -284,8 +421,8 @@ tr:last-child td { border: none; }
         <table>
             <thead>
                 <tr>
-                    <th>Membru</th>
-                    <th>Scor</th>
+                    <th>Membru / Verset Alocat</th>
+                    <th style="text-align: right; width: 90px;">Scor</th>
                 </tr>
             </thead>
             <tbody id="tableBody"></tbody>
@@ -294,23 +431,22 @@ tr:last-child td { border: none; }
 
     <div class="card">
         <h2>📜 Regulament de Ordine</h2>
-        <p style="margin-top:0; font-size:14px; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">La fiecare <b>4 puncte</b> acumulate, se aplică pedeapsa.</p>
+        <p style="margin-top:0; font-size:13.5px;">La fiecare <b>4 puncte</b> acumulate, se aplică pedeapsa și învățarea versetului.</p>
         <p style="color: #67e8f9; font-size: 13px; font-weight: 800; margin-bottom: 12px;">⏱️ Resetare automată după 30 de zile.</p>
-        <ul>
+        <ul class="reguli-list">
             <li>Plecăm în parc în timpul programului.</li>
-            <li>Vorbim urât la biserică.</li>
-            <li>Țipăm unii la alții.</li>
-            <li>Ne comportăm ca niște copii.</li>
-            <li>Ne supărăm din nimicuri.</li>
+            <li>Vorbim urât la biserică / Țipăm unii la alții.</li>
+            <li>Ne comportăm ca niște copii / Ne supărăm din nimicuri.</li>
+            <li>Ne amenințăm / Ne jignim / Ne lovim.</li>
             <li>Nu suntem serioși la repetiții.</li>
             <li>Stăm pe telefon în timpul programului.</li>
         </ul>
-        <p style="margin-bottom:0; font-size:14px; color:#f87171; font-weight:800; margin-top:12px;">Pedeapsa: suc + prăjituri + verset biblic.</p>
+        <p style="margin-bottom:0; font-size:13.5px; color:#f87171; font-weight:800; margin-top:12px;">Pedeapsa: suc + prăjituri + verset biblic învățat.</p>
     </div>
 
     <div class="card">
         <h2>⚙️ Administrare Date</h2>
-        <button class="btn-toggle-del" onclick="showDeleteOptions()">Modifică / Resetează Puncte</button>
+        <button class="btn-admin" onclick="showDeleteOptions()">Modifică / Resetează Puncte</button>
         <div id="deleteOptions">
             <label class="check-del"><input type="checkbox" value="Felix"> Felix</label>
             <label class="check-del"><input type="checkbox" value="Diana"> Diana</label>
@@ -323,19 +459,55 @@ tr:last-child td { border: none; }
     </div>
 </div>
 
+<!-- MENIUL 2: REPERTORIU MELODII -->
+<div id="cantari-tab" class="tab-content">
+    <h1>🎵 Repertoriu Cântări</h1>
+
+    <!-- Secțiunea Cântări la Rugăciune -->
+    <div class="card">
+        <div class="header-sectiune">
+            <h2>🙏 Cântări la Rugăciune</h2>
+            <div>
+                <button class="btn-muta-mod" onclick="activeazaModMutare()">Muta cantarea</button>
+                <button class="btn-adauga-cantec" onclick="adaugaCantare('rugaciune')">➕ Adaugă</button>
+            </div>
+        </div>
+        <ul id="listaRugaciune" class="lista-cantari"></ul>
+    </div>
+
+    <!-- Secțiunea Cântări la Program -->
+    <div class="card">
+        <div class="header-sectiune">
+            <h2>⛪ Cântări la Program</h2>
+            <div>
+                <button class="btn-muta-mod" onclick="activeazaModMutare()">Muta cantarea</button>
+                <button class="btn-adauga-cantec" onclick="adaugaCantare('program')">➕ Adaugă</button>
+            </div>
+        </div>
+        <ul id="listaProgram" class="lista-cantari"></ul>
+    </div>
+</div>
+
 <script>
-  // Forțăm ștergerea cache-ului vechi pentru a aplica noul fundal imediat
+  function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+      anuleazaModMutare();
+  }
+
   if ('caches' in window) {
       caches.keys().then(names => { for (let name of names) caches.delete(name); });
   }
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(regs => { for(let r of regs) r.unregister(); });
+      navigator.serviceWorker.getRegistrations().then(regs => { for(let r of regs) r.unregister(); });
   }
 </script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, deleteDoc, onSnapshot, collection, addDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDKO99h9zibkcz2yD0Cn091yRWFgV9HLNA",
@@ -349,15 +521,152 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// Versete alese special
+const verseteMembri = {
+  "Felix": "„Pune, Doamne, o strajă înaintea gurii mele, şi păzeşte uşa buzelor mele!” – Psalmul 141:3",
+  "Diana": "„Fii o pildă pentru credincioşi: în vorbire, în purtare, în dragoste, în credinţă, în curăţie.” – 1 Timotei 4:12",
+  "Federico": "„Cine este chibzuit la vorbă stăpâneşte o ştiinţă adevărată, şi cine are duhul potolit este un om priceput.” – Proverbe 17:27",
+  "Giorgio": "„Un răspuns blând potoleşte mânia, dar o vorbă aspră aţâţă mânia.” – Proverbe 15:1",
+  "Sara": "„Învăţaţi de la Mine, căci Eu sunt blând şi smerit cu inima; şi veţi găsi odihnă pentru sufletele voastre.” – Matei 11:29",
+  "Debora": "„Toate lucrurile să se facă în chip cuviincios şi cu rânduială.” – 1 Corinteni 14:40"
+};
+
+// Inițializare listă fixă trimisă de tine dacă baza de date este goală
+const cantariInitiale = [
+  // RUGĂCIUNE
+  { tip: "rugaciune", titlu: "Cel care S-a dat pe Sine" },
+  { tip: "rugaciune", titlu: "Aud ciocanele" },
+  { tip: "rugaciune", titlu: "Isus iubit când va veni" },
+  { tip: "rugaciune", titlu: "Eu cred în vindecările divine" },
+  { tip: "rugaciune", titlu: "Doamne dă-ne înțelepciune" },
+  { tip: "rugaciune", titlu: "Iubire iertare" },
+  { tip: "rugaciune", titlu: "Pe marea acestei lumi" },
+  { tip: "rugaciune", titlu: "După ploaie și furtună" },
+  { tip: "rugaciune", titlu: "Eu de Tine am nevoie" },
+  { tip: "rugaciune", titlu: "Tu nu pleci niciodată" },
+  { tip: "rugaciune", titlu: "Curățit ești de păcat (Vrei să fii)" },
+  { tip: "rugaciune", titlu: "O de-aș avea eu limbi o mie" },
+  { tip: "rugaciune", titlu: "La Crucea de la Golgota" },
+  { tip: "rugaciune", titlu: "La al trâmbiței răsunet" },
+  { tip: "rugaciune", titlu: "M-ai binecuvântat o Doamne" },
+  { tip: "rugaciune", titlu: "Doamne atinge-ne din nou" },
+  { tip: "rugaciune", titlu: "La miezul nopții" },
+  { tip: "rugaciune", titlu: "M-ai trecut prin valuri grele" },
+  { tip: "rugaciune", titlu: "Când noi eram departe" },
+  { tip: "rugaciune", titlu: "Lăsați Duhul Sfânt să lucreze" },
+  { tip: "rugaciune", titlu: "La Calvar" },
+  { tip: "rugaciune", titlu: "Vrei Tu să scapi de păcat sarcina" },
+  { tip: "rugaciune", titlu: "Doamne unde voi pleca" },
+  { tip: "rugaciune", titlu: "Jos la picioarele-Ți" },
+  { tip: "rugaciune", titlu: "Aș vrea Isuse" },
+  { tip: "rugaciune", titlu: "Sunt pe calea Domnului" },
+  { tip: "rugaciune", titlu: "Nădejdea mea" },
+  { tip: "rugaciune", titlu: "Să ne trezim frați și surori" },
+  { tip: "rugaciune", titlu: "Cântă ca David" },
+  { tip: "rugaciune", titlu: "O cântare de mărire" },
+  { tip: "rugaciune", titlu: "Dragoste divină sfântă" },
+  { tip: "rugaciune", titlu: "Îndeajuns mi-e Doamne" },
+  { tip: "rugaciune", titlu: "Când Isus Hristos m-a Mântuit" },
+  { tip: "rugaciune", titlu: "Pe oceanul infinit cu valuri" },
+  { tip: "rugaciune", titlu: "O crește-mi iubirea" },
+  { tip: "rugaciune", titlu: "Mărețul har" },
+  { tip: "rugaciune", titlu: "Și de ce oare să mă tem" },
+  { tip: "rugaciune", titlu: "Cântați cu toți" },
+  { tip: "rugaciune", titlu: "O vino iarăși ca pe vremuri" },
+  { tip: "rugaciune", titlu: "Eram jos în păcat" },
+  { tip: "rugaciune", titlu: "Calea Crucii" },
+  { tip: "rugaciune", titlu: "În această oră" },
+  
+  // PROGRAM
+  { tip: "program", titlu: "Un nume nou" },
+  { tip: "program", titlu: "Lucruri noi" },
+  { tip: "program", titlu: "Fii binecuvântat" },
+  { tip: "program", titlu: "Ești Dumnezeu" },
+  { tip: "program", titlu: "Destinul Tău e să învingi" },
+  { tip: "program", titlu: "Cântecul binecuvântării" },
+  { tip: "program", titlu: "Cerul privește" },
+  { tip: "program", titlu: "Promisiuni" },
+  { tip: "program", titlu: "Bunătatea Ta" },
+  { tip: "program", titlu: "Numeri 6" },
+  { tip: "program", titlu: "Nu ești singur" },
+  { tip: "program", titlu: "Mă chemi să umblu peste ape" },
+  { tip: "program", titlu: "Ce minune va fi" },
+  { tip: "program", titlu: "Eroii slavei" },
+  { tip: "program", titlu: "Mai sus de oameni" },
+  { tip: "program", titlu: "Cânt Lui Dumnezeu glorie" },
+  { tip: "program", titlu: "Când oceanele" },
+  { tip: "program", titlu: "Pot să se sfărâme munții" },
+  { tip: "program", titlu: "Nu ești învins" },
+  { tip: "program", titlu: "Isus cu slava îmbrăcat" },
+  { tip: "program", titlu: "Voi cânta bunătatea Ta" },
+  { tip: "program", titlu: "Splendoare de Împărat" },
+  { tip: "program", titlu: "Când nu Te cunoșteam" },
+  { tip: "program", titlu: "Lipește-mi Doamne" },
+  { tip: "program", titlu: "Isus e Rege" },
+  { tip: "program", titlu: "Lumina lumii" },
+  { tip: "program", titlu: "Puterea Lui Dumnezeu" },
+  { tip: "program", titlu: "Tu ești Creatorul" },
+  { tip: "program", titlu: "Mi-e așa de dor de Tine" },
+  { tip: "program", titlu: "Te prind fiori" },
+  { tip: "program", titlu: "Arcuri încordate" },
+  { tip: "program", titlu: "Drumul slavei" },
+  { tip: "program", titlu: "Ogoarele sunt gata" },
+  { tip: "program", titlu: "Sunt săpat" },
+  { tip: "program", titlu: "Vreau să spună" },
+  { tip: "program", titlu: "Domnul meu" },
+  { tip: "program", titlu: "Te aștept Isuse" },
+  { tip: "program", titlu: "O Doamne mare" },
+  { tip: "program", titlu: "Inima mea tânjește" },
+  { tip: "program", titlu: "Dragostea Ta" },
+  { tip: "program", titlu: "Suntem trecători" },
+  { tip: "program", titlu: "O zi Isus a pregătit" },
+  { tip: "program", titlu: "Ridicați-vă porți capetele" },
+  { tip: "program", titlu: "Trece Isus pe aici" },
+  { tip: "program", titlu: "Dragostea Lui" },
+  { tip: "program", titlu: "Aceasta e" },
+  { tip: "program", titlu: "Unii se bizuiesc" },
+  { tip: "program", titlu: "Spre lauda Ta" },
+  { tip: "program", titlu: "Doamne Tu ești bucuria mea" },
+  { tip: "program", titlu: "Nicidecum nicidecum niciodată" },
+  { tip: "program", titlu: "În țara eternă" },
+  { tip: "program", titlu: "Doar harul Tău" },
+  { tip: "program", titlu: "Pregătește acum" },
+  { tip: "program", titlu: "Cântă suflet al meu" },
+  { tip: "program", titlu: "Cum dorește un cerb" },
+  { tip: "program", titlu: "Eu mă încred în Domnul meu" },
+  { tip: "program", titlu: "Nimic nu-i prea greu pentru El" },
+  { tip: "program", titlu: "Fă-ți timp" },
+  
+  // AMBELE CATEGORII (Se adaugă automat în ambele)
+  { tip: "rugaciune", titlu: "Cei ce se încred" },
+  { tip: "program", titlu: "Cei ce se încred" },
+  { tip: "rugaciune", titlu: "Pentru noi e taină mare" },
+  { tip: "program", titlu: "Pentru noi e taină mare" },
+  { tip: "rugaciune", titlu: "Și dacă trăim" },
+  { tip: "program", titlu: "Și dacă trăim" }
+];
+
+// Rutină de verificare și populare inițială în Firebase
+async function verificaSiPopuleazaCantari() {
+    const snap = await getDoc(doc(db, "sistem", "config"));
+    if(!snap.exists()) {
+        for(let c of cantariInitiale) {
+            await addDoc(collection(db, `cantari_${c.tip}`), { titlu: c.titlu, creatLa: Date.now() });
+        }
+        await setDoc(doc(db, "sistem", "config"), { populat: true });
+    }
+}
+verificaSiPopuleazaCantari();
+
+// Penalizări
 window.adauga = async function(nume){
   try {
     const ref = doc(db,"puncte",nume);
     const snap = await getDoc(ref);
     let puncte = snap.exists() ? snap.data().puncte : 0;
     let noi = puncte + 1;
-    
     await setDoc(ref,{ puncte: noi, ultimaModificare: Date.now() });
-    if(noi === 4) alert("⚠️ " + nume + " a ajuns la 4 puncte!");
+    if(noi >= 4) alert(`⚠️ ${nume} are ${noi} puncte!\nVerset: ${verseteMembri[nume]}`);
   } catch(e) { console.error(e); }
 }
 
@@ -372,35 +681,149 @@ document.getElementById("confirmDelete").onclick = async function(){
     for(const persoana of selectate){ await deleteDoc(doc(db,"puncte",persoana.value)); }
     selectate.forEach(x=>x.checked=false);
     document.getElementById("deleteOptions").style.display = "none";
-    alert("Datele au fost actualizate.");
+    alert("Resetat cu succes.");
   } catch(e) { console.error(e); }
 }
 
 onSnapshot(collection(db,"puncte"),(snapshot)=>{
   let html="";
-  const oLunaInMilisecunde = 30 * 24 * 60 * 60 * 1000;
-  const acum = Date.now();
-
-  snapshot.forEach(async (docSnap)=>{ 
+  snapshot.forEach((docSnap)=>{ 
     const date = docSnap.data();
     const nume = docSnap.id;
-    const numeFisier = nume.toLowerCase();
-    
-    if(date.ultimaModificare && (acum - date.ultimaModificare > oLunaInMilisecunde)) {
-      await deleteDoc(doc(db,"puncte",nume));
-    } else {
-      html += `<tr>
-        <td>
-          <div class="td-profil">
-            <img src="${numeFisier}.jpeg" class="avatar-tabel" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'">
-            <span>${nume}</span>
+    const ePericol = date.puncte >= 4;
+    html += `<tr>
+      <td>
+        <div class="td-profil">
+          <img src="${nume.toLowerCase()}.jpeg" class="avatar-tabel" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'">
+          <div>
+             <div>${nume}</div>
+             ${ePericol ? `<div class="verset-box">📖 ${verseteMembri[nume]}</div>` : ''}
           </div>
-        </td>
-        <td>${date.puncte} puncte</td>
-      </tr>`; 
-    }
+        </div>
+      </td>
+      <td style="text-align: right; vertical-align: top; padding-top: 16px;">
+        <span class="badge-scor ${ePericol ? 'pericol' : ''}">${date.puncte} puncte</span>
+      </td>
+    </tr>`; 
   });
   document.getElementById("tableBody").innerHTML = html;
+});
+
+// --- GESTIUNE CÂNTĂRI ȘI MODUL MUTARE MULTIPLĂ ---
+let modMutareActiv = false;
+let cantariSelectate = []; 
+
+window.activeazaModMutare = function() {
+    modMutareActiv = true;
+    cantariSelectate = [];
+    document.querySelectorAll('.bulina-selectie').forEach(el => el.style.display = 'block');
+    document.getElementById('baraMutare').style.display = 'flex';
+    actualizeazaNumarSelectate();
+}
+
+window.anuleazaModMutare = function() {
+    modMutareActiv = false;
+    cantariSelectate = [];
+    document.querySelectorAll('.lista-cantari li').forEach(li => li.classList.remove('selected'));
+    document.querySelectorAll('.bulina-selectie').forEach(el => el.style.display = 'none');
+    document.getElementById('baraMutare').style.display = 'none';
+}
+
+window.toggleSelectieCantare = function(element, id, categorieCurenta, titlu) {
+    if (!modMutareActiv) return;
+    
+    const index = cantariSelectate.findIndex(x => x.id === id);
+    if (index > -1) {
+        cantariSelectate.splice(index, 1);
+        element.classList.remove('selected');
+    } else {
+        cantariSelectate.push({ id, categorie: categorieCurenta, titlu });
+        element.classList.add('selected');
+    }
+    actualizeazaNumarSelectate();
+}
+
+function actualizeazaNumarSelectate() {
+    document.getElementById('txtNumarSelectate').innerText = `${cantariSelectate.length} melodii selectate`;
+}
+
+window.proceseazaMutareaMasa = async function() {
+    if(cantariSelectate.length === 0) return alert("Nu ai selectat nicio melodie!");
+    
+    let prima = cantariSelectate[0];
+    let destinatie = (prima.categorie === 'rugaciune') ? 'program' : 'rugaciune';
+    let numeDestinatie = (destinatie === 'program') ? 'Cântări la Program' : 'Cântări la Rugăciune';
+    
+    if(confirm(`Vrei să muți cele ${cantariSelectate.length} melodii în secțiunea: ${numeDestinatie}?`)) {
+        try {
+            for(let c of cantariSelectate) {
+                // 1. Ștergem din categoria veche
+                await deleteDoc(doc(db, `cantari_${c.categorie}`, c.id));
+                // 2. Adăugăm în categoria nouă
+                await addDoc(collection(db, `cantari_${destinatie}`), {
+                    titlu: c.titlu,
+                    creatLa: Date.now()
+                });
+            }
+            anuleazaModMutare();
+            alert("Melodiile au fost mutate cu succes!");
+        } catch(e) { console.error(e); }
+    }
+}
+
+window.adaugaCantare = async function(categorie) {
+    let titlu = prompt("Introdu numele melodiei noi:");
+    if(!titlu || titlu.trim() === "") return;
+    
+    // Corecție litere mari automat la salvare manuală
+    titlu = titlu.trim();
+    titlu = titlu.charAt(0).toUpperCase() + titlu.slice(1);
+    
+    try {
+        await addDoc(collection(db, `cantari_${categorie}`), {
+            titlu: titlu,
+            creatLa: Date.now()
+        });
+    } catch(e) { console.error(e); }
+}
+
+window.stergeCantare = async function(categorie, id, e) {
+    if(e) e.stopPropagation(); // Previne declanșarea selecției la click pe șterge
+    if(confirm("Ștergi această melodie definitiv?")) {
+        try { await deleteDoc(doc(db, `cantari_${categorie}`, id)); } 
+        catch(e) { console.error(e); }
+    }
+}
+
+// Ascultători Live Cântări
+onSnapshot(query(collection(db, "cantari_rugaciune"), orderBy("creatLa", "asc")), (snapshot) => {
+    let html = ""; let idx = 1;
+    snapshot.forEach((docSnap) => {
+        const d = docSnap.data();
+        html += `<li onclick="toggleSelectieCantare(this, '${docSnap.id}', 'rugaciune', '${d.titlu}')">
+            <div class="cantare-stanga">
+                <div class="bulina-selectie"></div>
+                <div><span class="cantare-nr">${idx++}.</span> ${d.titlu}</div>
+            </div>
+            <button class="btn-sterge-cantare" onclick="stergeCantare('rugaciune', '${docSnap.id}', event)">❌</button>
+        </li>`;
+    });
+    document.getElementById("listaRugaciune").innerHTML = html || `<p style="text-align:center;font-size:13px;opacity:0.5;width:100%;">Nicio melodie.</p>`;
+});
+
+onSnapshot(query(collection(db, "cantari_program"), orderBy("creatLa", "asc")), (snapshot) => {
+    let html = ""; let idx = 1;
+    snapshot.forEach((docSnap) => {
+        const d = docSnap.data();
+        html += `<li onclick="toggleSelectieCantare(this, '${docSnap.id}', 'program', '${d.titlu}')">
+            <div class="cantare-stanga">
+                <div class="bulina-selectie"></div>
+                <div><span class="cantare-nr">${idx++}.</span> ${d.titlu}</div>
+            </div>
+            <button class="btn-sterge-cantare" onclick="stergeCantare('program', '${docSnap.id}', event)">❌</button>
+        </li>`;
+    });
+    document.getElementById("listaProgram").innerHTML = html || `<p style="text-align:center;font-size:13px;opacity:0.5;width:100%;">Nicio melodie.</p>`;
 });
 </script>
 </body>
