@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link rel="manifest" href="manifest.json?v=39">
+<link rel="manifest" href="manifest.json?v=42">
 <meta name="theme-color" content="#090b11">
-<link class="apple-touch-icon" href="icon-192.png?v=39">
+<link class="apple-touch-icon" href="icon-192.png?v=42">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -37,7 +37,7 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(rgba(9, 11, 17, 0.55), rgba(9, 11, 17, 0.9)), 
+    background: linear-gradient(rgba(9, 11, 17, 0.6), rgba(9, 11, 17, 0.95)), 
                 url('https://images.unsplash.com/photo-1545128485-c400e7702796?q=80&w=1000&auto=format&fit=crop') center center / cover no-repeat;
     z-index: -1;
 }
@@ -71,7 +71,6 @@ body::before {
     align-items: center;
     gap: 4px;
     width: 50%;
-    transition: color 0.2s;
 }
 
 .nav-tab.active {
@@ -105,7 +104,6 @@ h1 {
     text-align: center;
     margin: 10px 0 20px 0;
     letter-spacing: -0.5px;
-    text-shadow: 0 4px 15px rgba(0,0,0,0.95);
 }
 
 h2 {
@@ -120,10 +118,9 @@ h2 {
 
 .card {
     background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(25px) saturate(180%);
-    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
     border: 1px solid rgba(255, 255, 255, 0.12); 
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
     border-radius: 20px;
     padding: 16px;
     margin-bottom: 16px;
@@ -148,19 +145,6 @@ h2 {
     display: flex;
     align-items: center;
     gap: 10px;
-}
-
-.btn-nume:active {
-    background: rgba(255, 255, 255, 0.12);
-    transform: scale(0.97);
-}
-
-.avatar-foto {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 table {
@@ -198,7 +182,6 @@ td {
     border-radius: 50%;
     object-fit: cover;
     border: 1.5px solid rgba(255, 255, 255, 0.25);
-    flex-shrink: 0;
 }
 
 .nume-container {
@@ -214,8 +197,6 @@ td {
     border-radius: 6px;
     padding: 3px 8px;
     font-size: 12px;
-    white-space: nowrap;
-    display: inline-block;
 }
 
 .badge-scor.pericol {
@@ -235,7 +216,6 @@ td {
     border-radius: 6px;
     line-height: 1.4;
     margin-top: 6px;
-    word-break: break-word;
 }
 
 .zona-alegere-azi {
@@ -274,7 +254,6 @@ td {
     font-weight: 800;
     font-size: 16px;
     cursor: pointer;
-    padding: 0 4px;
 }
 
 .container-cantari-paralel {
@@ -284,30 +263,8 @@ td {
 }
 
 @media (min-width: 768px) {
-    .container-cantari-paralel {
-        grid-template-columns: repeat(2, 1fr);
-    }
+    .container-cantari-paralel { grid-template-columns: repeat(2, 1fr); }
 }
-
-.controale-sectiune {
-    display: flex;
-    gap: 5px;
-}
-
-.btn-actiune-cantec {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-    border-radius: 10px;
-    padding: 6px 9px;
-    font-size: 11.5px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.btn-actiune-cantec.adauga { background: #ffffff; color: #090b11; border: none; }
-.btn-actiune-cantec.sterge { background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.4); color: #fca5a5; }
-.btn-actiune-cantec.editeaza { background: rgba(234, 179, 8, 0.15); border-color: rgba(234, 179, 8, 0.4); color: #fef08a; }
 
 .header-sectiune {
     margin-bottom: 14px;
@@ -317,6 +274,22 @@ td {
 }
 
 .header-sectiune h2 { margin: 0; }
+
+.controale-sectiune {
+    display: flex;
+    gap: 5px;
+}
+
+.btn-actiune {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
 
 .lista-cantari {
     list-style: none;
@@ -335,63 +308,17 @@ td {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.lista-cantari li.selected {
-    background: rgba(103, 232, 249, 0.12);
-    border-color: rgba(103, 232, 249, 0.4);
-}
-
-.cantare-stanga {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-}
-
-.bulina-selectie {
-    display: none;
-    width: 17px;
-    height: 17px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    box-sizing: border-box;
     cursor: pointer;
-    flex-shrink: 0;
 }
 
-li.selected .bulina-selectie {
-    background: #67e8f9;
-    border-color: #67e8f9;
-    box-shadow: 0 0 6px #67e8f9;
+.btn-item-op {
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px;
 }
 
-.cantare-nr {
-    color: rgba(255, 255, 255, 0.35);
-    font-size: 12.5px;
-}
-
-.bara-mutare-actiuni {
-    position: fixed;
-    bottom: 80px;
-    left: 12px;
-    right: 12px;
-    background: rgba(9, 11, 17, 0.96);
-    border: 1px solid #67e8f9;
-    border-radius: 14px;
-    padding: 10px 14px;
-    display: none;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.8);
-    z-index: 110;
-}
-
-.bara-mutare-actiuni span { font-size: 13.5px; font-weight: 700; color: #67e8f9; }
-.bara-mutare-actiuni button { border: none; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 12.5px; cursor: pointer; }
-
-ul.reguli-list { padding-left: 18px; margin: 0; }
-ul.reguli-list li { margin-bottom: 6px; font-size: 13px; font-weight: 500; }
 .btn-admin { background: transparent; border: 1px dashed rgba(255, 255, 255, 0.2); color: white; padding: 10px; width: 100%; border-radius: 10px; font-weight: 600; font-size: 13px; }
 #deleteOptions { display: none; margin-top: 12px; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 10px; }
 .check-del { display: block; margin: 6px 0; font-size: 13.5px; }
@@ -401,37 +328,28 @@ ul.reguli-list li { margin-bottom: 6px; font-size: 13px; font-weight: 500; }
 <body>
 
 <nav class="nav-tabs">
-    <button class="nav-tab active" onclick="switchTab('catalog-tab')">
+    <button class="nav-tab active" onclick="switchTab('catalog-tab', this)">
         <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0-4H7V7h10v2zm0 8H7v-2h10v2z"/></svg>
         <span>Catalog Tineri</span>
     </button>
-    <button class="nav-tab" onclick="switchTab('cantari-tab')">
+    <button class="nav-tab" onclick="switchTab('cantari-tab', this)">
         <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
         <span>Repertoriu Biserică</span>
     </button>
 </nav>
 
-<div id="baraMutare" class="bara-mutare-actiuni">
-    <span id="txtNumarSelectate">0 selectate</span>
-    <div style="display: flex; gap: 6px;">
-        <button id="btnActiuneMasa" onclick="proceseazaActiuneMasa()" style="background:#67e8f9; color:#090b11;">Confirmă</button>
-        <button onclick="anuleazaModSelectie()" style="background:rgba(255,255,255,0.15); color:white;">Anulează</button>
-    </div>
-</div>
-
-<!-- MENIUL 1: CATALOG -->
 <div id="catalog-tab" class="tab-content active">
-    <h1>📊 Catalog Tineri PRO</h1>
+    <h1>📊 Catalog Tineri</h1>
     
     <div class="card">
-        <h2>➕ Acordă Punct Penalizare</h2>
+        <h2>➕ Adaugă Punct</h2>
         <div class="grid-nume">
-            <button class="btn-nume" onclick="adauga('Felix')"><img src="felix.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Felix</button>
-            <button class="btn-nume" onclick="adauga('Diana')"><img src="diana.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Diana</button>
-            <button class="btn-nume" onclick="adauga('Federico')"><img src="federico.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Federico</button>
-            <button class="btn-nume" onclick="adauga('Giorgio')"><img src="giorgio.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Giorgio</button>
-            <button class="btn-nume" onclick="adauga('Sara')"><img src="sara.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Sara</button>
-            <button class="btn-nume" onclick="adauga('Debora')"><img src="debora.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Debora</button>
+            <button class="btn-nume" onclick="window.adauga('Felix')">Felix</button>
+            <button class="btn-nume" onclick="window.adauga('Diana')">Diana</button>
+            <button class="btn-nume" onclick="window.adauga('Federico')">Federico</button>
+            <button class="btn-nume" onclick="window.adauga('Giorgio')">Giorgio</button>
+            <button class="btn-nume" onclick="window.adauga('Sara')">Sara</button>
+            <button class="btn-nume" onclick="window.adauga('Debora')">Debora</button>
         </div>
     </div>
 
@@ -440,7 +358,7 @@ ul.reguli-list li { margin-bottom: 6px; font-size: 13px; font-weight: 500; }
         <table>
             <thead>
                 <tr>
-                    <th style="width: 75%;">Membru / Verset Alocat</th>
+                    <th style="width: 75%;">Membru</th>
                     <th style="text-align: right; width: 25%;">Scor</th>
                 </tr>
             </thead>
@@ -449,17 +367,8 @@ ul.reguli-list li { margin-bottom: 6px; font-size: 13px; font-weight: 500; }
     </div>
 
     <div class="card">
-        <h2>📜 Regulament de Ordine</h2>
-        <ul class="reguli-list">
-            <li>Plecăm în parc în timpul programului.</li>
-            <li>Vorbim urât la biserică / Țipăm unii alții.</li>
-            <li>Ne comportăm ca niște copii.</li>
-        </ul>
-    </div>
-
-    <div class="card">
-        <h2>⚙️ Administrare Date</h2>
-        <button class="btn-admin" onclick="showDeleteOptions()">Modifică / Resetează Puncte</button>
+        <h2>⚙️ Resetare Scoruri</h2>
+        <button class="btn-admin" onclick="window.showDeleteOptions()">Deschide Opțiuni Resetare</button>
         <div id="deleteOptions">
             <label class="check-del"><input type="checkbox" value="Felix"> Felix</label>
             <label class="check-del"><input type="checkbox" value="Diana"> Diana</label>
@@ -467,294 +376,25 @@ ul.reguli-list li { margin-bottom: 6px; font-size: 13px; font-weight: 500; }
             <label class="check-del"><input type="checkbox" value="Giorgio"> Giorgio</label>
             <label class="check-del"><input type="checkbox" value="Sara"> Sara</label>
             <label class="check-del"><input type="checkbox" value="Debora"> Debora</label>
-            <button id="confirmDelete" class="btn-confirm-del">Elimină Punctele Selectate</button>
+            <button id="btnConfirmareReset" class="btn-confirm-del">Resetează Selectați</button>
         </div>
     </div>
 </div>
 
-<!-- MENIUL 2: CANTARI -->
 <div id="cantari-tab" class="tab-content">
     <h1>🎵 Playlist & Repertoriu</h1>
 
     <div class="zona-alegere-azi">
         <div class="card">
-            <h2>🙏 Selectate pt. Rugăciune (Max 4)</h2>
+            <h2>🙏 La Rugăciune (Max 4 pentru Azi)</h2>
             <div id="playlistRugaciune"></div>
         </div>
         <div class="card">
-            <h2>⛪ Selectate pt. Program (Max 4)</h2>
+            <h2>⛪ La Program (Max 4 pentru Azi)</h2>
             <div id="playlistProgram"></div>
         </div>
     </div>
 
     <div class="container-cantari-paralel">
-        <!-- Rugăciune -->
         <div class="card">
-            <div class="header-sectiune">
-                <h2>🙏 Toate de Rugăciune</h2>
-                <div class="controale-sectiune">
-                    <button class="btn-actiune-cantec editeaza" onclick="activeazaMod('editeaza')">Editează</button>
-                    <button class="btn-actiune-cantec sterge" onclick="activeazaMod('sterge')">Șterge</button>
-                    <button class="btn-actiune-cantec adauga" onclick="adaugaCantare('rugaciune')">➕</button>
-                </div>
-            </div>
-            <ul id="listaRugaciune" class="lista-cantari"></ul>
-        </div>
-
-        <!-- Program -->
-        <div class="card">
-            <div class="header-sectiune">
-                <h2>⛪ Toate de Program</h2>
-                <div class="controale-sectiune">
-                    <button class="btn-actiune-cantec editeaza" onclick="activeazaMod('editeaza')">Editează</button>
-                    <button class="btn-actiune-cantec sterge" onclick="activeazaMod('sterge')">Șterge</button>
-                    <button class="btn-actiune-cantec adauga" onclick="adaugaCantare('program')">➕</button>
-                </div>
-            </div>
-            <ul id="listaProgram" class="lista-cantari"></ul>
-        </div>
-    </div>
-</div>
-
-<script>
-  function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
-      event.currentTarget.classList.add('active');
-      anuleazaModSelectie();
-  }
-</script>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, deleteDoc, onSnapshot, collection, addDoc, query, orderBy, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDKO99h9zibkcz2yD0Cn091yRWFgV9HLNA",
-  authDomain: "catalog-absente.firebaseapp.com",
-  projectId: "catalog-absente",
-  storageBucket: "catalog-absente.firebasestorage.app",
-  messagingSenderId: "1042227111577",
-  appId: "1:1042227111577:web:3d09dfb323420a5f5fba08"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-const verseteMembri = {
-  "Felix": "„Pune, Doamne, o strajă înaintea gurii mele, şi păzeşte uşa buzelor mele!” – Psalmul 141:3",
-  "Diana": "„Fii o pildă pentru credincioşi: în vorbire, în purtare, în dragoste, în credinţă, în curăţie.” – 1 Timotei 4:12",
-  "Federico": "„Cine este chibzuit la vorbă stăpâneşte o ştiinţă adevărată, şi cine are duhul potolit este un om priceput.” – Proverbe 17:27",
-  "Giorgio": "„Un răspuns blând potoleşte mânia, dar o vorbă aspră aţâţă mânia.” – Proverbe 15:1",
-  "Sara": "„Învăţaţi de la Mine, căci Eu sunt blând şi smerit cu inima; şi veţi găsi odihnă pentru sufletele voastre.” – Matei 11:29",
-  "Debora": "„Toate lucrurile să se facă în chip cuviincios şi cu rânduială.” – 1 Corinteni 14:40"
-};
-
-let selectateRugaciune = [];
-let selectateProgram = [];
-
-window.adauga = async function(nume){
-  try {
-    const ref = doc(db,"puncte",nume);
-    const snap = await getDoc(ref);
-    let puncte = snap.exists() ? snap.data().puncte : 0;
-    let noi = puncte + 1;
-    await setDoc(ref,{ puncte: noi, ultimaModificare: Date.now() });
-    if(noi === 4) alert(`⚠️ ${nume} a atins pragul de 4 puncte!\nVerset: ${verseteMembri[nume]}`);
-  } catch(e) { console.error(e); }
-}
-
-window.showDeleteOptions = function(){ 
-    const el = document.getElementById("deleteOptions");
-    el.style.display = (el.style.display === "block") ? "none" : "block";
-}
-
-document.getElementById("confirmDelete").onclick = async function(){
-  try {
-    const selectate = document.querySelectorAll('#deleteOptions input:checked');
-    for(const persoana of selectate){ await deleteDoc(doc(db,"puncte",persoana.value)); }
-    selectate.forEach(x=>x.checked=false);
-    document.getElementById("deleteOptions").style.display = "none";
-    alert("Resetat cu succes.");
-  } catch(e) { console.error(e); }
-}
-
-onSnapshot(collection(db,"puncte"),(snapshot)=>{
-  let html="";
-  snapshot.forEach((docSnap)=>{ 
-    const date = docSnap.data();
-    const nume = docSnap.id;
-    const afiseazaVerset = date.puncte >= 4;
-    html += `<tr>
-      <td>
-        <div class="td-profil">
-          <img src="${nume.toLowerCase()}.jpeg" class="avatar-tabel" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'">
-          <div class="nume-container">
-             <div style="font-size: 15px;">${nume}</div>
-             ${afiseazaVerset ? `<div class="verset-box">📖 ${verseteMembri[nume]}</div>` : ''}
-          </div>
-        </div>
-      </td>
-      <td style="text-align: right; padding-top: 6px;">
-        <span class="badge-scor ${afiseazaVerset ? 'pericol' : ''}">${date.puncte} pct</span>
-      </td>
-    </tr>`; 
-  });
-  document.getElementById("tableBody").innerHTML = html;
-});
-
-// --- SISTEM MANAGEMENT REPERTORIU & PLAYLIST ---
-let modCurent = null; 
-let cantariSelectate = [];
-
-window.activeazaMod = function(tipMod) {
-    modCurent = tipMod;
-    cantariSelectate = [];
-    document.querySelectorAll('.bulina-selectie').forEach(el => el.style.display = 'block');
-    document.getElementById('baraMutare').style.display = 'flex';
-    
-    const btnConfirm = document.getElementById('btnActiuneMasa');
-    if(tipMod === 'sterge') {
-        btnConfirm.innerText = "Șterge definitiv";
-        btnConfirm.style.background = "#ef4444";
-        btnConfirm.style.color = "#ffffff";
-    } else if(tipMod === 'editeaza') {
-        btnConfirm.innerText = "Editează textul";
-        btnConfirm.style.background = "#eab308";
-        btnConfirm.style.color = "#090b11";
-    }
-    actualizeazaNumarSelectate();
-}
-
-window.anuleazaModSelectie = function() {
-    modCurent = null;
-    cantariSelectate = [];
-    document.querySelectorAll('.lista-cantari li').forEach(li => li.classList.remove('selected'));
-    document.querySelectorAll('.bulina-selectie').forEach(el => el.style.display = 'none');
-    document.getElementById('baraMutare').style.display = 'none';
-}
-
-function actualizeazaNumarSelectate() {
-    document.getElementById('txtNumarSelectate').innerText = `${cantariSelectate.length} elemente`;
-}
-
-window.toggleSelectieCantare = function(element, id, categorieCurenta, titlu) {
-    if (modCurent) {
-        const index = cantariSelectate.findIndex(x => x.id === id);
-        if (index > -1) {
-            cantariSelectate.splice(index, 1);
-            element.classList.remove('selected');
-        } else {
-            cantariSelectate.push({ id, categorie: categorieCurenta, titlu });
-            element.classList.add('selected');
-        }
-        actualizeazaNumarSelectate();
-    } else {
-        const optiune = prompt(`Unde adaugi cântarea "${titlu}"?\n1 - La Rugăciune\n2 - La Program`);
-        if (optiune === "1") {
-            if (selectateRugaciune.length >= 4) return alert("Ai atins deja maximul de 4 cântări la Rugăciune!");
-            if (selectateRugaciune.includes(titlu)) return alert("Această cântare este deja adăugată!");
-            selectateRugaciune.push(titlu);
-            randeazaPlaylist();
-        } else if (optiune === "2") {
-            if (selectateProgram.length >= 4) return alert("Ai atins deja maximul de 4 cântări la Program!");
-            if (selectateProgram.includes(titlu)) return alert("Această cântare este deja adăugată!");
-            selectateProgram.push(titlu);
-            randeazaPlaylist();
-        }
-    }
-}
-
-function randeazaPlaylist() {
-    let htmlR = "";
-    for(let i=0; i<4; i++) {
-        if(selectateRugaciune[i]) {
-            htmlR += `<div class="slot-cantec ocupat"><span>${i+1}. ${selectateRugaciune[i]}</span><button class="btn-elimina-slot" onclick="eliminaDinPlaylist('rugaciune', ${i})">×</button></div>`;
-        } else {
-            htmlR += `<div class="slot-cantec" style="opacity:0.5;"><span>${i+1}. Slot liber</span></div>`;
-        }
-    }
-    document.getElementById("playlistRugaciune").innerHTML = htmlR;
-
-    let htmlP = "";
-    for(let i=0; i<4; i++) {
-        if(selectateProgram[i]) {
-            htmlP += `<div class="slot-cantec ocupat"><span>${i+1}. ${selectateProgram[i]}</span><button class="btn-elimina-slot" onclick="eliminaDinPlaylist('program', ${i})">×</button></div>`;
-        } else {
-            htmlP += `<div class="slot-cantec" style="opacity:0.5;"><span>${i+1}. Slot liber</span></div>`;
-        }
-    }
-    document.getElementById("playlistProgram").innerHTML = htmlP;
-}
-
-window.eliminaDinPlaylist = function(tip, index) {
-    if(tip === 'rugaciune') selectateRugaciune.splice(index, 1);
-    if(tip === 'program') selectateProgram.splice(index, 1);
-    randeazaPlaylist();
-}
-
-window.proceseazaActiuneMasa = async function() {
-    if(cantariSelectate.length === 0) return alert("Nu ai selectat nimic!");
-    
-    if(modCurent === 'sterge') {
-        if(confirm(`Elimini definitiv elementele selectate (${cantariSelectate.length})?`)) {
-            try {
-                for(let c of cantariSelectate) { await deleteDoc(doc(db, `cantari_${c.categorie}`, c.id)); }
-                anuleazaModSelectie();
-            } catch(e) { console.error(e); }
-        }
-    } else if(modCurent === 'editeaza') {
-        try {
-            for(let c of cantariSelectate) {
-                let nouTitlu = prompt(`Modifică titlul pentru:\n"${c.titlu}"`, c.titlu);
-                if(nouTitlu && nouTitlu.trim() !== "") {
-                    await updateDoc(doc(db, `cantari_${c.categorie}`, c.id), { titlu: nouTitlu.trim() });
-                }
-            }
-            anuleazaModSelectie();
-        } catch(e) { console.error(e); }
-    }
-}
-
-window.adaugaCantare = async function(categorie) {
-    let titlu = prompt("Numele melodiei noi:");
-    if(!titlu || titlu.trim() === "") return;
-    titlu = titlu.trim();
-    titlu = titlu.charAt(0).toUpperCase() + titlu.slice(1);
-    try { await addDoc(collection(db, `cantari_${categorie}`), { titlu: titlu, creatLa: Date.now() }); } 
-    catch(e) { console.error(e); }
-}
-
-onSnapshot(query(collection(db, "cantari_rugaciune"), orderBy("creatLa", "asc")), (snapshot) => {
-    let html = ""; let idx = 1;
-    snapshot.forEach((docSnap) => {
-        const d = docSnap.data();
-        html += `<li onclick="toggleSelectieCantare(this, '${docSnap.id}', 'rugaciune', '${d.titlu}')">
-            <div class="cantare-stanga">
-                <div class="bulina-selectie"></div>
-                <div><span class="cantare-nr">${idx++}.</span> ${d.titlu}</div>
-            </div>
-        </li>`;
-    });
-    document.getElementById("listaRugaciune").innerHTML = html || `<p style="text-align:center;font-size:12px;opacity:0.5;width:100%;">Nicio melodie.</p>`;
-});
-
-onSnapshot(query(collection(db, "cantari_program"), orderBy("creatLa", "asc")), (snapshot) => {
-    let html = ""; let idx = 1;
-    snapshot.forEach((docSnap) => {
-        const d = docSnap.data();
-        html += `<li onclick="toggleSelectieCantare(this, '${docSnap.id}', 'program', '${d.titlu}')">
-            <div class="cantare-stanga">
-                <div class="bulina-selectie"></div>
-                <div><span class="cantare-nr">${idx++}.</span> ${d.titlu}</div>
-            </div>
-        </li>`;
-    });
-    document.getElementById("listaProgram").innerHTML = html || `<p style="text-align:center;font-size:12px;opacity:0.5;width:100%;">Nicio melodie.</p>`;
-});
-
-randeazaPlaylist();
-</script>
-</body>
-</html>
+            <div class="header-sect
