@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link rel="manifest" href="manifest.json?v=37">
+<link rel="manifest" href="manifest.json?v=38">
 <meta name="theme-color" content="#090b11">
-<link class="apple-touch-icon" href="icon-192.png?v=37">
+<link class="apple-touch-icon" href="icon-192.png?v=38">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -14,7 +14,6 @@
 
 <title>Catalog Tineri PRO</title>
 <style>
-/* Reset și optimizare ecran fix */
 html, body {
     touch-action: manipulation;
     -webkit-text-size-adjust: 100%;
@@ -31,7 +30,6 @@ body {
     position: relative;
 }
 
-/* Fundal premium */
 body::before {
     content: "";
     position: fixed;
@@ -44,7 +42,6 @@ body::before {
     z-index: -1;
 }
 
-/* Navigație tip Apple (Meniul de jos) */
 .nav-tabs {
     position: fixed;
     bottom: 0;
@@ -87,7 +84,6 @@ body::before {
     fill: currentColor;
 }
 
-/* Containere Meniu */
 .tab-content {
     display: none;
     max-width: 900px;
@@ -122,7 +118,6 @@ h2 {
     letter-spacing: 1.5px;
 }
 
-/* Efect Sticlă Apple Premium */
 .card {
     background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(25px) saturate(180%);
@@ -135,7 +130,6 @@ h2 {
     box-sizing: border-box;
 }
 
-/* Grid Membri */
 .grid-nume {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -154,7 +148,6 @@ h2 {
     display: flex;
     align-items: center;
     gap: 10px;
-    -webkit-tap-highlight-color: transparent;
 }
 
 .btn-nume:active {
@@ -170,7 +163,6 @@ h2 {
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-/* FIX COMPLET TABEL PENTRU ECRAN MOBIL (FĂRĂ SUPRAPUNERI SAU DEFORMARE CA ÎN IMAGINE) */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -246,7 +238,47 @@ td {
     word-break: break-word;
 }
 
-/* STRUCTURA PARALELĂ PENTRU CÂNTĂRI */
+/* PLAYLIST ZILEI - ZONA SELECTATE PENTRU PROGRAM PRO */
+.zona-alegere-azi {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+@media(min-width: 768px) {
+    .zona-alegere-azi { grid-template-columns: repeat(2, 1fr); }
+}
+
+.slot-cantec {
+    background: rgba(103, 232, 249, 0.06);
+    border: 1px dashed rgba(103, 232, 249, 0.3);
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.slot-cantec.ocupat {
+    background: rgba(103, 232, 249, 0.15);
+    border: 1px solid #67e8f9;
+}
+
+.btn-elimina-slot {
+    background: transparent;
+    border: none;
+    color: #fca5a5;
+    font-weight: 800;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0 4px;
+}
+
+/* GRID PARALEL REPERTORIU MELODII */
 .container-cantari-paralel {
     display: grid;
     grid-template-columns: 1fr;
@@ -261,7 +293,7 @@ td {
 
 .controale-sectiune {
     display: flex;
-    gap: 6px;
+    gap: 5px;
 }
 
 .btn-actiune-cantec {
@@ -269,34 +301,15 @@ td {
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: #ffffff;
     border-radius: 10px;
-    padding: 6px 10px;
-    font-size: 12px;
+    padding: 6px 9px;
+    font-size: 11.5px;
     font-weight: 700;
     cursor: pointer;
 }
 
-.btn-actiune-cantec.adauga {
-    background: #ffffff;
-    color: #090b11;
-    border: none;
-}
-
-.btn-actiune-cantec.sterge {
-    background: rgba(239, 68, 68, 0.15);
-    border-color: rgba(239, 68, 68, 0.4);
-    color: #fca5a5;
-}
-
-.btn-muta-mod {
-    background: rgba(103, 232, 249, 0.15);
-    border: 1px solid #67e8f9;
-    color: #67e8f9;
-    border-radius: 10px;
-    padding: 6px 10px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-}
+.btn-actiune-cantec.adauga { background: #ffffff; color: #090b11; border: none; }
+.btn-actiune-cantec.sterge { background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.4); color: #fca5a5; }
+.btn-actiune-cantec.editeaza { background: rgba(234, 179, 8, 0.15); border-color: rgba(234, 179, 8, 0.4); color: #fef08a; }
 
 .header-sectiune {
     margin-bottom: 14px;
@@ -316,7 +329,7 @@ td {
 .lista-cantari li {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.06);
-    padding: 10px 12px;
+    padding: 11px 12px;
     border-radius: 10px;
     margin-bottom: 6px;
     font-size: 14px;
@@ -335,12 +348,13 @@ td {
     display: flex;
     align-items: center;
     gap: 8px;
+    width: 100%;
 }
 
 .bulina-selectie {
     display: none;
-    width: 16px;
-    height: 16px;
+    width: 17px;
+    height: 17px;
     border-radius: 50%;
     border: 2px solid rgba(255, 255, 255, 0.4);
     box-sizing: border-box;
@@ -359,7 +373,6 @@ li.selected .bulina-selectie {
     font-size: 12.5px;
 }
 
-/* Bara plutitoare acțiuni */
 .bara-mutare-actiuni {
     position: fixed;
     bottom: 80px;
@@ -376,22 +389,9 @@ li.selected .bulina-selectie {
     z-index: 110;
 }
 
-.bara-mutare-actiuni span {
-    font-size: 13.5px;
-    font-weight: 700;
-    color: #67e8f9;
-}
+.bara-mutare-actiuni span { font-size: 13.5px; font-weight: 700; color: #67e8f9; }
+.bara-mutare-actiuni button { border: none; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 12.5px; cursor: pointer; }
 
-.bara-mutare-actiuni button {
-    border: none;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 12.5px;
-    cursor: pointer;
-}
-
-/* Reguli și admin */
 ul.reguli-list { padding-left: 18px; margin: 0; }
 ul.reguli-list li { margin-bottom: 6px; font-size: 13px; font-weight: 500; }
 .btn-admin { background: transparent; border: 1px dashed rgba(255, 255, 255, 0.2); color: white; padding: 10px; width: 100%; border-radius: 10px; font-weight: 600; font-size: 13px; }
@@ -402,7 +402,6 @@ ul.reguli-list li { margin-bottom: 6px; font-size: 13px; font-weight: 500; }
 </head>
 <body>
 
-<!-- NAVIGATIA DE JOS -->
 <nav class="nav-tabs">
     <button class="nav-tab active" onclick="switchTab('catalog-tab')">
         <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0-4H7V7h10v2zm0 8H7v-2h10v2z"/></svg>
@@ -414,7 +413,6 @@ ul.reguli-list li { margin-bottom: 6px; font-size: 13px; font-weight: 500; }
     </button>
 </nav>
 
-<!-- BARA PLUTITOARE -->
 <div id="baraMutare" class="bara-mutare-actiuni">
     <span id="txtNumarSelectate">0 selectate</span>
     <div style="display: flex; gap: 6px;">
@@ -423,31 +421,18 @@ ul.reguli-list li { margin-bottom: 6px; font-size: 13px; font-weight: 500; }
     </div>
 </div>
 
-<!-- MENIUL 1: CATALOG PENALIZARI -->
 <div id="catalog-tab" class="tab-content active">
     <h1>📊 Catalog Tineri PRO</h1>
     
     <div class="card">
         <h2>➕ Acordă Punct Penalizare</h2>
         <div class="grid-nume">
-            <button class="btn-nume" onclick="adauga('Felix')">
-                <img src="felix.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Felix
-            </button>
-            <button class="btn-nume" onclick="adauga('Diana')">
-                <img src="diana.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Diana
-            </button>
-            <button class="btn-nume" onclick="adauga('Federico')">
-                <img src="federico.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Federico
-            </button>
-            <button class="btn-nume" onclick="adauga('Giorgio')">
-                <img src="giorgio.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Giorgio
-            </button>
-            <button class="btn-nume" onclick="adauga('Sara')">
-                <img src="sara.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Sara
-            </button>
-            <button class="btn-nume" onclick="adauga('Debora')">
-                <img src="debora.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Debora
-            </button>
+            <button class="btn-nume" onclick="adauga('Felix')"><img src="felix.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Felix</button>
+            <button class="btn-nume" onclick="adauga('Diana')"><img src="diana.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Diana</button>
+            <button class="btn-nume" onclick="adauga('Federico')"><img src="federico.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Federico</button>
+            <button class="btn-nume" onclick="adauga('Giorgio')"><img src="giorgio.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Giorgio</button>
+            <button class="btn-nume" onclick="adauga('Sara')"><img src="sara.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Sara</button>
+            <button class="btn-nume" onclick="adauga('Debora')"><img src="debora.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Debora</button>
         </div>
     </div>
 
@@ -466,45 +451,42 @@ ul.reguli-list li { margin-bottom: 6px; font-size: 13px; font-weight: 500; }
 
     <div class="card">
         <h2>📜 Regulament de Ordine</h2>
-        <p style="margin-top:0; font-size:13px;">La fiecare <b>4 puncte</b> acumulate, se aplică pedeapsa și învățarea versetului.</p>
-        <p style="color: #67e8f9; font-size: 12px; font-weight: 800; margin-bottom: 10px;">⏱️ Resetare automată după 30 de zile.</p>
         <ul class="reguli-list">
             <li>Plecăm în parc în timpul programului.</li>
             <li>Vorbim urât la biserică / Țipăm unii alții.</li>
-            <li>Ne comportăm ca niște copii / Ne supărăm din nimicuri.</li>
-            <li>Ne amenințăm / Ne jignim / Ne lovim.</li>
-            <li>Nu suntem serioși la repetiții.</li>
-            <li>Stăm pe telefon în timpul programului.</li>
+            <li>Ne comportăm ca niște copii.</li>
         </ul>
-        <p style="margin-bottom:0; font-size:13px; color:#f87171; font-weight:800; margin-top:10px;">Pedeapsa: suc + prăjituri + verset biblic învățat.</p>
     </div>
 
     <div class="card">
         <h2>⚙️ Administrare Date</h2>
         <button class="btn-admin" onclick="showDeleteOptions()">Modifică / Resetează Puncte</button>
         <div id="deleteOptions">
-            <label class="check-del"><input type="checkbox" value="Felix"> Felix</label>
-            <label class="check-del"><input type="checkbox" value="Diana"> Diana</label>
-            <label class="check-del"><input type="checkbox" value="Federico"> Federico</label>
-            <label class="check-del"><input type="checkbox" value="Giorgio"> Giorgio</label>
-            <label class="check-del"><input type="checkbox" value="Sara"> Sara</label>
-            <label class="check-del"><input type="checkbox" value="Debora"> Debora</label>
             <button id="confirmDelete" class="btn-confirm-del">Elimină Punctele Selectate</button>
         </div>
     </div>
 </div>
 
-<!-- MENIUL 2: REPERTORIU MELODII -->
 <div id="cantari-tab" class="tab-content">
-    <h1>🎵 Repertoriu Cântări</h1>
+    <h1>🎵 Playlist & Repertoriu</h1>
+
+    <div class="zona-alegere-azi">
+        <div class="card">
+            <h2>🙏 Selectate pt. Rugăciune (Max 4)</h2>
+            <div id="playlistRugaciune"></div>
+        </div>
+        <div class="card">
+            <h2>⛪ Selectate pt. Program (Max 4)</h2>
+            <div id="playlistProgram"></div>
+        </div>
+    </div>
 
     <div class="container-cantari-paralel">
-        <!-- Rugăciune -->
         <div class="card">
             <div class="header-sectiune">
-                <h2>🙏 La Rugăciune</h2>
+                <h2>🙏 Toate de Rugăciune</h2>
                 <div class="controale-sectiune">
-                    <button class="btn-muta-mod" onclick="activeazaMod('muta')">Mută</button>
+                    <button class="btn-actiune-cantec editeaza" onclick="activeazaMod('editeaza')">Editează</button>
                     <button class="btn-actiune-cantec sterge" onclick="activeazaMod('sterge')">Șterge</button>
                     <button class="btn-actiune-cantec adauga" onclick="adaugaCantare('rugaciune')">➕</button>
                 </div>
@@ -512,12 +494,11 @@ ul.reguli-list li { margin-bottom: 6px; font-size: 13px; font-weight: 500; }
             <ul id="listaRugaciune" class="lista-cantari"></ul>
         </div>
 
-        <!-- Program -->
         <div class="card">
             <div class="header-sectiune">
-                <h2>⛪ La Program</h2>
+                <h2>⛪ Toate de Program</h2>
                 <div class="controale-sectiune">
-                    <button class="btn-muta-mod" onclick="activeazaMod('muta')">Mută</button>
+                    <button class="btn-actiune-cantec editeaza" onclick="activeazaMod('editeaza')">Editează</button>
                     <button class="btn-actiune-cantec sterge" onclick="activeazaMod('sterge')">Șterge</button>
                     <button class="btn-actiune-cantec adauga" onclick="adaugaCantare('program')">➕</button>
                 </div>
@@ -539,7 +520,7 @@ ul.reguli-list li { margin-bottom: 6px; font-size: 13px; font-weight: 500; }
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, deleteDoc, onSnapshot, collection, addDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, deleteDoc, onSnapshot, collection, addDoc, query, orderBy, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDKO99h9zibkcz2yD0Cn091yRWFgV9HLNA",
@@ -562,6 +543,10 @@ const verseteMembri = {
   "Debora": "„Toate lucrurile să se facă în chip cuviincios şi cu rânduială.” – 1 Corinteni 14:40"
 };
 
+// State local pentru Playlist-ul curent
+let selectateRugaciune = [];
+let selectateProgram = [];
+
 window.adauga = async function(nume){
   try {
     const ref = doc(db,"puncte",nume);
@@ -573,28 +558,12 @@ window.adauga = async function(nume){
   } catch(e) { console.error(e); }
 }
 
-window.showDeleteOptions = function(){ 
-    const el = document.getElementById("deleteOptions");
-    el.style.display = (el.style.display === "block") ? "none" : "block";
-}
-
-document.getElementById("confirmDelete").onclick = async function(){
-  try {
-    const selectate = document.querySelectorAll('#deleteOptions input:checked');
-    for(const persoana of selectate){ await deleteDoc(doc(db,"puncte",persoana.value)); }
-    selectate.forEach(x=>x.checked=false);
-    document.getElementById("deleteOptions").style.display = "none";
-    alert("Resetat cu succes.");
-  } catch(e) { console.error(e); }
-}
-
-// Logica de afișare stabilă a tabelului și persistența versetului la orice valoare >= 4
 onSnapshot(collection(db,"puncte"),(snapshot)=>{
   let html="";
   snapshot.forEach((docSnap)=>{ 
     const date = docSnap.data();
     const nume = docSnap.id;
-    const afiseazaVerset = date.puncte >= 4; // Rămâne adevărat și la 5, 6, 7 puncte!
+    const afiseazaVerset = date.puncte >= 4;
     html += `<tr>
       <td>
         <div class="td-profil">
@@ -613,9 +582,9 @@ onSnapshot(collection(db,"puncte"),(snapshot)=>{
   document.getElementById("tableBody").innerHTML = html;
 });
 
-// Cântări
-let modCurent = null;
-let cantariSelectate = []; 
+// --- SISTEM MANAGEMENT REPERTORIU & PLAYLIST ---
+let modCurent = null; // 'sterge' sau 'editeaza'
+let cantariSelectate = [];
 
 window.activeazaMod = function(tipMod) {
     modCurent = tipMod;
@@ -628,9 +597,9 @@ window.activeazaMod = function(tipMod) {
         btnConfirm.innerText = "Șterge definitiv";
         btnConfirm.style.background = "#ef4444";
         btnConfirm.style.color = "#ffffff";
-    } else {
-        btnConfirm.innerText = "Mută selecția";
-        btnConfirm.style.background = "#67e8f9";
+    } else if(tipMod === 'editeaza') {
+        btnConfirm.innerText = "Editează textul";
+        btnConfirm.style.background = "#eab308";
         btnConfirm.style.color = "#090b11";
     }
     actualizeazaNumarSelectate();
@@ -644,39 +613,85 @@ window.anuleazaModSelectie = function() {
     document.getElementById('baraMutare').style.display = 'none';
 }
 
-window.toggleSelectieCantare = function(element, id, categorieCurenta, titlu) {
-    if (!modCurent) return;
-    const index = cantariSelectate.findIndex(x => x.id === id);
-    if (index > -1) {
-        cantariSelectate.splice(index, 1);
-        element.classList.remove('selected');
-    } else {
-        cantariSelectate.push({ id, categorie: categorieCurenta, titlu });
-        element.classList.add('selected');
-    }
-    actualizeazaNumarSelectate();
+function actualizeazaNumarSelectate() {
+    document.getElementById('txtNumarSelectate').innerText = `${cantariSelectate.length} elemente`;
 }
 
-function actualizeazaNumarSelectate() {
-    document.getElementById('txtNumarSelectate').innerText = `${cantariSelectate.length} selectate`;
+// Click pe melodie
+window.toggleSelectieCantare = function(element, id, categorieCurenta, titlu) {
+    if (modCurent) {
+        // Dacă suntem în mod Ștergere / Editare
+        const index = cantariSelectate.findIndex(x => x.id === id);
+        if (index > -1) {
+            cantariSelectate.splice(index, 1);
+            element.classList.remove('selected');
+        } else {
+            cantariSelectate.push({ id, categorie: categorieCurenta, titlu });
+            element.classList.add('selected');
+        }
+        actualizeazaNumarSelectate();
+    } else {
+        // Mod Standard: Adăugare în Playlist-ul de 4 melodii
+        const optiune = prompt(`Unde adaugi cântarea "${titlu}"?\n1 - La Rugăciune\n2 - La Program`);
+        if (optiune === "1") {
+            if (selectateRugaciune.length >= 4) return alert("Ai atins deja maximul de 4 cântări la Rugăciune!");
+            if (selectateRugaciune.includes(titlu)) return alert("Această cântare este deja adăugată!");
+            selectateRugaciune.push(titlu);
+            randeazaPlaylist();
+        } else if (optiune === "2") {
+            if (selectateProgram.length >= 4) return alert("Ai atins deja maximul de 4 cântări la Program!");
+            if (selectateProgram.includes(titlu)) return alert("Această cântare este deja adăugată!");
+            selectateProgram.push(titlu);
+            randeazaPlaylist();
+        }
+    }
+}
+
+function randeazaPlaylist() {
+    let htmlR = "";
+    for(let i=0; i<4; i++) {
+        if(selectateRugaciune[i]) {
+            htmlR += `<div class="slot-cantec ocupat"><span>${i+1}. ${selectateRugaciune[i]}</span><button class="btn-elimina-slot" onclick="eliminaDinPlaylist('rugaciune', ${i})">×</button></div>`;
+        } else {
+            htmlR += `<div class="slot-cantec" style="opacity:0.5;"><span>${i+1}. Slot liber</span></div>`;
+        }
+    }
+    document.getElementById("playlistRugaciune").innerHTML = htmlR;
+
+    let htmlP = "";
+    for(let i=0; i<4; i++) {
+        if(selectateProgram[i]) {
+            htmlP += `<div class="slot-cantec ocupat"><span>${i+1}. ${selectateProgram[i]}</span><button class="btn-elimina-slot" onclick="eliminaDinPlaylist('program', ${i})">×</button></div>`;
+        } else {
+            htmlP += `<div class="slot-cantec" style="opacity:0.5;"><span>${i+1}. Slot liber</span></div>`;
+        }
+    }
+    document.getElementById("playlistProgram").innerHTML = htmlP;
+}
+
+window.eliminaDinPlaylist = function(tip, index) {
+    if(tip === 'rugaciune') selectateRugaciune.splice(index, 1);
+    if(tip === 'program') selectateProgram.splice(index, 1);
+    randeazaPlaylist();
 }
 
 window.proceseazaActiuneMasa = async function() {
-    if(cantariSelectate.length === 0) return alert("Nu ai selectat nicio melodie!");
+    if(cantariSelectate.length === 0) return alert("Nu ai selectat nimic!");
+    
     if(modCurent === 'sterge') {
-        if(confirm(`Ștergi definitiv cele ${cantariSelectate.length} melodii?`)) {
+        if(confirm(`Elimini definitiv elementele selectate (${cantariSelectate.length})?`)) {
             try {
                 for(let c of cantariSelectate) { await deleteDoc(doc(db, `cantari_${c.categorie}`, c.id)); }
                 anuleazaModSelectie();
             } catch(e) { console.error(e); }
         }
-    } else if(modCurent === 'muta') {
-        let prima = cantariSelectate[0];
-        let destinatie = (prima.categorie === 'rugaciune') ? 'program' : 'rugaciune';
+    } else if(modCurent === 'editeaza') {
         try {
             for(let c of cantariSelectate) {
-                await deleteDoc(doc(db, `cantari_${c.categorie}`, c.id));
-                await addDoc(collection(db, `cantari_${destinatie}`), { titlu: c.titlu, creatLa: Date.now() });
+                let nouTitlu = prompt(`Modifică titlul pentru:\n"${c.titlu}"`, c.titlu);
+                if(nouTitlu && nouTitlu.trim() !== "") {
+                    await updateDoc(doc(db, `cantari_${c.categorie}`, c.id), { titlu: nouTitlu.trim() });
+                }
             }
             anuleazaModSelectie();
         } catch(e) { console.error(e); }
@@ -684,7 +699,7 @@ window.proceseazaActiuneMasa = async function() {
 }
 
 window.adaugaCantare = async function(categorie) {
-    let titlu = prompt("Numele melodiei:");
+    let titlu = prompt("Numele melodiei noi:");
     if(!titlu || titlu.trim() === "") return;
     titlu = titlu.trim();
     titlu = titlu.charAt(0).toUpperCase() + titlu.slice(1);
@@ -692,6 +707,7 @@ window.adaugaCantare = async function(categorie) {
     catch(e) { console.error(e); }
 }
 
+// Live Sync Liste
 onSnapshot(query(collection(db, "cantari_rugaciune"), orderBy("creatLa", "asc")), (snapshot) => {
     let html = ""; let idx = 1;
     snapshot.forEach((docSnap) => {
@@ -719,6 +735,9 @@ onSnapshot(query(collection(db, "cantari_program"), orderBy("creatLa", "asc")), 
     });
     document.getElementById("listaProgram").innerHTML = html || `<p style="text-align:center;font-size:12px;opacity:0.5;width:100%;">Nicio melodie.</p>`;
 });
+
+// Inițializare playlist gol la pornire
+randeazaPlaylist();
 </script>
 </body>
 </html>
