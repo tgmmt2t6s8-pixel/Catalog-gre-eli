@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link class="main-manifest" rel="manifest" href="manifest.json?v=46">
+<link class="main-manifest" rel="manifest" href="./manifest.json?v=47">
 <meta name="theme-color" content="#0b0f19">
-<link class="apple-touch-icon" href="icon-192.png?v=46">
+<link class="apple-touch-icon" href="./icon-192.png?v=47">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -30,7 +30,6 @@ body {
     position: relative;
 }
 
-/* FUNDAL NOU: Stil tineresc, vibrant, cu nuanțe de neon și nightlife modern */
 body::before {
     content: "";
     position: fixed;
@@ -340,18 +339,19 @@ td {
     </button>
 </nav>
 
+<!-- SECTIUNEA 1: CATALOG -->
 <div id="catalog-tab" class="tab-content active">
     <h1>📊 Catalog Tineri</h1>
     
     <div class="card">
         <h2>➕ Adaugă Punct</h2>
         <div class="grid-nume">
-            <button class="btn-nume" onclick="window.adauga('Felix')"><img src="felix.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Felix</button>
-            <button class="btn-nume" onclick="window.adauga('Diana')"><img src="diana.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Diana</button>
-            <button class="btn-nume" onclick="window.adauga('Federico')"><img src="federico.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Federico</button>
-            <button class="btn-nume" onclick="window.adauga('Giorgio')"><img src="giorgio.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Giorgio</button>
-            <button class="btn-nume" onclick="window.adauga('Sara')"><img src="sara.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Sara</button>
-            <button class="btn-nume" onclick="window.adauga('Debora')"><img src="debora.jpeg" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Debora</button>
+            <button class="btn-nume" onclick="window.adauga('Felix')"><img src="./felix.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Felix</button>
+            <button class="btn-nume" onclick="window.adauga('Diana')"><img src="./diana.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Diana</button>
+            <button class="btn-nume" onclick="window.adauga('Federico')"><img src="./federico.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Federico</button>
+            <button class="btn-nume" onclick="window.adauga('Giorgio')"><img src="./giorgio.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Giorgio</button>
+            <button class="btn-nume" onclick="window.adauga('Sara')"><img src="./sara.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Sara</button>
+            <button class="btn-nume" onclick="window.adauga('Debora')"><img src="./debora.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Debora</button>
         </div>
     </div>
 
@@ -383,6 +383,7 @@ td {
     </div>
 </div>
 
+<!-- SECTIUNEA 2: CANTARI -->
 <div id="cantari-tab" class="tab-content">
     <h1>🎵 Playlist & Repertoriu</h1>
 
@@ -490,7 +491,7 @@ onSnapshot(collection(db,"puncte"), (snapshot)=>{
     const date = docSnap.data();
     const nume = docSnap.id;
     const afiseazaVerset = date.puncte >= 4;
-    const pozaUrl = `${nume.toLowerCase()}.jpeg`;
+    const pozaUrl = `./${nume.toLowerCase()}.jpeg?v=1`;
     
     html += `<tr>
       <td>
