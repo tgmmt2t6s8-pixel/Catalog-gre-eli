@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link class="main-manifest" rel="manifest" href="./manifest.json?v=47">
+<link class="main-manifest" rel="manifest" href="./manifest.json?v=49">
 <meta name="theme-color" content="#0b0f19">
-<link class="apple-touch-icon" href="./icon-192.png?v=47">
+<link class="apple-touch-icon" href="./icon-192.png?v=49">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -85,7 +85,7 @@ body::before {
 
 .tab-content {
     display: none;
-    max-width: 900px;
+    max-width: 950px;
     margin: auto;
     padding: 12px 12px 95px 12px;
     height: 100%;
@@ -129,29 +129,130 @@ h2 {
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
-.grid-nume {
+/* CONTAINER PENTRU WIDGETURI IN STIL IOS / DASHBOARD */
+.widget-row {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
 }
 
-.btn-nume {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    border-radius: 14px;
-    padding: 10px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
+@media (min-width: 650px) {
+    .widget-row {
+        grid-template-columns: 1.2fr 1fr;
+    }
+}
+
+.widget-box {
+    background: rgba(15, 22, 38, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 18px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    display: flex;
+    flex-direction: column;
+}
+
+.widget-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    transition: background 0.2s;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #a5f3fc;
+    margin-bottom: 14px;
 }
 
-.btn-nume:active {
-    background: rgba(255, 255, 255, 0.15);
+.widget-header svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+/* STILURI WIDGET 1: ADAUGARE INSTANT */
+.widget-quick-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.widget-btn-row {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.widget-btn-row:active {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(0.98);
+}
+
+.widget-member-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.widget-name {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.widget-add-badge {
+    color: #67e8f9;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+/* STILURI WIDGET 2: VERSET DYNAMIC CARD */
+.widget-verset-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 100%;
+    justify-content: center;
+}
+
+.widget-profile-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.widget-avatar-big {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ef4444;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+}
+
+.widget-verset-text {
+    font-size: 13px;
+    font-style: italic;
+    color: #e2e8f0;
+    line-height: 1.4;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 10px 12px;
+    border-left: 3px solid #67e8f9;
+    border-radius: 8px;
 }
 
 .avatar-foto {
@@ -339,24 +440,74 @@ td {
     </button>
 </nav>
 
-<!-- SECTIUNEA 1: CATALOG -->
 <div id="catalog-tab" class="tab-content active">
-    <h1>📊 Catalog Tineri</h1>
+    <h1>📊 Dashboard Tineri</h1>
     
-    <div class="card">
-        <h2>➕ Adaugă Punct</h2>
-        <div class="grid-nume">
-            <button class="btn-nume" onclick="window.adauga('Felix')"><img src="./felix.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Felix</button>
-            <button class="btn-nume" onclick="window.adauga('Diana')"><img src="./diana.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Diana</button>
-            <button class="btn-nume" onclick="window.adauga('Federico')"><img src="./federico.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Federico</button>
-            <button class="btn-nume" onclick="window.adauga('Giorgio')"><img src="./giorgio.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Giorgio</button>
-            <button class="btn-nume" onclick="window.adauga('Sara')"><img src="./sara.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Sara</button>
-            <button class="btn-nume" onclick="window.adauga('Debora')"><img src="./debora.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'"> Debora</button>
+    <div class="widget-row">
+        <div class="widget-box">
+            <div class="widget-header">
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2z"/></svg>
+                <span>Adaugă punct penalizare către:</span>
+            </div>
+            <div class="widget-quick-list">
+                <div class="widget-btn-row" onclick="window.adauga('Felix')">
+                    <div class="widget-member-info">
+                        <img src="./felix.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'">
+                        <span class="widget-name">Felix</span>
+                    </div>
+                    <span class="widget-add-badge">+1</span>
+                </div>
+                <div class="widget-btn-row" onclick="window.adauga('Diana')">
+                    <div class="widget-member-info">
+                        <img src="./diana.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'">
+                        <span class="widget-name">Diana</span>
+                    </div>
+                    <span class="widget-add-badge">+1</span>
+                </div>
+                <div class="widget-btn-row" onclick="window.adauga('Federico')">
+                    <div class="widget-member-info">
+                        <img src="./federico.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'">
+                        <span class="widget-name">Federico</span>
+                    </div>
+                    <span class="widget-add-badge">+1</span>
+                </div>
+                <div class="widget-btn-row" onclick="window.adauga('Giorgio')">
+                    <div class="widget-member-info">
+                        <img src="./giorgio.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'">
+                        <span class="widget-name">Giorgio</span>
+                    </div>
+                    <span class="widget-add-badge">+1</span>
+                </div>
+                <div class="widget-btn-row" onclick="window.adauga('Sara')">
+                    <div class="widget-member-info">
+                        <img src="./sara.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'">
+                        <span class="widget-name">Sara</span>
+                    </div>
+                    <span class="widget-add-badge">+1</span>
+                </div>
+                <div class="widget-btn-row" onclick="window.adauga('Debora')">
+                    <div class="widget-member-info">
+                        <img src="./debora.jpeg?v=1" class="avatar-foto" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'">
+                        <span class="widget-name">Debora</span>
+                    </div>
+                    <span class="widget-add-badge">+1</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="widget-box" id="widgetVersetContainer">
+            <div class="widget-header">
+                <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.5 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                <span>Verset Random Penalizări:</span>
+            </div>
+            <div id="widgetVersetContent" class="widget-verset-card">
+                <p style="opacity:0.5; font-size:12px; text-align:center; margin:auto;">Niciun membru nu are în prezent &ge; 4 puncte.</p>
+            </div>
         </div>
     </div>
 
     <div class="card">
-        <h2>📋 Situație Penalizări</h2>
+        <h2>📋 Situație Penalizări Detaliată</h2>
         <table>
             <thead>
                 <tr>
@@ -383,7 +534,6 @@ td {
     </div>
 </div>
 
-<!-- SECTIUNEA 2: CANTARI -->
 <div id="cantari-tab" class="tab-content">
     <h1>🎵 Playlist & Repertoriu</h1>
 
@@ -439,7 +589,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyDKO99h9zibkcz2yD0Cn091yRWFgV9HLNA",
   authDomain: "catalog-absente.firebaseapp.com",
   projectId: "catalog-absente",
-  storageBucket: "catalog-absente.firebasestorage.app",
+  storageBucket: "catalog-absente.appspot.com",
   messagingSenderId: "1042227111577",
   appId: "1:1042227111577:web:3d09dfb323420a5f5fba08"
 };
@@ -451,7 +601,7 @@ const verseteMembri = {
   "Felix": "„Pune, Doamne, o strajă înaintea gurii mele, şi păzeşte uşa buzelor mele!” – Psalmul 141:3",
   "Diana": "„Fii o pildă pentru credincioşi: în vorbire, în purtare, în dragoste, în credinţă, în curăţie.” – 1 Timotei 4:12",
   "Federico": "„Cine este chibzuit la vorbă stăpâneşte o ştiinţă adevărată, şi cine are duhul potolit este un om priceput.” – Proverbe 17:27",
-  "Giorgio": "„Un răspuns blând potoleşte mânia, dar o vorbă aspră aţâţă mânia.” – Proverbe 15:1",
+  "Giorgio": "„Un răspintent blând potoleşte mânia, dar o vorbă aspră aţâţă mânia.” – Proverbe 15:1",
   "Sara": "„Învăţaţi de la Mine, căci Eu sunt blând şi smerit cu inima; şi veţi găsi odihnă pentru sufletele voastre.” – Matei 11:29",
   "Debora": "„Toate lucrurile să se facă în chip cuviincios şi cu rânduială.” – 1 Corinteni 14:40"
 };
@@ -487,12 +637,18 @@ document.getElementById("btnConfirmareReset").onclick = async function(){
 
 onSnapshot(collection(db,"puncte"), (snapshot)=>{
   let html="";
+  let membriCuVerset = [];
+
   snapshot.forEach((docSnap)=>{ 
     const date = docSnap.data();
     const nume = docSnap.id;
     const afiseazaVerset = date.puncte >= 4;
     const pozaUrl = `./${nume.toLowerCase()}.jpeg?v=1`;
     
+    if (afiseazaVerset) {
+        membriCuVerset.push({ nume: nume, puncte: date.puncte, poza: pozaUrl });
+    }
+
     html += `<tr>
       <td>
         <div class="td-profil">
@@ -506,7 +662,30 @@ onSnapshot(collection(db,"puncte"), (snapshot)=>{
       <td style="text-align: right;"><span class="badge-scor ${afiseazaVerset ? 'pericol' : ''}">${date.puncte} puncte</span></td>
     </tr>`; 
   });
+  
   document.getElementById("tableBody").innerHTML = html;
+
+  // LOGICA PENTRU REPRODUCEREA WIDGETULUI DE VERSET RANDOM DUPĂ IMAGINEA TA
+  if(membriCuVerset.length > 0) {
+      // Selectează un membru random din listă
+      const ales = membriCuVerset[Math.floor(Math.random() * membriCuVerset.length)];
+      document.getElementById("widgetVersetContent").innerHTML = `
+        <div class="widget-profile-section">
+            <img src="${ales.poza}" class="widget-avatar-big" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23ffffff\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>'">
+            <div>
+                <div style="font-size:15px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">${ales.nume}</div>
+                <div style="font-size:11px; color:#fca5a5; margin-top:2px; font-weight:700;">Badge-Scor: Pericol (${ales.puncte} puncte)</div>
+            </div>
+        </div>
+        <div class="widget-verset-text">
+            ${verseteMembri[ales.nume]}
+        </div>
+      `;
+  } else {
+      document.getElementById("widgetVersetContent").innerHTML = `
+        <p style="opacity:0.5; font-size:12px; text-align:center; margin:auto; padding:20px 0;">Niciun membru nu are în prezent &ge; 4 puncte.</p>
+      `;
+  }
 });
 
 // --- REPERTORIU ---
