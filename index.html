@@ -339,6 +339,7 @@ td {
     </button>
 </nav>
 
+<!-- SECTIUNEA 1: CATALOG -->
 <div id="catalog-tab" class="tab-content active">
     <h1>📊 Catalog Tineri</h1>
     
@@ -382,11 +383,12 @@ td {
     </div>
 </div>
 
+<!-- SECTIUNEA 2: CANTARI -->
 <div id="cantari-tab" class="tab-content">
     <h1>🎵 Playlist & Repertoriu</h1>
 
     <div class="card">
-        <h2>🗓️ Cântări Selectate pentru Azi</h2>
+        <h2>🗓️ Cântări Selectate pentru Azi (LIVE)</h2>
         <table class="tabel-playlisturi">
             <tr>
                 <td>
@@ -507,8 +509,22 @@ onSnapshot(collection(db,"puncte"), (snapshot)=>{
   document.getElementById("tableBody").innerHTML = html;
 });
 
-// --- REPERTORIU ---
-window.trimiteInPlaylist = function(titlu, categorie) {
+// --- REPERTORIU & PLAYLIST LIVE ---
+
+// Ascultă în timp real schimbarile playlist-ului zilnic din Firebase
+onSnapshot(doc(db, "playlist_zi", "astazi"), (docSnap) => {
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        selectateRugaciune = data.rugaciune || [];
+        selectateProgram = data.program || [];
+    } else {
+        selectateRugaciune = [];
+        selectateProgram = [];
+    }
+    randeazaPlaylisturiAzi();
+});
+
+window.trimiteInPlaylist = async function(titlu, categorie) {
     if (categorie === 'rugaciune') {
         if (selectateRugaciune.length >= 4) return alert("Ai selectat deja maximul de 4 cântări la Rugăciune!");
         if (selectateRugaciune.includes(titlu)) return alert("Cântarea este deja adăugată!");
@@ -518,7 +534,27 @@ window.trimiteInPlaylist = function(titlu, categorie) {
         if (selectateProgram.includes(titlu)) return alert("Cântarea este deja adăugată!");
         selectateProgram.push(titlu);
     }
-    randeazaPlaylisturiAzi();
+    
+    // Salvează în Firebase ca să vadă toți instant
+    try {
+        await setDoc(doc(db, "playlist_zi", "astazi"), {
+            rugaciune: selectateRugaciune,
+            program: selectateProgram
+        });
+    } catch(e) { console.error(e); }
+}
+
+window.scoateSlot = async function(categorie, index) {
+    if(categorie === 'rugaciune') selectateRugaciune.splice(index, 1);
+    else selectateProgram.splice(index, 1);
+    
+    // Actualizează Firebase după ștergere
+    try {
+        await setDoc(doc(db, "playlist_zi", "astazi"), {
+            rugaciune: selectateRugaciune,
+            program: selectateProgram
+        });
+    } catch(e) { console.error(e); }
 }
 
 function randeazaPlaylisturiAzi() {
@@ -541,12 +577,6 @@ function randeazaPlaylisturiAzi() {
         }
     }
     document.getElementById("playlistProgram").innerHTML = htmlP;
-}
-
-window.scoateSlot = function(categorie, index) {
-    if(categorie === 'rugaciune') selectateRugaciune.splice(index, 1);
-    else selectateProgram.splice(index, 1);
-    randeazaPlaylisturiAzi();
 }
 
 window.adaugaCantare = async function(categorie) {
@@ -598,8 +628,6 @@ onSnapshot(query(collection(db, "cantari_program"), orderBy("creatLa", "asc")), 
     });
     document.getElementById("listaProgram").innerHTML = html || `<p style="opacity:0.5; font-size:12px; padding:10px;">Listă goală.</p>`;
 });
-
-randeazaPlaylisturiAzi();
 </script>
 </body>
 </html>
