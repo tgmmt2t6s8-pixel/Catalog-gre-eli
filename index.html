@@ -263,12 +263,12 @@ td {
     cursor: pointer;
 }
 
-/* CONTAINER NOU PENTRU BĂRILE DE CĂUTARE */
+/* CONTAINERUL DE CĂUTARE DUBLĂ */
 .bara-cautare-dubla {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
 }
 
 @media (max-width: 480px) {
@@ -276,16 +276,6 @@ td {
         grid-template-columns: 1fr;
         gap: 8px;
     }
-}
-
-.container-cantari-paralel {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-}
-
-@media (min-width: 768px) {
-    .container-cantari-paralel { grid-template-columns: repeat(2, 1fr); }
 }
 
 .header-sectiune {
@@ -430,6 +420,7 @@ td {
 <div id="cantari-tab" class="tab-content">
     <h1>🎵 Playlist & Repertoriu</h1>
 
+    <!-- 1. PLAYLISTUL LIVE -->
     <div class="card">
         <h2>🗓️ Cântări Selectate pentru Azi (LIVE)</h2>
         <table class="tabel-playlisturi">
@@ -446,28 +437,28 @@ td {
         </table>
     </div>
 
-    <!-- BĂRILE DE CĂUTARE SUNT ACUM AICI, SUS, UNA LÂNGĂ ALTA -->
+    <!-- 2. AMBELE BĂRI DE CĂUTARE (UNA LÂNGĂ ALTA) -->
     <div class="bara-cautare-dubla">
-        <input type="text" id="cautaRugaciune" class="cauta-input" placeholder="🔍 Caută melodiile de Rugăciune..." oninput="window.filtreazaCantari('rugaciune')">
-        <input type="text" id="cautaProgram" class="cauta-input" placeholder="🔍 Caută melodiile de Program..." oninput="window.filtreazaCantari('program')">
+        <input type="text" id="cautaRugaciune" class="cauta-input" placeholder="🔍 Caută în Rugăciune..." oninput="window.filtreazaCantari('rugaciune')">
+        <input type="text" id="cautaProgram" class="cauta-input" placeholder="🔍 Caută în Program..." oninput="window.filtreazaCantari('program')">
     </div>
 
-    <div class="container-cantari-paralel">
-        <div class="card">
-            <div class="header-sectiune">
-                <h2>🙏 Toate de Rugăciune</h2>
-                <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:13px; border:none;" onclick="window.adaugaCantare('rugaciune')">➕ Adaugă</button>
-            </div>
-            <ul id="listaRugaciune" class="lista-cantari"></ul>
+    <!-- 3. CASETA CU MELODII DE RUGĂCIUNE -->
+    <div class="card">
+        <div class="header-sectiune">
+            <h2>🙏 Toate de Rugăciune</h2>
+            <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:13px; border:none;" onclick="window.adaugaCantare('rugaciune')">➕ Adaugă</button>
         </div>
+        <ul id="listaRugaciune" class="lista-cantari"></ul>
+    </div>
 
-        <div class="card">
-            <div class="header-sectiune">
-                <h2>⛪ Toate de Program</h2>
-                <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:13px; border:none;" onclick="window.adaugaCantare('program')">➕ Adaugă</button>
-            </div>
-            <ul id="listaProgram" class="lista-cantari"></ul>
+    <!-- 4. CASETA CU MELODII DE PROGRAM -->
+    <div class="card">
+        <div class="header-sectiune">
+            <h2>⛪ Toate de Program</h2>
+            <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:13px; border:none;" onclick="window.adaugaCantare('program')">➕ Adaugă</button>
         </div>
+        <ul id="listaProgram" class="lista-cantari"></ul>
     </div>
 </div>
 
