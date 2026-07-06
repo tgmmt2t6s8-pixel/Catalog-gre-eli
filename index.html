@@ -243,6 +243,17 @@ td {
     border: 1px solid #67e8f9;
 }
 
+.badge-gama {
+    background: #67e8f9;
+    color: #0b0f19;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 800;
+    margin-left: 6px;
+    text-transform: uppercase;
+}
+
 .btn-elimina-slot {
     background: transparent;
     border: none;
@@ -263,13 +274,31 @@ td {
 }
 
 .header-sectiune {
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .header-sectiune h2 { margin: 0; }
+
+.cauta-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #white;
+    padding: 10px 12px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+    font-size: 13.5px;
+    font-weight: 600;
+}
+.cauta-input:focus {
+    outline: none;
+    border-color: #67e8f9;
+    background: rgba(255, 255, 255, 0.1);
+}
 
 .lista-cantari {
     list-style: none;
@@ -339,7 +368,6 @@ td {
     </button>
 </nav>
 
-<!-- SECTIUNEA 1: CATALOG -->
 <div id="catalog-tab" class="tab-content active">
     <h1>📊 Catalog Tineri</h1>
     
@@ -383,7 +411,6 @@ td {
     </div>
 </div>
 
-<!-- SECTIUNEA 2: CANTARI -->
 <div id="cantari-tab" class="tab-content">
     <h1>🎵 Playlist & Repertoriu</h1>
 
@@ -409,6 +436,7 @@ td {
                 <h2>🙏 Toate de Rugăciune</h2>
                 <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:13px; border:none;" onclick="window.adaugaCantare('rugaciune')">➕ Adaugă</button>
             </div>
+            <input type="text" id="cautaRugaciune" class="cauta-input" placeholder="🔍 Caută o melodie de rugăciune..." oninput="window.filtreazaCantari('rugaciune')">
             <ul id="listaRugaciune" class="lista-cantari"></ul>
         </div>
 
@@ -417,6 +445,7 @@ td {
                 <h2>⛪ Toate de Program</h2>
                 <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:13px; border:none;" onclick="window.adaugaCantare('program')">➕ Adaugă</button>
             </div>
+            <input type="text" id="cautaProgram" class="cauta-input" placeholder="🔍 Caută o melodie de program..." oninput="window.filtreazaCantari('program')">
             <ul id="listaProgram" class="lista-cantari"></ul>
         </div>
     </div>
@@ -458,6 +487,8 @@ const verseteMembri = {
 
 let selectateRugaciune = [];
 let selectateProgram = [];
+let dateRugaciuneComplete = [];
+let dateProgramComplete = [];
 
 window.adauga = async function(nume){
   try {
@@ -509,9 +540,8 @@ onSnapshot(collection(db,"puncte"), (snapshot)=>{
   document.getElementById("tableBody").innerHTML = html;
 });
 
-// --- REPERTORIU & PLAYLIST LIVE ---
+// --- REPERTORIU & PLAYLIST LIVE CU GAMA ---
 
-// Ascultă în timp real schimbarile playlist-ului zilnic din Firebase
 onSnapshot(doc(db, "playlist_zi", "astazi"), (docSnap) => {
     if (docSnap.exists()) {
         const data = docSnap.data();
@@ -525,17 +555,29 @@ onSnapshot(doc(db, "playlist_zi", "astazi"), (docSnap) => {
 });
 
 window.trimiteInPlaylist = async function(titlu, categorie) {
+    // Verificam daca melodia (ca titlu simplu) este deja pusa
+    const titluriExistente = (categorie === 'rugaciune' ? selectateRugaciune : selectateProgram).map(x => x.titlu);
+    
     if (categorie === 'rugaciune') {
         if (selectateRugaciune.length >= 4) return alert("Ai selectat deja maximul de 4 cântări la Rugăciune!");
-        if (selectateRugaciune.includes(titlu)) return alert("Cântarea este deja adăugată!");
-        selectateRugaciune.push(titlu);
+        if (titluriExistente.includes(titlu)) return alert("Cântarea este deja adăugată!");
     } else {
         if (selectateProgram.length >= 4) return alert("Ai selectat deja maximul de 4 cântări la Program!");
-        if (selectateProgram.includes(titlu)) return alert("Cântarea este deja adăugată!");
-        selectateProgram.push(titlu);
+        if (titluriExistente.includes(titlu)) return alert("Cântarea este deja adăugată!");
     }
     
-    // Salvează în Firebase ca să vadă toți instant
+    let gama = prompt(`Introdu gama pentru melodia „${titlu}” (ex: Do, Re, Mim, Lam) sau lasă gol dacă nu se știe:`);
+    if (gama === null) return; // a apasat pe cancel
+    gama = gama.trim() === "" ? "" : gama.trim();
+
+    const obiectMelodie = { titlu: titlu, gama: gama };
+
+    if (categorie === 'rugaciune') {
+        selectateRugaciune.push(obiectMelodie);
+    } else {
+        selectateProgram.push(obiectMelodie);
+    }
+    
     try {
         await setDoc(doc(db, "playlist_zi", "astazi"), {
             rugaciune: selectateRugaciune,
@@ -548,7 +590,6 @@ window.scoateSlot = async function(categorie, index) {
     if(categorie === 'rugaciune') selectateRugaciune.splice(index, 1);
     else selectateProgram.splice(index, 1);
     
-    // Actualizează Firebase după ștergere
     try {
         await setDoc(doc(db, "playlist_zi", "astazi"), {
             rugaciune: selectateRugaciune,
@@ -561,7 +602,8 @@ function randeazaPlaylisturiAzi() {
     let htmlR = "";
     for(let i=0; i<4; i++){
         if(selectateRugaciune[i]) {
-            htmlR += `<div class="slot-cantec ocupat"><span>${selectateRugaciune[i]}</span><button class="btn-elimina-slot" onclick="window.scoateSlot('rugaciune', ${i})">×</button></div>`;
+            let infoGama = selectateRugaciune[i].gama ? `<span class="badge-gama">${selectateRugaciune[i].gama}</span>` : '';
+            htmlR += `<div class="slot-cantec ocupat"><span>${selectateRugaciune[i].titlu} ${infoGama}</span><button class="btn-elimina-slot" onclick="window.scoateSlot('rugaciune', ${i})">×</button></div>`;
         } else {
             htmlR += `<div class="slot-cantec" style="opacity:0.4;"><span>Liber</span></div>`;
         }
@@ -571,12 +613,38 @@ function randeazaPlaylisturiAzi() {
     let htmlP = "";
     for(let i=0; i<4; i++){
         if(selectateProgram[i]) {
-            htmlP += `<div class="slot-cantec ocupat"><span>${selectateProgram[i]}</span><button class="btn-elimina-slot" onclick="window.scoateSlot('program', ${i})">×</button></div>`;
+            let infoGama = selectateProgram[i].gama ? `<span class="badge-gama">${selectateProgram[i].gama}</span>` : '';
+            htmlP += `<div class="slot-cantec ocupat"><span>${selectateProgram[i].titlu} ${infoGama}</span><button class="btn-elimina-slot" onclick="window.scoateSlot('program', ${i})">×</button></div>`;
         } else {
             htmlP += `<div class="slot-cantec" style="opacity:0.4;"><span>Liber</span></div>`;
         }
     }
     document.getElementById("playlistProgram").innerHTML = htmlP;
+}
+
+window.filtreazaCantari = function(categorie) {
+    const textCautat = document.getElementById(categorie === 'rugaciune' ? 'cautaRugaciune' : 'cautaProgram').value.toLowerCase();
+    const dateSursa = categorie === 'rugaciune' ? dateRugaciuneComplete : dateProgramComplete;
+    
+    const filtrate = dateSursa.filter(m => m.titlu.toLowerCase().includes(textCautat));
+    afiseazaInLista(filtrate, categorie);
+}
+
+function afiseazaInLista(vectorMelodii, categorie) {
+    let html = "";
+    vectorMelodii.forEach((m) => {
+        html += `<li>
+            <span>${m.titlu}</span>
+            <div class="actiuni-inline-cantari">
+                <button class="btn-inline selecteaza" onclick="window.trimiteInPlaylist('${m.titlu.replace(/'/g, "\\'")}', '${categorie}')">Alege</button>
+                <button class="btn-inline" onclick="window.editeazaCantare('${m.id}', '${m.titlu.replace(/'/g, "\\'")}', '${categorie}')">✏️</button>
+                <button class="btn-inline sterge" onclick="window.stergeCantare('${m.id}', '${categorie}')">🗑️</button>
+            </div>
+        </li>`;
+    });
+    
+    const containerId = categorie === 'rugaciune' ? 'listaRugaciune' : 'listaProgram';
+    document.getElementById(containerId).innerHTML = html || `<p style="opacity:0.5; font-size:12px; padding:10px;">Nicio melodie găsită.</p>`;
 }
 
 window.adaugaCantare = async function(categorie) {
@@ -597,36 +665,25 @@ window.stergeCantare = async function(id, categorie) {
     }
 }
 
-onSnapshot(query(collection(db, "cantari_rugaciune"), orderBy("creatLa", "asc")), (snapshot) => {
-    let html = "";
+// Încarcă melodiile sortate alfabetic după Titlu
+onSnapshot(collection(db, "cantari_rugaciune"), (snapshot) => {
+    dateRugaciuneComplete = [];
     snapshot.forEach((docSnap) => {
-        const d = docSnap.data();
-        html += `<li>
-            <span>${d.titlu}</span>
-            <div class="actiuni-inline-cantari">
-                <button class="btn-inline selecteaza" onclick="window.trimiteInPlaylist('${d.titlu}', 'rugaciune')">Alege</button>
-                <button class="btn-inline" onclick="window.editeazaCantare('${docSnap.id}', '${d.titlu}', 'rugaciune')">✏️</button>
-                <button class="btn-inline sterge" onclick="window.stergeCantare('${docSnap.id}', 'rugaciune')">🗑️</button>
-            </div>
-        </li>`;
+        dateRugaciuneComplete.push({ id: docSnap.id, ...docSnap.data() });
     });
-    document.getElementById("listaRugaciune").innerHTML = html || `<p style="opacity:0.5; font-size:12px; padding:10px;">Listă goală.</p>`;
+    // Sortare alfabetică nativă
+    dateRugaciuneComplete.sort((a, b) => a.titlu.localeCompare(b.titlu));
+    window.filtreazaCantari('rugaciune');
 });
 
-onSnapshot(query(collection(db, "cantari_program"), orderBy("creatLa", "asc")), (snapshot) => {
-    let html = "";
+onSnapshot(collection(db, "cantari_program"), (snapshot) => {
+    dateProgramComplete = [];
     snapshot.forEach((docSnap) => {
-        const d = docSnap.data();
-        html += `<li>
-            <span>${d.titlu}</span>
-            <div class="actiuni-inline-cantari">
-                <button class="btn-inline selecteaza" onclick="window.trimiteInPlaylist('${d.titlu}', 'program')">Alege</button>
-                <button class="btn-inline" onclick="window.editeazaCantare('${docSnap.id}', '${d.titlu}', 'program')">✏️</button>
-                <button class="btn-inline sterge" onclick="window.stergeCantare('${docSnap.id}', 'program')">🗑️</button>
-            </div>
-        </li>`;
+        dateProgramComplete.push({ id: docSnap.id, ...docSnap.data() });
     });
-    document.getElementById("listaProgram").innerHTML = html || `<p style="opacity:0.5; font-size:12px; padding:10px;">Listă goală.</p>`;
+    // Sortare alfabetică nativă
+    dateProgramComplete.sort((a, b) => a.titlu.localeCompare(b.titlu));
+    window.filtreazaCantari('program');
 });
 </script>
 </body>
