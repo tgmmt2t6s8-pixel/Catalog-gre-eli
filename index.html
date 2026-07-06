@@ -263,6 +263,21 @@ td {
     cursor: pointer;
 }
 
+/* CONTAINER NOU PENTRU BĂRILE DE CĂUTARE */
+.bara-cautare-dubla {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+@media (max-width: 480px) {
+    .bara-cautare-dubla {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+}
+
 .container-cantari-paralel {
     display: grid;
     grid-template-columns: 1fr;
@@ -290,7 +305,6 @@ td {
     padding: 10px 12px;
     border-radius: 10px;
     box-sizing: border-box;
-    margin-bottom: 12px;
     font-size: 13.5px;
     font-weight: 600;
 }
@@ -432,13 +446,18 @@ td {
         </table>
     </div>
 
+    <!-- BĂRILE DE CĂUTARE SUNT ACUM AICI, SUS, UNA LÂNGĂ ALTA -->
+    <div class="bara-cautare-dubla">
+        <input type="text" id="cautaRugaciune" class="cauta-input" placeholder="🔍 Caută melodiile de Rugăciune..." oninput="window.filtreazaCantari('rugaciune')">
+        <input type="text" id="cautaProgram" class="cauta-input" placeholder="🔍 Caută melodiile de Program..." oninput="window.filtreazaCantari('program')">
+    </div>
+
     <div class="container-cantari-paralel">
         <div class="card">
             <div class="header-sectiune">
                 <h2>🙏 Toate de Rugăciune</h2>
                 <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:13px; border:none;" onclick="window.adaugaCantare('rugaciune')">➕ Adaugă</button>
             </div>
-            <input type="text" id="cautaRugaciune" class="cauta-input" placeholder="🔍 Caută o melodie de rugăciune..." oninput="window.filtreazaCantari('rugaciune')">
             <ul id="listaRugaciune" class="lista-cantari"></ul>
         </div>
 
@@ -447,7 +466,6 @@ td {
                 <h2>⛪ Toate de Program</h2>
                 <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:13px; border:none;" onclick="window.adaugaCantare('program')">➕ Adaugă</button>
             </div>
-            <input type="text" id="cautaProgram" class="cauta-input" placeholder="🔍 Caută o melodie de program..." oninput="window.filtreazaCantari('program')">
             <ul id="listaProgram" class="lista-cantari"></ul>
         </div>
     </div>
