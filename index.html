@@ -286,7 +286,7 @@ td {
     width: 100%;
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #white;
+    color: white;
     padding: 10px 12px;
     border-radius: 10px;
     box-sizing: border-box;
@@ -368,6 +368,7 @@ td {
     </button>
 </nav>
 
+<!-- SECTIUNEA 1: CATALOG -->
 <div id="catalog-tab" class="tab-content active">
     <h1>📊 Catalog Tineri</h1>
     
@@ -411,6 +412,7 @@ td {
     </div>
 </div>
 
+<!-- SECTIUNEA 2: CANTARI -->
 <div id="cantari-tab" class="tab-content">
     <h1>🎵 Playlist & Repertoriu</h1>
 
@@ -462,7 +464,7 @@ td {
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, deleteDoc, onSnapshot, collection, addDoc, query, orderBy, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, deleteDoc, onSnapshot, collection, addDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDKO99h9zibkcz2yD0Cn091yRWFgV9HLNA",
@@ -555,7 +557,6 @@ onSnapshot(doc(db, "playlist_zi", "astazi"), (docSnap) => {
 });
 
 window.trimiteInPlaylist = async function(titlu, categorie) {
-    // Verificam daca melodia (ca titlu simplu) este deja pusa
     const titluriExistente = (categorie === 'rugaciune' ? selectateRugaciune : selectateProgram).map(x => x.titlu);
     
     if (categorie === 'rugaciune') {
@@ -567,7 +568,7 @@ window.trimiteInPlaylist = async function(titlu, categorie) {
     }
     
     let gama = prompt(`Introdu gama pentru melodia „${titlu}” (ex: Do, Re, Mim, Lam) sau lasă gol dacă nu se știe:`);
-    if (gama === null) return; // a apasat pe cancel
+    if (gama === null) return; 
     gama = gama.trim() === "" ? "" : gama.trim();
 
     const obiectMelodie = { titlu: titlu, gama: gama };
@@ -626,7 +627,7 @@ window.filtreazaCantari = function(categorie) {
     const textCautat = document.getElementById(categorie === 'rugaciune' ? 'cautaRugaciune' : 'cautaProgram').value.toLowerCase();
     const dateSursa = categorie === 'rugaciune' ? dateRugaciuneComplete : dateProgramComplete;
     
-    const filtrate = dateSursa.filter(m => m.titlu.toLowerCase().includes(textCautat));
+    const filtrate = dateSursa.filter(m => m.titlu && m.titlu.toLowerCase().includes(textCautat));
     afiseazaInLista(filtrate, categorie);
 }
 
@@ -665,13 +666,15 @@ window.stergeCantare = async function(id, categorie) {
     }
 }
 
-// Încarcă melodiile sortate alfabetic după Titlu
+// Încarcă melodiile din baza de date și le sortează alfabetic nativ
 onSnapshot(collection(db, "cantari_rugaciune"), (snapshot) => {
     dateRugaciuneComplete = [];
     snapshot.forEach((docSnap) => {
-        dateRugaciuneComplete.push({ id: docSnap.id, ...docSnap.data() });
+        const d = docSnap.data();
+        if(d.titlu) {
+            dateRugaciuneComplete.push({ id: docSnap.id, ...d });
+        }
     });
-    // Sortare alfabetică nativă
     dateRugaciuneComplete.sort((a, b) => a.titlu.localeCompare(b.titlu));
     window.filtreazaCantari('rugaciune');
 });
@@ -679,9 +682,11 @@ onSnapshot(collection(db, "cantari_rugaciune"), (snapshot) => {
 onSnapshot(collection(db, "cantari_program"), (snapshot) => {
     dateProgramComplete = [];
     snapshot.forEach((docSnap) => {
-        dateProgramComplete.push({ id: docSnap.id, ...docSnap.data() });
+        const d = docSnap.data();
+        if(d.titlu) {
+            dateProgramComplete.push({ id: docSnap.id, ...d });
+        }
     });
-    // Sortare alfabetică nativă
     dateProgramComplete.sort((a, b) => a.titlu.localeCompare(b.titlu));
     window.filtreazaCantari('program');
 });
