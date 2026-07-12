@@ -263,7 +263,6 @@ td {
     cursor: pointer;
 }
 
-/* CONTAINERUL DE CĂUTARE DUBLĂ */
 .bara-cautare-dubla {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -372,7 +371,6 @@ td {
     </button>
 </nav>
 
-<!-- SECTIUNEA 1: CATALOG -->
 <div id="catalog-tab" class="tab-content active">
     <h1>📊 Catalog Tineri</h1>
     
@@ -416,34 +414,30 @@ td {
     </div>
 </div>
 
-<!-- SECTIUNEA 2: CANTARI -->
 <div id="cantari-tab" class="tab-content">
     <h1>🎵 Playlist & Repertoriu</h1>
 
-    <!-- 1. PLAYLISTUL LIVE -->
     <div class="card">
         <h2>🗓️ Cântări Selectate pentru Azi (LIVE)</h2>
         <table class="tabel-playlisturi">
             <tr>
                 <td>
-                    <div style="font-size:12px; font-weight:700; color:#67e8f9; margin-bottom:8px; text-transform:uppercase;">🙏 Rugăciune (Max 4)</div>
+                    <div style="font-size:12px; font-weight:700; color:#67e8f9; margin-bottom:8px; text-transform:uppercase;">🙏 Rugăciune (Max 10)</div>
                     <div id="playlistRugaciune"></div>
                 </td>
                 <td>
-                    <div style="font-size:12px; font-weight:700; color:#67e8f9; margin-bottom:8px; text-transform:uppercase;">⛪ Program (Max 4)</div>
+                    <div style="font-size:12px; font-weight:700; color:#67e8f9; margin-bottom:8px; text-transform:uppercase;">⛪ Program (Max 10)</div>
                     <div id="playlistProgram"></div>
                 </td>
             </tr>
         </table>
     </div>
 
-    <!-- 2. AMBELE BĂRI DE CĂUTARE (UNA LÂNGĂ ALTA) -->
     <div class="bara-cautare-dubla">
         <input type="text" id="cautaRugaciune" class="cauta-input" placeholder="🔍 Caută în Rugăciune..." oninput="window.filtreazaCantari('rugaciune')">
         <input type="text" id="cautaProgram" class="cauta-input" placeholder="🔍 Caută în Program..." oninput="window.filtreazaCantari('program')">
     </div>
 
-    <!-- 3. CASETA CU MELODII DE RUGĂCIUNE -->
     <div class="card">
         <div class="header-sectiune">
             <h2>🙏 Toate de Rugăciune</h2>
@@ -452,7 +446,6 @@ td {
         <ul id="listaRugaciune" class="lista-cantari"></ul>
     </div>
 
-    <!-- 4. CASETA CU MELODII DE PROGRAM -->
     <div class="card">
         <div class="header-sectiune">
             <h2>⛪ Toate de Program</h2>
@@ -551,8 +544,6 @@ onSnapshot(collection(db,"puncte"), (snapshot)=>{
   document.getElementById("tableBody").innerHTML = html;
 });
 
-// --- REPERTORIU & PLAYLIST LIVE CU GAMA ---
-
 onSnapshot(doc(db, "playlist_zi", "astazi"), (docSnap) => {
     if (docSnap.exists()) {
         const data = docSnap.data();
@@ -569,10 +560,10 @@ window.trimiteInPlaylist = async function(titlu, categorie) {
     const titluriExistente = (categorie === 'rugaciune' ? selectateRugaciune : selectateProgram).map(x => x.titlu);
     
     if (categorie === 'rugaciune') {
-        if (selectateRugaciune.length >= 4) return alert("Ai selectat deja maximul de 4 cântări la Rugăciune!");
+        if (selectateRugaciune.length >= 10) return alert("Ai selectat deja maximul de 10 cântări la Rugăciune!");
         if (titluriExistente.includes(titlu)) return alert("Cântarea este deja adăugată!");
     } else {
-        if (selectateProgram.length >= 4) return alert("Ai selectat deja maximul de 4 cântări la Program!");
+        if (selectateProgram.length >= 10) return alert("Ai selectat deja maximul de 10 cântări la Program!");
         if (titluriExistente.includes(titlu)) return alert("Cântarea este deja adăugată!");
     }
     
@@ -610,7 +601,7 @@ window.scoateSlot = async function(categorie, index) {
 
 function randeazaPlaylisturiAzi() {
     let htmlR = "";
-    for(let i=0; i<4; i++){
+    for(let i=0; i<10; i++){
         if(selectateRugaciune[i]) {
             let infoGama = selectateRugaciune[i].gama ? `<span class="badge-gama">${selectateRugaciune[i].gama}</span>` : '';
             htmlR += `<div class="slot-cantec ocupat"><span>${selectateRugaciune[i].titlu} ${infoGama}</span><button class="btn-elimina-slot" onclick="window.scoateSlot('rugaciune', ${i})">×</button></div>`;
@@ -621,7 +612,7 @@ function randeazaPlaylisturiAzi() {
     document.getElementById("playlistRugaciune").innerHTML = htmlR;
 
     let htmlP = "";
-    for(let i=0; i<4; i++){
+    for(let i=0; i<10; i++){
         if(selectateProgram[i]) {
             let infoGama = selectateProgram[i].gama ? `<span class="badge-gama">${selectateProgram[i].gama}</span>` : '';
             htmlP += `<div class="slot-cantec ocupat"><span>${selectateProgram[i].titlu} ${infoGama}</span><button class="btn-elimina-slot" onclick="window.scoateSlot('program', ${i})">×</button></div>`;
@@ -675,7 +666,6 @@ window.stergeCantare = async function(id, categorie) {
     }
 }
 
-// Încarcă melodiile din baza de date și le sortează alfabetic nativ
 onSnapshot(collection(db, "cantari_rugaciune"), (snapshot) => {
     dateRugaciuneComplete = [];
     snapshot.forEach((docSnap) => {
