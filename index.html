@@ -371,6 +371,7 @@ td {
     </button>
 </nav>
 
+<!-- SECTIUNEA 1: CATALOG -->
 <div id="catalog-tab" class="tab-content active">
     <h1>📊 Catalog Tineri</h1>
     
@@ -414,6 +415,7 @@ td {
     </div>
 </div>
 
+<!-- SECTIUNEA 2: CANTARI -->
 <div id="cantari-tab" class="tab-content">
     <h1>🎵 Playlist & Repertoriu</h1>
 
@@ -556,7 +558,7 @@ onSnapshot(doc(db, "playlist_zi", "astazi"), (docSnap) => {
     randeazaPlaylisturiAzi();
 });
 
-window.trimiteInPlaylist = async function(titlu, categorie) {
+window.trimiteInPlaylist = async function(titlu, gamaSalvata, categorie) {
     const titluriExistente = (categorie === 'rugaciune' ? selectateRugaciune : selectateProgram).map(x => x.titlu);
     
     if (categorie === 'rugaciune') {
@@ -566,12 +568,8 @@ window.trimiteInPlaylist = async function(titlu, categorie) {
         if (selectateProgram.length >= 10) return alert("Ai selectat deja maximul de 10 cântări la Program!");
         if (titluriExistente.includes(titlu)) return alert("Cântarea este deja adăugată!");
     }
-    
-    let gama = prompt(`Introdu gama pentru melodia „${titlu}” (ex: Do, Re, Mim, Lam) sau lasă gol dacă nu se știe:`);
-    if (gama === null) return; 
-    gama = gama.trim() === "" ? "" : gama.trim();
 
-    const obiectMelodie = { titlu: titlu, gama: gama };
+    const obiectMelodie = { titlu: titlu, gama: gamaSalvata || "" };
 
     if (categorie === 'rugaciune') {
         selectateRugaciune.push(obiectMelodie);
@@ -634,10 +632,12 @@ window.filtreazaCantari = function(categorie) {
 function afiseazaInLista(vectorMelodii, categorie) {
     let html = "";
     vectorMelodii.forEach((m) => {
+        let infoGama = m.gama ? `<span class="badge-gama">${m.gama}</span>` : '';
         html += `<li>
-            <span>${m.titlu}</span>
+            <span>${m.titlu} ${infoGama}</span>
             <div class="actiuni-inline-cantari">
-                <button class="btn-inline selecteaza" onclick="window.trimiteInPlaylist('${m.titlu.replace(/'/g, "\\'")}', '${categorie}')">Alege</button>
+                <button class="btn-inline selecteaza" onclick="window.trimiteInPlaylist('${m.titlu.replace(/'/g, "\\'")}', '${(m.gama || "").replace(/'/g, "\\'")}', '${categorie}')">Alege</button>
+                <button class="btn-inline" onclick="window.editeazaGama('${m.id}', '${(m.gama || "").replace(/'/g, "\\'")}', '${categorie}')"># Gamă</button>
                 <button class="btn-inline" onclick="window.editeazaCantare('${m.id}', '${m.titlu.replace(/'/g, "\\'")}', '${categorie}')">✏️</button>
                 <button class="btn-inline sterge" onclick="window.stergeCantare('${m.id}', '${categorie}')">🗑️</button>
             </div>
@@ -651,7 +651,7 @@ function afiseazaInLista(vectorMelodii, categorie) {
 window.adaugaCantare = async function(categorie) {
     let t = prompt("Numele melodiei noi:");
     if(!t || t.trim() === "") return;
-    try { await addDoc(collection(db, `cantari_${categorie}`), { titlu: t.trim(), creatLa: Date.now() }); } catch(e){ console.error(e); }
+    try { await addDoc(collection(db, `cantari_${categorie}`), { titlu: t.trim(), gama: "", creatLa: Date.now() }); } catch(e){ console.error(e); }
 }
 
 window.editeazaCantare = async function(id, titluVechi, categorie) {
@@ -660,9 +660,15 @@ window.editeazaCantare = async function(id, titluVechi, categorie) {
     try { await updateDoc(doc(db, `cantari_${categorie}`, id), { titlu: t.trim() }); } catch(e){ console.error(e); }
 }
 
+window.editeazaGama = async function(id, gamaVeche, categorie) {
+    let g = prompt("Introdu sau modifică gama (ex: Do, Re, Mim, Lam):", gamaVeche);
+    if(g === null) return;
+    try { await updateDoc(doc(db, `cantari_${categorie}`, id), { gama: g.trim() }); } catch(e){ console.error(e); }
+}
+
 window.stergeCantare = async function(id, categorie) {
     if(confirm("Ștergi definitiv această melodie?")) {
-        try { await deleteDoc(doc(db, `cantari_${categorie}`, id)); } catch(e){ console.error(e); }
+        try { deleteDoc(doc(db, `cantari_${categorie}`, id)); } catch(e){ console.error(e); }
     }
 }
 
