@@ -52,6 +52,30 @@ body::before {
     -webkit-overflow-scrolling: touch;
 }
 
+/* Stilizare Bara de Scroll (Scrollbar) - Elegantă și discretă */
+.main-content::-webkit-scrollbar {
+    width: 5px;
+}
+
+.main-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+    background: #67e8f9;
+}
+
+/* Pentru Firefox */
+.main-content {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
 h1 {
     font-size: 24px;
     font-weight: 800;
