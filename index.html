@@ -14,13 +14,12 @@
 
 <title>Repertoriu Biserică</title>
 <style>
-html, body {
-    touch-action: manipulation;
-    -webkit-text-size-adjust: 100%;
-    overflow: hidden;
-    overscroll-behavior: none;
-    height: 100%;
+/* Permitem scroll-ul doar pe ecranul principal (body/html), nu pe containere interne */
+html {
     background-color: #0b0f19;
+    height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: none;
 }
 
 body {
@@ -28,6 +27,9 @@ body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: #ffffff;
     position: relative;
+    min-height: 100%;
+    touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
 }
 
 body::before {
@@ -42,38 +44,35 @@ body::before {
     z-index: -1;
 }
 
+/* Stilizare Bara de Scroll direct pe marginea ecranului */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(103, 232, 249, 0.5);
+}
+
+/* Suport Firefox */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
 .main-content {
     max-width: 900px;
     margin: auto;
     padding: 12px;
-    height: 100%;
     box-sizing: border-box;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-/* Stilizare Bara de Scroll (Scrollbar) - Elegantă și discretă */
-.main-content::-webkit-scrollbar {
-    width: 5px;
-}
-
-.main-content::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.main-content::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-}
-
-.main-content::-webkit-scrollbar-thumb:hover {
-    background: #67e8f9;
-}
-
-/* Pentru Firefox */
-.main-content {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }
 
 h1 {
