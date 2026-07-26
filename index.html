@@ -6,13 +6,16 @@
 
 <link class="main-manifest" rel="manifest" href="./manifest.json?v=50">
 <meta name="theme-color" content="#0b0f19">
-<link class="apple-touch-icon" href="./icon-192.png?v=50">
+
+<!-- Iconiță nouă pentru aplicație (Muzică / Laudă) -->
+<link class="apple-touch-icon" href="https://img.icons8.com/fluency/192/musical-notes.png">
+<link rel="icon" type="image/png" href="https://img.icons8.com/fluency/192/musical-notes.png">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Repertoriu Biserică">
+<meta name="apple-mobile-web-app-title" content="Repertoriu & Laudă">
 
-<title>Repertoriu Biserică</title>
+<title>Repertoriu & Laudă</title>
 <style>
 /* Permitem scroll-ul doar pe ecranul principal (body/html), nu pe containere interne */
 html {
@@ -237,7 +240,7 @@ h2 {
 <body>
 
 <div class="main-content">
-    <h1>🎵 Playlist & Repertoriu</h1>
+    <h1>🎶 Repertoriu & Laudă</h1>
 
     <div class="card">
         <h2>🗓️ Cântări Selectate pentru Azi (LIVE)</h2>
@@ -409,7 +412,7 @@ window.adaugaCantare = async function(categorie) {
 window.editeazaCantare = async function(id, titluVechi, categorie) {
     let t = prompt("Modifică numele melodiei:", titluVechi);
     if(!t || t.trim() === "" || t.trim() === titluVechi) return;
-    try { await updateDoc(doc(db, `cantari_${categorie}`, id), { titlu: t.trim() }); } catch(e){ console.error(e); }
+    try { await updateDoc(doc(doc, `cantari_${categorie}`, id), { titlu: t.trim() }); } catch(e){ console.error(e); }
 }
 
 window.editeazaGama = async function(id, gamaVeche, categorie) {
