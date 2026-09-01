@@ -66,32 +66,10 @@ body {
 body::before {
     content: "";
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     background: linear-gradient(rgba(11, 15, 25, 0.65), rgba(11, 15, 25, 0.95)), 
                 url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop') center center / cover no-repeat;
     z-index: -1;
-}
-
-::-webkit-scrollbar {
-    width: 6px;
-}
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(103, 232, 249, 0.5);
-}
-
-html {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
 }
 
 .main-content {
@@ -283,4 +261,184 @@ h2 {
 }
 .btn-inline.selecteaza { background: #67e8f9; color: #0b0f19; border: none; }
 .btn-inline.resurse { background: rgba(2, 132, 199, 0.35); color: #38bdf8; border-color: rgba(56, 189, 248, 0.4); }
-.btn-inline.sterge { background: rgba(239, 68, 68, 0.15); color: #fca5a5
+.btn-inline.sterge { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border-color: rgba(239, 68, 68, 0.3); flex: 0 0 auto; padding: 4px 8px; }
+</style>
+</head>
+<body>
+
+<div class="main-content">
+    <h1>🎶 Repertoriu & Laudă</h1>
+
+    <div class="card">
+        <h2>🗓️ Cântări Selectate pentru Azi (LIVE)</h2>
+        <table class="tabel-playlisturi">
+            <tr>
+                <td>
+                    <div style="font-size:12px; font-weight:700; color:#67e8f9; margin-bottom:8px; text-transform:uppercase;">🙏 Rugăciune (Max 10)</div>
+                    <div id="playlistRugaciune"></div>
+                </td>
+                <td>
+                    <div style="font-size:12px; font-weight:700; color:#67e8f9; margin-bottom:8px; text-transform:uppercase;">⛪ Program (Max 10)</div>
+                    <div id="playlistProgram"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="bara-cautare-dubla">
+        <input type="text" id="cautaRugaciune" class="cauta-input" placeholder="🔍 Caută în Rugăciune..." oninput="window.filtreazaCantari('rugaciune')">
+        <input type="text" id="cautaProgram" class="cauta-input" placeholder="🔍 Caută în Program..." oninput="window.filtreazaCantari('program')">
+    </div>
+
+    <div class="card">
+        <div class="header-sectiune">
+            <h2>🙏 Toate de Rugăciune</h2>
+            <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:12px; border:none; flex:none;" onclick="window.adaugaCantare('rugaciune')">➕ Adaugă</button>
+        </div>
+        <ul id="listaRugaciune" class="lista-cantari"></ul>
+    </div>
+
+    <div class="card">
+        <div class="header-sectiune">
+            <h2>⛪ Toate de Program</h2>
+            <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:12px; border:none; flex:none;" onclick="window.adaugaCantare('program')">➕ Adaugă</button>
+        </div>
+        <ul id="listaProgram" class="lista-cantari"></ul>
+    </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection, addDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDKO99h9zibkcz2yD0Cn091yRWFgV9HLNA",
+  authDomain: "catalog-absente.firebaseapp.com",
+  projectId: "catalog-absente",
+  storageBucket: "catalog-absente.appspot.com",
+  messagingSenderId: "1042227111577",
+  appId: "1:1042227111577:web:3d09dfb323420a5f5fba08"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let selectateRugaciune = [];
+let selectateProgram = [];
+let dateRugaciuneComplete = [];
+let dateProgramComplete = [];
+
+window.deschideResurse = function(titlu) {
+    // Redirecționare directă către prima opțiune relevantă pe Resurse Creștine
+    const url = `https://www.google.com/search?q=${encodeURIComponent(titlu + " resurse crestine acorduri")}&btnI=1`;
+    window.open(url, '_blank');
+}
+
+onSnapshot(doc(db, "playlist_zi", "astazi"), (docSnap) => {
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        selectateRugaciune = data.rugaciune || [];
+        selectateProgram = data.program || [];
+    } else {
+        selectateRugaciune = [];
+        selectateProgram = [];
+    }
+    randeazaPlaylisturiAzi();
+});
+
+window.trimiteInPlaylist = async function(titlu, gamaSalvata, categorie) {
+    const titluriExistente = (categorie === 'rugaciune' ? selectateRugaciune : selectateProgram).map(x => x.titlu);
+    
+    if (categorie === 'rugaciune') {
+        if (selectateRugaciune.length >= 10) return alert("Ai selectat deja maximul de 10 cântări la Rugăciune!");
+        if (titluriExistente.includes(titlu)) return alert("Cântarea este deja adăugată!");
+    } else {
+        if (selectateProgram.length >= 10) return alert("Ai selectat deja maximul de 10 cântări la Program!");
+        if (titluriExistente.includes(titlu)) return alert("Cântarea este deja adăugată!");
+    }
+
+    const obiectMelodie = { titlu: titlu, gama: gamaSalvata || "" };
+
+    if (categorie === 'rugaciune') {
+        selectateRugaciune.push(obiectMelodie);
+    } else {
+        selectateProgram.push(obiectMelodie);
+    }
+    
+    try {
+        await setDoc(doc(db, "playlist_zi", "astazi"), {
+            rugaciune: selectateRugaciune,
+            program: selectateProgram
+        });
+    } catch(e) { console.error(e); }
+}
+
+window.scoateSlot = async function(categorie, index) {
+    if(categorie === 'rugaciune') selectateRugaciune.splice(index, 1);
+    else selectateProgram.splice(index, 1);
+    
+    try {
+        await setDoc(doc(db, "playlist_zi", "astazi"), {
+            rugaciune: selectateRugaciune,
+            program: selectateProgram
+        });
+    } catch(e) { console.error(e); }
+}
+
+function randeazaPlaylisturiAzi() {
+    let htmlR = "";
+    for(let i=0; i<10; i++){
+        if(selectateRugaciune[i]) {
+            let infoGama = selectateRugaciune[i].gama ? `<span class="badge-gama">${selectateRugaciune[i].gama}</span>` : '';
+            let titluEscape = selectateRugaciune[i].titlu.replace(/'/g, "\\'");
+            htmlR += `<div class="slot-cantec ocupat">
+                <span>${selectateRugaciune[i].titlu}${infoGama}</span>
+                <div style="display:flex; gap:4px; align-items:center;">
+                    <button class="btn-inline resurse" style="padding:2px 6px; flex:none;" onclick="window.deschideResurse('${titluEscape}')">🔗</button>
+                    <button class="btn-elimina-slot" onclick="window.scoateSlot('rugaciune', ${i})">×</button>
+                </div>
+            </div>`;
+        } else {
+            htmlR += `<div class="slot-cantec" style="opacity:0.4;"><span>Liber</span></div>`;
+        }
+    }
+    document.getElementById("playlistRugaciune").innerHTML = htmlR;
+
+    let htmlP = "";
+    for(let i=0; i<10; i++){
+        if(selectateProgram[i]) {
+            let infoGama = selectateProgram[i].gama ? `<span class="badge-gama">${selectateProgram[i].gama}</span>` : '';
+            let titluEscape = selectateProgram[i].titlu.replace(/'/g, "\\'");
+            htmlP += `<div class="slot-cantec ocupat">
+                <span>${selectateProgram[i].titlu}${infoGama}</span>
+                <div style="display:flex; gap:4px; align-items:center;">
+                    <button class="btn-inline resurse" style="padding:2px 6px; flex:none;" onclick="window.deschideResurse('${titluEscape}')">🔗</button>
+                    <button class="btn-elimina-slot" onclick="window.scoateSlot('program', ${i})">×</button>
+                </div>
+            </div>`;
+        } else {
+            htmlP += `<div class="slot-cantec" style="opacity:0.4;"><span>Liber</span></div>`;
+        }
+    }
+    document.getElementById("playlistProgram").innerHTML = htmlP;
+}
+
+window.filtreazaCantari = function(categorie) {
+    const textCautat = document.getElementById(categorie === 'rugaciune' ? 'cautaRugaciune' : 'cautaProgram').value.toLowerCase();
+    const dateSursa = categorie === 'rugaciune' ? dateRugaciuneComplete : dateProgramComplete;
+    
+    const filtrate = dateSursa.filter(m => m.titlu && m.titlu.toLowerCase().includes(textCautat));
+    afiseazaInLista(filtrate, categorie);
+}
+
+function afiseazaInLista(vectorMelodii, categorie) {
+    let html = "";
+    vectorMelodii.forEach((m) => {
+        let infoGama = m.gama ? `<span class="badge-gama">${m.gama}</span>` : '';
+        let titluEscape = m.titlu.replace(/'/g, "\\'");
+        html += `<li>
+            <div class="rand-titlu-gama">
+                <span class="titlu-cantare">${m.titlu}</span>${infoGama}
+            </div>
+            <div class="actiuni-inline-cantari">
+                <button class="btn-inline selecteaza" onclick
