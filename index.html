@@ -252,6 +252,7 @@ h2 {
 .actiuni-inline-cantari {
     display: flex;
     gap: 6px;
+    align-items: center;
 }
 
 .btn-inline {
@@ -263,8 +264,14 @@ h2 {
     font-size: 11px;
     font-weight: 700;
     cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 .btn-inline.selecteaza { background: #67e8f9; color: #0b0f19; border: none; }
+.btn-inline.resurse { background: rgba(2, 132, 199, 0.3); color: #38bdf8; border-color: rgba(56, 189, 248, 0.4); }
+.btn-inline.resurse:hover { background: #0284c7; color: white; }
 .btn-inline.sterge { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border-color: rgba(239, 68, 68, 0.3); }
 </style>
 </head>
@@ -332,6 +339,12 @@ let selectateProgram = [];
 let dateRugaciuneComplete = [];
 let dateProgramComplete = [];
 
+// Deschide direct căutarea versurilor & acordurilor pe Resurse Creștine
+window.deschideResurse = function(titlu) {
+    const url = `https://www.resursecrestine.ro/cautare?q=${encodeURIComponent(titlu)}`;
+    window.open(url, '_blank');
+}
+
 onSnapshot(doc(db, "playlist_zi", "astazi"), (docSnap) => {
     if (docSnap.exists()) {
         const data = docSnap.data();
@@ -388,7 +401,14 @@ function randeazaPlaylisturiAzi() {
     for(let i=0; i<10; i++){
         if(selectateRugaciune[i]) {
             let infoGama = selectateRugaciune[i].gama ? `<span class="badge-gama">${selectateRugaciune[i].gama}</span>` : '';
-            htmlR += `<div class="slot-cantec ocupat"><span>${selectateRugaciune[i].titlu} ${infoGama}</span><button class="btn-elimina-slot" onclick="window.scoateSlot('rugaciune', ${i})">×</button></div>`;
+            let titluEscape = selectateRugaciune[i].titlu.replace(/'/g, "\\'");
+            htmlR += `<div class="slot-cantec ocupat">
+                <span>${selectateRugaciune[i].titlu} ${infoGama}</span>
+                <div style="display:flex; gap:4px; align-items:center;">
+                    <button class="btn-inline resurse" style="padding:2px 6px;" onclick="window.deschideResurse('${titluEscape}')">🔗</button>
+                    <button class="btn-elimina-slot" onclick="window.scoateSlot('rugaciune', ${i})">×</button>
+                </div>
+            </div>`;
         } else {
             htmlR += `<div class="slot-cantec" style="opacity:0.4;"><span>Liber</span></div>`;
         }
@@ -399,7 +419,14 @@ function randeazaPlaylisturiAzi() {
     for(let i=0; i<10; i++){
         if(selectateProgram[i]) {
             let infoGama = selectateProgram[i].gama ? `<span class="badge-gama">${selectateProgram[i].gama}</span>` : '';
-            htmlP += `<div class="slot-cantec ocupat"><span>${selectateProgram[i].titlu} ${infoGama}</span><button class="btn-elimina-slot" onclick="window.scoateSlot('program', ${i})">×</button></div>`;
+            let titluEscape = selectateProgram[i].titlu.replace(/'/g, "\\'");
+            htmlP += `<div class="slot-cantec ocupat">
+                <span>${selectateProgram[i].titlu} ${infoGama}</span>
+                <div style="display:flex; gap:4px; align-items:center;">
+                    <button class="btn-inline resurse" style="padding:2px 6px;" onclick="window.deschideResurse('${titluEscape}')">🔗</button>
+                    <button class="btn-elimina-slot" onclick="window.scoateSlot('program', ${i})">×</button>
+                </div>
+            </div>`;
         } else {
             htmlP += `<div class="slot-cantec" style="opacity:0.4;"><span>Liber</span></div>`;
         }
@@ -419,12 +446,14 @@ function afiseazaInLista(vectorMelodii, categorie) {
     let html = "";
     vectorMelodii.forEach((m) => {
         let infoGama = m.gama ? `<span class="badge-gama">${m.gama}</span>` : '';
+        let titluEscape = m.titlu.replace(/'/g, "\\'");
         html += `<li>
             <span>${m.titlu} ${infoGama}</span>
             <div class="actiuni-inline-cantari">
-                <button class="btn-inline selecteaza" onclick="window.trimiteInPlaylist('${m.titlu.replace(/'/g, "\\'")}', '${(m.gama || "").replace(/'/g, "\\'")}', '${categorie}')">Alege</button>
+                <button class="btn-inline selecteaza" onclick="window.trimiteInPlaylist('${titluEscape}', '${(m.gama || "").replace(/'/g, "\\'")}', '${categorie}')">Alege</button>
+                <button class="btn-inline resurse" onclick="window.deschideResurse('${titluEscape}')">🔗 Acorduri</button>
                 <button class="btn-inline" onclick="window.editeazaGama('${m.id}', '${(m.gama || "").replace(/'/g, "\\'")}', '${categorie}')"># Gamă</button>
-                <button class="btn-inline" onclick="window.editeazaCantare('${m.id}', '${m.titlu.replace(/'/g, "\\'")}', '${categorie}')">✏️</button>
+                <button class="btn-inline" onclick="window.editeazaCantare('${m.id}', '${titluEscape}', '${categorie}')">✏️</button>
                 <button class="btn-inline sterge" onclick="window.stergeCantare('${m.id}', '${categorie}')">🗑️</button>
             </div>
         </li>`;
