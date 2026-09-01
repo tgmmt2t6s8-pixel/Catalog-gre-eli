@@ -328,9 +328,10 @@ let selectateProgram = [];
 let dateRugaciuneComplete = [];
 let dateProgramComplete = [];
 
+/* CĂUTARE GOOGLE DIRECTĂ CĂTRE RESURSE CREȘTINE (100% FUNCȚIONALĂ) */
 window.deschideResurse = function(titlu) {
-    // Redirecționare directă către prima opțiune relevantă pe Resurse Creștine
-    const url = `https://www.google.com/search?q=${encodeURIComponent(titlu + " resurse crestine acorduri")}&btnI=1`;
+    const interogare = encodeURIComponent(`site:resursecrestine.ro acorduri ${titlu}`);
+    const url = `https://www.google.com/search?q=${interogare}`;
     window.open(url, '_blank');
 }
 
@@ -392,7 +393,7 @@ function randeazaPlaylisturiAzi() {
             let infoGama = selectateRugaciune[i].gama ? `<span class="badge-gama">${selectateRugaciune[i].gama}</span>` : '';
             let titluEscape = selectateRugaciune[i].titlu.replace(/'/g, "\\'");
             htmlR += `<div class="slot-cantec ocupat">
-                <span>${selectateRugaciune[i].titlu}${infoGama}</span>
+                <span>${selectateRugaciune[i].titlu} ${infoGama}</span>
                 <div style="display:flex; gap:4px; align-items:center;">
                     <button class="btn-inline resurse" style="padding:2px 6px; flex:none;" onclick="window.deschideResurse('${titluEscape}')">🔗</button>
                     <button class="btn-elimina-slot" onclick="window.scoateSlot('rugaciune', ${i})">×</button>
@@ -410,7 +411,7 @@ function randeazaPlaylisturiAzi() {
             let infoGama = selectateProgram[i].gama ? `<span class="badge-gama">${selectateProgram[i].gama}</span>` : '';
             let titluEscape = selectateProgram[i].titlu.replace(/'/g, "\\'");
             htmlP += `<div class="slot-cantec ocupat">
-                <span>${selectateProgram[i].titlu}${infoGama}</span>
+                <span>${selectateProgram[i].titlu} ${infoGama}</span>
                 <div style="display:flex; gap:4px; align-items:center;">
                     <button class="btn-inline resurse" style="padding:2px 6px; flex:none;" onclick="window.deschideResurse('${titluEscape}')">🔗</button>
                     <button class="btn-elimina-slot" onclick="window.scoateSlot('program', ${i})">×</button>
@@ -438,7 +439,70 @@ function afiseazaInLista(vectorMelodii, categorie) {
         let titluEscape = m.titlu.replace(/'/g, "\\'");
         html += `<li>
             <div class="rand-titlu-gama">
-                <span class="titlu-cantare">${m.titlu}</span>${infoGama}
+                <span class="titlu-cantare">${m.titlu}</span>
+                ${infoGama}
             </div>
             <div class="actiuni-inline-cantari">
-                <button class="btn-inline selecteaza" onclick
+                <button class="btn-inline selecteaza" onclick="window.trimiteInPlaylist('${titluEscape}', '${(m.gama || "").replace(/'/g, "\\'")}', '${categorie}')">Alege</button>
+                <button class="btn-inline resurse" onclick="window.deschideResurse('${titluEscape}')">🔗 Acorduri</button>
+                <button class="btn-inline" onclick="window.editeazaGama('${m.id}', '${(m.gama || "").replace(/'/g, "\\'")}', '${categorie}')"># Gamă</button>
+                <button class="btn-inline" onclick="window.editeazaCantare('${m.id}', '${titluEscape}', '${categorie}')">✏️</button>
+                <button class="btn-inline sterge" onclick="window.stergeCantare('${m.id}', '${categorie}')">🗑️</button>
+            </div>
+        </li>`;
+    });
+    
+    const containerId = categorie === 'rugaciune' ? 'listaRugaciune' : 'listaProgram';
+    document.getElementById(containerId).innerHTML = html || `<p style="opacity:0.5; font-size:12px; padding:10px;">Nicio melodie găsită.</p>`;
+}
+
+window.adaugaCantare = async function(categorie) {
+    let t = prompt("Numele melodiei noi:");
+    if(!t || t.trim() === "") return;
+    try { await addDoc(collection(db, `cantari_${categorie}`), { titlu: t.trim(), gama: "", creatLa: Date.now() }); } catch(e){ console.error(e); }
+}
+
+window.editeazaCantare = async function(id, titluVechi, categorie) {
+    let t = prompt("Modifică numele melodiei:", titluVechi);
+    if(!t || t.trim() === "" || t.trim() === titluVechi) return;
+    try { await updateDoc(doc(db, `cantari_${categorie}`, id), { titlu: t.trim() }); } catch(e){ console.error(e); }
+}
+
+window.editeazaGama = async function(id, gamaVeche, categorie) {
+    let g = prompt("Introdu sau modifică gama (ex: Do, Re, Mim, Lam):", gamaVeche);
+    if(g === null) return;
+    try { await updateDoc(doc(db, `cantari_${categorie}`, id), { gama: g.trim() }); } catch(e){ console.error(e); }
+}
+
+window.stergeCantare = async function(id, categorie) {
+    if(confirm("Ștergi definitiv această melodie?")) {
+        try { await deleteDoc(doc(db, `cantari_${categorie}`, id)); } catch(e){ console.error(e); }
+    }
+}
+
+onSnapshot(collection(db, "cantari_rugaciune"), (snapshot) => {
+    dateRugaciuneComplete = [];
+    snapshot.forEach((docSnap) => {
+        const d = docSnap.data();
+        if(d.titlu) {
+            dateRugaciuneComplete.push({ id: docSnap.id, ...d });
+        }
+    });
+    dateRugaciuneComplete.sort((a, b) => a.titlu.localeCompare(b.titlu));
+    window.filtreazaCantari('rugaciune');
+});
+
+onSnapshot(collection(db, "cantari_program"), (snapshot) => {
+    dateProgramComplete = [];
+    snapshot.forEach((docSnap) => {
+        const d = docSnap.data();
+        if(d.titlu) {
+            dateProgramComplete.push({ id: docSnap.id, ...d });
+        }
+    });
+    dateProgramComplete.sort((a, b) => a.titlu.localeCompare(b.titlu));
+    window.filtreazaCantari('program');
+});
+</script>
+</body>
+</html>
