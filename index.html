@@ -2,484 +2,494 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aplicație Interactivă - Închinare & Acorduri</title>
 
-<meta name="theme-color" content="#0b0f19">
-
-<!-- Iconițe noi -->
-<link rel="apple-touch-icon" href="https://img.icons8.com/fluency/192/musical-notes.png">
-<link rel="icon" type="image/png" href="https://img.icons8.com/fluency/192/musical-notes.png">
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Repertoriu & Laudă">
-
-<title>Repertoriu & Laudă</title>
-
-<!-- Generare dinamică Manifest PWA pentru a suprascrie definitiv vechiul catalog -->
-<script>
-  const manifestData = {
-    "name": "Repertoriu & Laudă",
-    "short_name": "Repertoriu",
-    "start_url": "./",
-    "display": "standalone",
-    "background_color": "#0b0f19",
-    "theme_color": "#0b0f19",
-    "icons": [
-      {
-        "src": "https://img.icons8.com/fluency/192/musical-notes.png",
-        "sizes": "192x192",
-        "type": "image/png"
-      },
-      {
-        "src": "https://img.icons8.com/fluency/512/musical-notes.png",
-        "sizes": "512x512",
-        "type": "image/png"
-      }
-    ]
-  };
-  const stringManifest = JSON.stringify(manifestData);
-  const blob = new Blob([stringManifest], {type: 'application/json'});
-  const manifestURL = URL.createObjectURL(blob);
-  const link = document.createElement('link');
-  link.rel = 'manifest';
-  link.href = manifestURL;
-  document.getElementsByTagName('head')[0].appendChild(link);
-</script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 
 <style>
-/* Permitem scroll-ul doar pe ecranul principal (body/html) */
-html {
-    background-color: #0b0f19;
-    height: 100%;
-    overflow-y: auto;
-    overscroll-behavior: none;
-}
-
-body {
-    margin: 0;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    color: #ffffff;
-    position: relative;
-    min-height: 100%;
-    touch-action: manipulation;
-    -webkit-text-size-adjust: 100%;
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(rgba(11, 15, 25, 0.65), rgba(11, 15, 25, 0.95)), 
-                url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop') center center / cover no-repeat;
-    z-index: -1;
-}
-
-/* Stilizare Bara de Scroll direct pe marginea ecranului */
-::-webkit-scrollbar {
-    width: 6px;
-}
-
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(103, 232, 249, 0.5);
-}
-
-/* Suport Firefox */
-html {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
-}
-
-.main-content {
-    max-width: 900px;
-    margin: auto;
-    padding: 12px;
-    box-sizing: border-box;
-}
-
-h1 {
-    font-size: 24px;
-    font-weight: 800;
-    text-align: center;
-    margin: 10px 0 20px 0;
-    letter-spacing: -0.5px;
-    text-shadow: 0 0 10px rgba(103, 232, 249, 0.3);
-}
-
-h2 {
-    font-size: 13px;
-    font-weight: 700;
-    margin-top: 0;
-    margin-bottom: 14px;
-    color: #67e8f9;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-}
-
-.card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    border: 1px solid rgba(255, 255, 255, 0.1); 
-    border-radius: 20px;
-    padding: 16px;
-    margin-bottom: 16px;
-    box-sizing: border-box;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
-
-.tabel-playlisturi {
-    width: 100%;
-    margin-bottom: 4px;
-}
-
-.tabel-playlisturi td {
-    border: none;
-    padding: 6px;
-    width: 50%;
-    vertical-align: top;
-}
-
-.slot-cantec {
-    background: rgba(103, 232, 249, 0.05);
-    border: 1px dashed rgba(103, 232, 249, 0.25);
-    padding: 10px 12px;
-    border-radius: 12px;
-    font-size: 13.5px;
-    font-weight: 600;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 6px;
-}
-
-.slot-cantec.ocupat {
-    background: rgba(103, 232, 249, 0.15);
-    border: 1px solid #67e8f9;
-}
-
-.badge-gama {
-    background: #67e8f9;
-    color: #0b0f19;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 800;
-    margin-left: 6px;
-    text-transform: uppercase;
-}
-
-.btn-elimina-slot {
-    background: transparent;
-    border: none;
-    color: #fca5a5;
-    font-weight: 800;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.bara-cautare-dubla {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-bottom: 16px;
-}
-
-@media (max-width: 480px) {
-    .bara-cautare-dubla {
-        grid-template-columns: 1fr;
-        gap: 8px;
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #0d1117;
+        color: white;
+        font-family: system-ui, -apple-system, sans-serif;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
     }
-}
 
-.header-sectiune {
-    margin-bottom: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+    #container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-.header-sectiune h2 { margin: 0; }
+    video { display: none; }
 
-.cauta-input {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: white;
-    padding: 10px 12px;
-    border-radius: 10px;
-    box-sizing: border-box;
-    font-size: 13.5px;
-    font-weight: 600;
-}
-.cauta-input:focus {
-    outline: none;
-    border-color: #67e8f9;
-    background: rgba(255, 255, 255, 0.1);
-}
+    canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
 
-.lista-cantari {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+    .controls-overlay {
+        position: absolute;
+        top: 15px;
+        z-index: 10;
+        display: flex;
+        gap: 10px;
+        background: rgba(15, 23, 42, 0.9);
+        padding: 10px 18px;
+        border-radius: 50px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        align-items: center;
+    }
 
-.lista-cantari li {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 10px 12px;
-    border-radius: 12px;
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+    select, button {
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        outline: none;
+    }
 
-.actiuni-inline-cantari {
-    display: flex;
-    gap: 6px;
-}
+    /* ZONA KARAOKE / VERSURI */
+    #lyricsBox {
+        position: absolute;
+        top: 80px;
+        z-index: 10;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(103, 232, 249, 0.4);
+        padding: 15px 25px;
+        border-radius: 20px;
+        text-align: center;
+        max-width: 80%;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
 
-.btn-inline {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    color: white;
-    padding: 5px 8px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-}
-.btn-inline.selecteaza { background: #67e8f9; color: #0b0f19; border: none; }
-.btn-inline.sterge { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border-color: rgba(239, 68, 68, 0.3); }
+    #lyricLine {
+        font-size: 22px;
+        font-weight: bold;
+        color: #f8fafc;
+        margin-bottom: 8px;
+    }
+
+    #targetChordDisplay {
+        font-size: 16px;
+        color: #facc15;
+        font-weight: bold;
+    }
+
+    .song-nav-btn {
+        margin: 0 5px;
+        padding: 4px 12px;
+        font-size: 12px;
+        background: #0284c7;
+        border: none;
+    }
+
+    #statusMessage {
+        position: absolute;
+        bottom: 25px;
+        z-index: 10;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 10px 20px;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #67e8f9;
+        text-align: center;
+        border: 1px solid rgba(103, 232, 249, 0.3);
+    }
 </style>
 </head>
 <body>
 
-<div class="main-content">
-    <h1>🎶 Repertoriu & Laudă</h1>
+<div id="container">
+    <video id="input_video" autoplay playsinline muted></video>
+    <canvas id="output_canvas"></canvas>
 
-    <div class="card">
-        <h2>🗓️ Cântări Selectate pentru Azi (LIVE)</h2>
-        <table class="tabel-playlisturi">
-            <tr>
-                <td>
-                    <div style="font-size:12px; font-weight:700; color:#67e8f9; margin-bottom:8px; text-transform:uppercase;">🙏 Rugăciune (Max 10)</div>
-                    <div id="playlistRugaciune"></div>
-                </td>
-                <td>
-                    <div style="font-size:12px; font-weight:700; color:#67e8f9; margin-bottom:8px; text-transform:uppercase;">⛪ Program (Max 10)</div>
-                    <div id="playlistProgram"></div>
-                </td>
-            </tr>
-        </table>
+    <!-- Meniu de sus -->
+    <div class="controls-overlay">
+        <select id="songSelect">
+            <option value="0">🎵 Cântă suflet al meu</option>
+            <option value="1">🎵 Splendoare de împărat</option>
+            <option value="2">🎵 Mă chemi să umblu peste ape</option>
+        </select>
+
+        <label style="font-size: 12px; font-weight: bold;">Gama:</label>
+        <button id="transposeDownBtn"><b>-</b></button>
+        <span id="transposeDisplay" style="font-size: 13px; font-weight: bold; color: #67e8f9;">0 ST</span>
+        <button id="transposeUpBtn"><b>+</b></button>
+
+        <select id="instrumentSelect">
+            <option value="piano">🎹 Pian</option>
+            <option value="guitar">🎸 Chitară</option>
+            <option value="synth">🎛️ Sintezator</option>
+        </select>
+
+        <button id="startAudioBtn">▶️ Pornește</button>
     </div>
 
-    <div class="bara-cautare-dubla">
-        <input type="text" id="cautaRugaciune" class="cauta-input" placeholder="🔍 Caută în Rugăciune..." oninput="window.filtreazaCantari('rugaciune')">
-        <input type="text" id="cautaProgram" class="cauta-input" placeholder="🔍 Caută în Program..." oninput="window.filtreazaCantari('program')">
-    </div>
-
-    <div class="card">
-        <div class="header-sectiune">
-            <h2>🙏 Toate de Rugăciune</h2>
-            <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:13px; border:none;" onclick="window.adaugaCantare('rugaciune')">➕ Adaugă</button>
+    <!-- Zonă Versuri & Ghidaj Acord Ghidat -->
+    <div id="lyricsBox">
+        <div id="lyricLine">Apasă 'Pornește' pentru a începe piesa</div>
+        <div id="targetChordDisplay">
+            <button class="song-nav-btn" id="prevLineBtn">◄ Înapoi</button>
+            <span id="targetChordText">Acord recomandat: -</span>
+            <button class="song-nav-btn" id="nextLineBtn">Înainte ►</button>
         </div>
-        <ul id="listaRugaciune" class="lista-cantari"></ul>
     </div>
 
-    <div class="card">
-        <div class="header-sectiune">
-            <h2>⛪ Toate de Program</h2>
-            <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:13px; border:none;" onclick="window.adaugaCantare('program')">➕ Adaugă</button>
-        </div>
-        <ul id="listaProgram" class="lista-cantari"></ul>
-    </div>
+    <div id="statusMessage">Apasă pe butonul de sus pentru a porni camera...</div>
 </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection, addDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<script>
+const videoElement = document.getElementById('input_video');
+const canvasElement = document.getElementById('output_canvas');
+const canvasCtx = canvasElement.getContext('2d');
+const statusMessage = document.getElementById('statusMessage');
+const startAudioBtn = document.getElementById('startAudioBtn');
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDKO99h9zibkcz2yD0Cn091yRWFgV9HLNA",
-  authDomain: "catalog-absente.firebaseapp.com",
-  projectId: "catalog-absente",
-  storageBucket: "catalog-absente.appspot.com",
-  messagingSenderId: "1042227111577",
-  appId: "1:1042227111577:web:3d09dfb323420a5f5fba08"
+let audioStarted = false;
+let activeInstrument = 'piano';
+let currentChordName = null;
+let isProcessing = false;
+let currentHandLandmarks = null;
+let transposeSemiTones = 0;
+
+// Rețetă de acorduri de bază
+const baseChords = [
+    { name: "Do (C)", root: "C4", notes: ["C4", "E4", "G4"] },
+    { name: "Re m (Dm)", root: "D4", notes: ["D4", "F4", "A4"] },
+    { name: "Mi m (Em)", root: "E4", notes: ["E4", "G4", "B4"] },
+    { name: "Fa (F)", root: "F4", notes: ["F4", "A4", "C5"] },
+    { name: "Sol (G)", root: "G4", notes: ["G4", "B4", "D5"] },
+    { name: "La m (Am)", root: "A4", notes: ["A4", "C5", "E5"] },
+    { name: "Si dim", root: "B4", notes: ["B4", "D5", "F5"] },
+    { name: "Do high", root: "C5", notes: ["C5", "E5", "G5"] }
+];
+
+let activeChords = JSON.parse(JSON.stringify(baseChords));
+
+// Catalogul de piese cu versuri și acorduri de ghidaj (indexate după poziția sectorului 0..7)
+const songsDatabase = [
+    {
+        title: "Cântă suflet al meu",
+        lines: [
+            { text: "Cântă suflet al meu, pentru Domnul", targetIndex: 3 }, // Fa (F)
+            { text: "Cântă suflet al meu!", targetIndex: 0 }, // Do (C)
+            { text: "Numele Lui cel Sfânt laudă-L azi", targetIndex: 4 }, // Sol (G)
+            { text: "Cântă ca niciodată, suflet al meu", targetIndex: 5 }, // La m (Am)
+            { text: "O, nume-I înălțat!", targetIndex: 3 }  // Fa (F)
+        ]
+    },
+    {
+        title: "Splendoare de împărat",
+        lines: [
+            { text: "Splendoare de Împărat, îmbrăcat în maiestate", targetIndex: 0 }, // Do (C)
+            { text: "Pământul va cânta, pământul va cânta!", targetIndex: 5 }, // La m (Am)
+            { text: "El este îmbrăcat în lumină și har", targetIndex: 3 }, // Fa (F)
+            { text: "Și întunericul va pieri din cale...", targetIndex: 4 }  // Sol (G)
+        ]
+    },
+    {
+        title: "Mă chemi să umblu peste ape",
+        lines: [
+            { text: "Mă chemi să umblu peste ape", targetIndex: 5 }, // La m (Am)
+            { text: "Unde credința-mi poate cădea...", targetIndex: 4 }, // Sol (G)
+            { text: "Acolo Te găsesc în taină", targetIndex: 3 }, // Fa (F)
+            { text: "În ape adânci mă vei purta!", targetIndex: 0 }  // Do (C)
+        ]
+    }
+];
+
+let currentSongIndex = 0;
+let currentLineIndex = 0;
+
+// Reverb & Sintetizatoare
+const reverb = new Tone.Reverb({ decay: 1.5, preDelay: 0.05 }).toDestination();
+const instruments = {
+    piano: new Tone.PolySynth(Tone.Synth, { oscillator: { type: "triangle" }, envelope: { attack: 0.005, decay: 1.2, sustain: 0.1, release: 1.2 } }).connect(reverb),
+    guitar: new Tone.PolySynth(Tone.Synth, { oscillator: { type: "sawtooth" }, envelope: { attack: 0.01, decay: 0.8, sustain: 0.1, release: 0.8 } }).connect(reverb),
+    synth: new Tone.PolySynth(Tone.Synth, { oscillator: { type: "sine" }, envelope: { attack: 0.1, decay: 0.3, sustain: 0.8, release: 1 } }).toDestination()
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// Transpunere Acorduri
+function updateTranspose(st) {
+    transposeSemiTones += st;
+    document.getElementById('transposeDisplay').innerText = (transposeSemiTones >= 0 ? "+" : "") + transposeSemiTones + " ST";
+    
+    activeChords = baseChords.map(chord => {
+        const transposedNotes = chord.notes.map(note => Tone.Frequency(note).transpose(transposeSemiTones).toNote());
+        return { ...chord, notes: transposedNotes };
+    });
+}
 
-let selectateRugaciune = [];
-let selectateProgram = [];
-let dateRugaciuneComplete = [];
-let dateProgramComplete = [];
+document.getElementById('transposeUpBtn').addEventListener('click', () => updateTranspose(1));
+document.getElementById('transposeDownBtn').addEventListener('click', () => updateTranspose(-1));
 
-onSnapshot(doc(db, "playlist_zi", "astazi"), (docSnap) => {
-    if (docSnap.exists()) {
-        const data = docSnap.data();
-        selectateRugaciune = data.rugaciune || [];
-        selectateProgram = data.program || [];
-    } else {
-        selectateRugaciune = [];
-        selectateProgram = [];
-    }
-    randeazaPlaylisturiAzi();
+// Actualizare Versuri
+function updateLyricsUI() {
+    const song = songsDatabase[currentSongIndex];
+    const line = song.lines[currentLineIndex];
+    document.getElementById('lyricLine').innerText = line.text;
+    const targetChordName = activeChords[line.targetIndex].name;
+    document.getElementById('targetChordText').innerText = `Ghidaj Acord: ${targetChordName}`;
+}
+
+document.getElementById('songSelect').addEventListener('change', (e) => {
+    currentSongIndex = parseInt(e.target.value);
+    currentLineIndex = 0;
+    updateLyricsUI();
 });
 
-window.trimiteInPlaylist = async function(titlu, gamaSalvata, categorie) {
-    const titluriExistente = (categorie === 'rugaciune' ? selectateRugaciune : selectateProgram).map(x => x.titlu);
-    
-    if (categorie === 'rugaciune') {
-        if (selectateRugaciune.length >= 10) return alert("Ai selectat deja maximul de 10 cântări la Rugăciune!");
-        if (titluriExistente.includes(titlu)) return alert("Cântarea este deja adăugată!");
-    } else {
-        if (selectateProgram.length >= 10) return alert("Ai selectat deja maximul de 10 cântări la Program!");
-        if (titluriExistente.includes(titlu)) return alert("Cântarea este deja adăugată!");
-    }
-
-    const obiectMelodie = { titlu: titlu, gama: gamaSalvata || "" };
-
-    if (categorie === 'rugaciune') {
-        selectateRugaciune.push(obiectMelodie);
-    } else {
-        selectateProgram.push(obiectMelodie);
-    }
-    
-    try {
-        await setDoc(doc(db, "playlist_zi", "astazi"), {
-            rugaciune: selectateRugaciune,
-            program: selectateProgram
-        });
-    } catch(e) { console.error(e); }
-}
-
-window.scoateSlot = async function(categorie, index) {
-    if(categorie === 'rugaciune') selectateRugaciune.splice(index, 1);
-    else selectateProgram.splice(index, 1);
-    
-    try {
-        await setDoc(doc(db, "playlist_zi", "astazi"), {
-            rugaciune: selectateRugaciune,
-            program: selectateProgram
-        });
-    } catch(e) { console.error(e); }
-}
-
-function randeazaPlaylisturiAzi() {
-    let htmlR = "";
-    for(let i=0; i<10; i++){
-        if(selectateRugaciune[i]) {
-            let infoGama = selectateRugaciune[i].gama ? `<span class="badge-gama">${selectateRugaciune[i].gama}</span>` : '';
-            htmlR += `<div class="slot-cantec ocupat"><span>${selectateRugaciune[i].titlu} ${infoGama}</span><button class="btn-elimina-slot" onclick="window.scoateSlot('rugaciune', ${i})">×</button></div>`;
-        } else {
-            htmlR += `<div class="slot-cantec" style="opacity:0.4;"><span>Liber</span></div>`;
-        }
-    }
-    document.getElementById("playlistRugaciune").innerHTML = htmlR;
-
-    let htmlP = "";
-    for(let i=0; i<10; i++){
-        if(selectateProgram[i]) {
-            let infoGama = selectateProgram[i].gama ? `<span class="badge-gama">${selectateProgram[i].gama}</span>` : '';
-            htmlP += `<div class="slot-cantec ocupat"><span>${selectateProgram[i].titlu} ${infoGama}</span><button class="btn-elimina-slot" onclick="window.scoateSlot('program', ${i})">×</button></div>`;
-        } else {
-            htmlP += `<div class="slot-cantec" style="opacity:0.4;"><span>Liber</span></div>`;
-        }
-    }
-    document.getElementById("playlistProgram").innerHTML = htmlP;
-}
-
-window.filtreazaCantari = function(categorie) {
-    const textCautat = document.getElementById(categorie === 'rugaciune' ? 'cautaRugaciune' : 'cautaProgram').value.toLowerCase();
-    const dateSursa = categorie === 'rugaciune' ? dateRugaciuneComplete : dateProgramComplete;
-    
-    const filtrate = dateSursa.filter(m => m.titlu && m.titlu.toLowerCase().includes(textCautat));
-    afiseazaInLista(filtrate, categorie);
-}
-
-function afiseazaInLista(vectorMelodii, categorie) {
-    let html = "";
-    vectorMelodii.forEach((m) => {
-        let infoGama = m.gama ? `<span class="badge-gama">${m.gama}</span>` : '';
-        html += `<li>
-            <span>${m.titlu} ${infoGama}</span>
-            <div class="actiuni-inline-cantari">
-                <button class="btn-inline selecteaza" onclick="window.trimiteInPlaylist('${m.titlu.replace(/'/g, "\\'")}', '${(m.gama || "").replace(/'/g, "\\'")}', '${categorie}')">Alege</button>
-                <button class="btn-inline" onclick="window.editeazaGama('${m.id}', '${(m.gama || "").replace(/'/g, "\\'")}', '${categorie}')"># Gamă</button>
-                <button class="btn-inline" onclick="window.editeazaCantare('${m.id}', '${m.titlu.replace(/'/g, "\\'")}', '${categorie}')">✏️</button>
-                <button class="btn-inline sterge" onclick="window.stergeCantare('${m.id}', '${categorie}')">🗑️</button>
-            </div>
-        </li>`;
-    });
-    
-    const containerId = categorie === 'rugaciune' ? 'listaRugaciune' : 'listaProgram';
-    document.getElementById(containerId).innerHTML = html || `<p style="opacity:0.5; font-size:12px; padding:10px;">Nicio melodie găsită.</p>`;
-}
-
-window.adaugaCantare = async function(categorie) {
-    let t = prompt("Numele melodiei noi:");
-    if(!t || t.trim() === "") return;
-    try { await addDoc(collection(db, `cantari_${categorie}`), { titlu: t.trim(), gama: "", creatLa: Date.now() }); } catch(e){ console.error(e); }
-}
-
-window.editeazaCantare = async function(id, titluVechi, categorie) {
-    let t = prompt("Modifică numele melodiei:", titluVechi);
-    if(!t || t.trim() === "" || t.trim() === titluVechi) return;
-    try { await updateDoc(doc(db, `cantari_${categorie}`, id), { titlu: t.trim() }); } catch(e){ console.error(e); }
-}
-
-window.editeazaGama = async function(id, gamaVeche, categorie) {
-    let g = prompt("Introdu sau modifică gama (ex: Do, Re, Mim, Lam):", gamaVeche);
-    if(g === null) return;
-    try { await updateDoc(doc(db, `cantari_${categorie}`, id), { gama: g.trim() }); } catch(e){ console.error(e); }
-}
-
-window.stergeCantare = async function(id, categorie) {
-    if(confirm("Ștergi definitiv această melodie?")) {
-        try { await deleteDoc(doc(db, `cantari_${categorie}`, id)); } catch(e){ console.error(e); }
-    }
-}
-
-onSnapshot(collection(db, "cantari_rugaciune"), (snapshot) => {
-    dateRugaciuneComplete = [];
-    snapshot.forEach((docSnap) => {
-        const d = docSnap.data();
-        if(d.titlu) {
-            dateRugaciuneComplete.push({ id: docSnap.id, ...d });
-        }
-    });
-    dateRugaciuneComplete.sort((a, b) => a.titlu.localeCompare(b.titlu));
-    window.filtreazaCantari('rugaciune');
+document.getElementById('prevLineBtn').addEventListener('click', () => {
+    if (currentLineIndex > 0) currentLineIndex--;
+    updateLyricsUI();
 });
 
-onSnapshot(collection(db, "cantari_program"), (snapshot) => {
-    dateProgramComplete = [];
-    snapshot.forEach((docSnap) => {
-        const d = docSnap.data();
-        if(d.titlu) {
-            dateProgramComplete.push({ id: docSnap.id, ...d });
+document.getElementById('nextLineBtn').addEventListener('click', () => {
+    const song = songsDatabase[currentSongIndex];
+    if (currentLineIndex < song.lines.length - 1) currentLineIndex++;
+    updateLyricsUI();
+});
+
+// Schimbare de pe tastatură (Săgeată Stânga/Dreapta)
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') document.getElementById('nextLineBtn').click();
+    if (e.key === 'ArrowLeft') document.getElementById('prevLineBtn').click();
+});
+
+document.getElementById('instrumentSelect').addEventListener('change', (e) => {
+    stopChord();
+    activeInstrument = e.target.value;
+});
+
+function resizeCanvas() {
+    canvasElement.width = window.innerWidth;
+    canvasElement.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function playChord(chord) {
+    if (!audioStarted) return;
+    if (currentChordName !== chord.name) {
+        stopChord();
+        const inst = instruments[activeInstrument];
+        if (inst) inst.triggerAttack(chord.notes);
+        currentChordName = chord.name;
+        statusMessage.innerText = `Gamă Activă: ${chord.name}`;
+    }
+}
+
+function stopChord() {
+    if (!audioStarted) return;
+    if (currentChordName !== null) {
+        Object.keys(instruments).forEach(key => {
+            try { instruments[key].releaseAll(); } catch(e){}
+        });
+        currentChordName = null;
+        statusMessage.innerText = "Arată mâna spre cameră...";
+    }
+}
+
+function processFingerPosition(x, y) {
+    const centerX = canvasElement.width / 2;
+    const centerY = canvasElement.height / 2;
+    const outerRadius = Math.min(centerX, centerY) * 0.55;
+    const innerRadius = 50;
+
+    const dx = x - centerX;
+    const dy = y - centerY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance >= innerRadius && distance <= outerRadius) {
+        let angle = Math.atan2(dy, dx); 
+        if (angle < 0) angle += 2 * Math.PI;
+
+        const sliceAngle = (2 * Math.PI) / activeChords.length;
+        const index = Math.floor(angle / sliceAngle);
+
+        playChord(activeChords[index]);
+        return index;
+    } else {
+        stopChord();
+        return null;
+    }
+}
+
+function drawChordWheel(activeSector) {
+    const centerX = canvasElement.width / 2;
+    const centerY = canvasElement.height / 2;
+    const outerRadius = Math.min(centerX, centerY) * 0.55;
+    const innerRadius = 50;
+    const numSlices = activeChords.length;
+    const sliceAngle = (2 * Math.PI) / numSlices;
+
+    const currentSong = songsDatabase[currentSongIndex];
+    const targetGuideSector = currentSong.lines[currentLineIndex].targetIndex;
+
+    for (let i = 0; i < numSlices; i++) {
+        const startAngle = i * sliceAngle;
+        const endAngle = startAngle + sliceAngle;
+
+        canvasCtx.beginPath();
+        canvasCtx.arc(centerX, centerY, outerRadius, startAngle, endAngle);
+        canvasCtx.arc(centerX, centerY, innerRadius, endAngle, startAngle, true);
+        canvasCtx.closePath();
+
+        if (i === activeSector) {
+            // Sector activat de mână (Albastru strălucitor)
+            canvasCtx.fillStyle = 'rgba(103, 232, 249, 0.6)';
+            canvasCtx.strokeStyle = '#67e8f9';
+            canvasCtx.lineWidth = 4;
+        } else if (i === targetGuideSector) {
+            // Sector Ghidat de Cântare (Galben intens intermitent)
+            canvasCtx.fillStyle = 'rgba(250, 204, 21, 0.45)';
+            canvasCtx.strokeStyle = '#facc15';
+            canvasCtx.lineWidth = 3;
+        } else {
+            canvasCtx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+            canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+            canvasCtx.lineWidth = 1;
         }
+
+        canvasCtx.fill();
+        canvasCtx.stroke();
+
+        const midAngle = startAngle + sliceAngle / 2;
+        const textRadius = (outerRadius + innerRadius) / 2;
+        const textX = centerX + Math.cos(midAngle) * textRadius;
+        const textY = centerY + Math.sin(midAngle) * textRadius;
+
+        canvasCtx.save();
+        canvasCtx.translate(textX, textY);
+        canvasCtx.fillStyle = (i === activeSector || i === targetGuideSector) ? '#ffffff' : 'rgba(255, 255, 255, 0.75)';
+        canvasCtx.font = 'bold 14px sans-serif';
+        canvasCtx.textAlign = 'center';
+        canvasCtx.textBaseline = 'middle';
+        canvasCtx.fillText(activeChords[i].name, 0, 0);
+        canvasCtx.restore();
+    }
+
+    canvasCtx.beginPath();
+    canvasCtx.arc(centerX, centerY, innerRadius, 0, 2 * Math.PI);
+    canvasCtx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    canvasCtx.fill();
+    canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+    canvasCtx.stroke();
+}
+
+// MediaPipe Setup
+const hands = new Hands({
+    locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+});
+
+hands.setOptions({
+    maxNumHands: 1,
+    modelComplexity: 0,
+    minDetectionConfidence: 0.5,
+    minTrackingConfidence: 0.5
+});
+
+hands.onResults((results) => {
+    if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+        currentHandLandmarks = results.multiHandLandmarks[0];
+    } else {
+        currentHandLandmarks = null;
+    }
+    isProcessing = false;
+});
+
+function drawLoop() {
+    canvasCtx.save();
+    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    
+    canvasCtx.translate(canvasElement.width, 0);
+    canvasCtx.scale(-1, 1);
+    if (videoElement.readyState >= 2) {
+        canvasCtx.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+    }
+    canvasCtx.restore();
+
+    let activeSector = null;
+
+    if (currentHandLandmarks) {
+        const indexTip = currentHandLandmarks[8]; 
+        const fingerX = (1 - indexTip.x) * canvasElement.width;
+        const fingerY = indexTip.y * canvasElement.height;
+
+        activeSector = processFingerPosition(fingerX, fingerY);
+
+        canvasCtx.save();
+        canvasCtx.beginPath();
+        canvasCtx.arc(fingerX, fingerY, 12, 0, 2 * Math.PI);
+        canvasCtx.fillStyle = '#67e8f9';
+        canvasCtx.shadowColor = '#67e8f9';
+        canvasCtx.shadowBlur = 15;
+        canvasCtx.fill();
+        canvasCtx.restore();
+    } else {
+        stopChord();
+    }
+
+    drawChordWheel(activeSector);
+
+    if (!isProcessing && videoElement.readyState >= 2) {
+        isProcessing = true;
+        hands.send({ image: videoElement }).catch(() => { isProcessing = false; });
+    }
+
+    requestAnimationFrame(drawLoop);
+}
+
+async function setupCamera() {
+    const stream = await navigator.mediaDevices.getUserMedia({
+        video: { width: 640, height: 480 },
+        audio: false
     });
-    dateProgramComplete.sort((a, b) => a.titlu.localeCompare(b.titlu));
-    window.filtreazaCantari('program');
+    videoElement.srcObject = stream;
+    return new Promise((resolve) => {
+        videoElement.onloadedmetadata = () => {
+            videoElement.play();
+            resolve();
+        };
+    });
+}
+
+startAudioBtn.addEventListener('click', async () => {
+    try {
+        statusMessage.innerText = "Se pornește sistemul...";
+        await Tone.start();
+        audioStarted = true;
+
+        await setupCamera();
+        startAudioBtn.style.display = 'none';
+        statusMessage.innerText = "Aplicația este activă! Arată degetul spre cerc.";
+        
+        updateLyricsUI();
+        drawLoop();
+    } catch (err) {
+        console.error(err);
+        statusMessage.style.color = "#fca5a5";
+        statusMessage.innerText = "Eroare la pornirea camerei!";
+    }
 });
 </script>
 </body>
