@@ -2,300 +2,514 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Catalog Melodii Biserică & Resurse Creștine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<meta name="theme-color" content="#0b0f19">
+
+<!-- Iconițe noi -->
+<link rel="apple-touch-icon" href="https://img.icons8.com/fluency/192/musical-notes.png">
+<link rel="icon" type="image/png" href="https://img.icons8.com/fluency/192/musical-notes.png">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Repertoriu & Laudă">
+
+<title>Repertoriu & Laudă</title>
+
+<!-- Generare dinamică Manifest PWA pentru a suprascrie definitiv vechiul catalog -->
+<script>
+  const manifestData = {
+    "name": "Repertoriu & Laudă",
+    "short_name": "Repertoriu",
+    "start_url": "./",
+    "display": "standalone",
+    "background_color": "#0b0f19",
+    "theme_color": "#0b0f19",
+    "icons": [
+      {
+        "src": "https://img.icons8.com/fluency/192/musical-notes.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "https://img.icons8.com/fluency/512/musical-notes.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  };
+  const stringManifest = JSON.stringify(manifestData);
+  const blob = new Blob([stringManifest], {type: 'application/json'});
+  const manifestURL = URL.createObjectURL(blob);
+  const link = document.createElement('link');
+  link.rel = 'manifest';
+  link.href = manifestURL;
+  document.getElementsByTagName('head')[0].appendChild(link);
+</script>
+
 <style>
-    body {
-        font-family: system-ui, -apple-system, sans-serif;
-        background-color: #0f172a;
-        color: #f8fafc;
-        margin: 0;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: 100vh;
-    }
+/* Permitem scroll-ul doar pe ecranul principal (body/html) */
+html {
+    background-color: #0b0f19;
+    height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: none;
+}
 
-    .container {
-        max-width: 700px;
-        width: 100%;
-        background: #1e293b;
-        padding: 25px;
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        border: 1px solid rgba(255,255,255,0.1);
-    }
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #ffffff;
+    position: relative;
+    min-height: 100%;
+    touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
+}
 
-    h1 {
-        text-align: center;
-        color: #38bdf8;
-        margin-top: 0;
-        margin-bottom: 20px;
-    }
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(11, 15, 25, 0.65), rgba(11, 15, 25, 0.95)), 
+                url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop') center center / cover no-repeat;
+    z-index: -1;
+}
 
-    /* Cautare */
-    .search-box {
-        width: 100%;
-        margin-bottom: 20px;
-    }
+/* Stilizare Bara de Scroll direct pe marginea ecranului */
+::-webkit-scrollbar {
+    width: 6px;
+}
 
-    .search-input {
-        width: 100%;
-        padding: 12px 16px;
-        border-radius: 10px;
-        border: 1px solid #475569;
-        background: #0f172a;
-        color: white;
-        font-size: 16px;
-        box-sizing: border-box;
-        outline: none;
-    }
+::-webkit-scrollbar-track {
+    background: transparent;
+}
 
-    .search-input:focus {
-        border-color: #38bdf8;
-    }
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
 
-    /* Lista de melodii */
-    .song-list {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        max-height: 70vh;
-        overflow-y: auto;
-        padding-right: 5px;
-    }
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(103, 232, 249, 0.5);
+}
 
-    .song-card {
-        background: #0f172a;
-        padding: 14px 18px;
-        border-radius: 12px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border: 1px solid #334155;
-        transition: transform 0.1s ease, border-color 0.2s;
-    }
+/* Suport Firefox */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
 
-    .song-card:hover {
-        border-color: #38bdf8;
-    }
+.main-content {
+    max-width: 900px;
+    margin: auto;
+    padding: 12px;
+    box-sizing: border-box;
+}
 
-    .song-info {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-    }
+h1 {
+    font-size: 24px;
+    font-weight: 800;
+    text-align: center;
+    margin: 10px 0 20px 0;
+    letter-spacing: -0.5px;
+    text-shadow: 0 0 10px rgba(103, 232, 249, 0.3);
+}
 
-    .song-title {
-        font-size: 17px;
-        font-weight: bold;
-        color: #f8fafc;
-    }
+h2 {
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 14px;
+    color: #67e8f9;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
 
-    .song-tag {
-        font-size: 12px;
-        color: #94a3b8;
-        background: rgba(255, 255, 255, 0.05);
-        padding: 2px 8px;
-        border-radius: 4px;
-        width: fit-content;
-    }
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+    border-radius: 20px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
 
-    /* Buton Resurse Crestine */
-    .btn-resurse {
-        background-color: #0284c7;
-        color: white;
-        text-decoration: none;
-        padding: 8px 14px;
-        border-radius: 8px;
-        font-size: 13px;
-        font-weight: bold;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        transition: background-color 0.2s;
-        border: none;
-        cursor: pointer;
-    }
+.tabel-playlisturi {
+    width: 100%;
+    margin-bottom: 4px;
+}
 
-    .btn-resurse:hover {
-        background-color: #0369a1;
-    }
+.tabel-playlisturi td {
+    border: none;
+    padding: 6px;
+    width: 50%;
+    vertical-align: top;
+}
 
-    /* Scrollbar personalizat */
-    .song-list::-webkit-scrollbar {
-        width: 6px;
+.slot-cantec {
+    background: rgba(103, 232, 249, 0.05);
+    border: 1px dashed rgba(103, 232, 249, 0.25);
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.slot-cantec.ocupat {
+    background: rgba(103, 232, 249, 0.15);
+    border: 1px solid #67e8f9;
+}
+
+.badge-gama {
+    background: #67e8f9;
+    color: #0b0f19;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 800;
+    margin-left: 6px;
+    text-transform: uppercase;
+}
+
+.btn-elimina-slot {
+    background: transparent;
+    border: none;
+    color: #fca5a5;
+    font-weight: 800;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.bara-cautare-dubla {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 480px) {
+    .bara-cautare-dubla {
+        grid-template-columns: 1fr;
+        gap: 8px;
     }
-    .song-list::-webkit-scrollbar-thumb {
-        background: #334155;
-        border-radius: 10px;
-    }
+}
+
+.header-sectiune {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-sectiune h2 { margin: 0; }
+
+.cauta-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 10px 12px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 13.5px;
+    font-weight: 600;
+}
+.cauta-input:focus {
+    outline: none;
+    border-color: #67e8f9;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.lista-cantari {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lista-cantari li {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 10px 12px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.actiuni-inline-cantari {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.btn-inline {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: white;
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-inline.selecteaza { background: #67e8f9; color: #0b0f19; border: none; }
+.btn-inline.resurse { background: rgba(2, 132, 199, 0.3); color: #38bdf8; border-color: rgba(56, 189, 248, 0.4); }
+.btn-inline.resurse:hover { background: #0284c7; color: white; }
+.btn-inline.sterge { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border-color: rgba(239, 68, 68, 0.3); }
 </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>📖 Catalog Melodii Biserică</h1>
+<div class="main-content">
+    <h1>🎶 Repertoriu & Laudă</h1>
 
-    <div class="search-box">
-        <input type="text" id="searchInput" class="search-input" placeholder="Caută o melodie din listă...">
+    <div class="card">
+        <h2>🗓️ Cântări Selectate pentru Azi (LIVE)</h2>
+        <table class="tabel-playlisturi">
+            <tr>
+                <td>
+                    <div style="font-size:12px; font-weight:700; color:#67e8f9; margin-bottom:8px; text-transform:uppercase;">🙏 Rugăciune (Max 10)</div>
+                    <div id="playlistRugaciune"></div>
+                </td>
+                <td>
+                    <div style="font-size:12px; font-weight:700; color:#67e8f9; margin-bottom:8px; text-transform:uppercase;">⛪ Program (Max 10)</div>
+                    <div id="playlistProgram"></div>
+                </td>
+            </tr>
+        </table>
     </div>
 
-    <div class="song-list" id="songList">
-        <!-- Melodiile se generează automat aici -->
+    <div class="bara-cautare-dubla">
+        <input type="text" id="cautaRugaciune" class="cauta-input" placeholder="🔍 Caută în Rugăciune..." oninput="window.filtreazaCantari('rugaciune')">
+        <input type="text" id="cautaProgram" class="cauta-input" placeholder="🔍 Caută în Program..." oninput="window.filtreazaCantari('program')">
+    </div>
+
+    <div class="card">
+        <div class="header-sectiune">
+            <h2>🙏 Toate de Rugăciune</h2>
+            <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:13px; border:none;" onclick="window.adaugaCantare('rugaciune')">➕ Adaugă</button>
+        </div>
+        <ul id="listaRugaciune" class="lista-cantari"></ul>
+    </div>
+
+    <div class="card">
+        <div class="header-sectiune">
+            <h2>⛪ Toate de Program</h2>
+            <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:13px; border:none;" onclick="window.adaugaCantare('program')">➕ Adaugă</button>
+        </div>
+        <ul id="listaProgram" class="lista-cantari"></ul>
     </div>
 </div>
 
-<script>
-// Lista ta de melodii extrasă din catalog
-const cantari = [
-    { titlu: "Cel care s-a dat pe sine", tip: "Rugăciune" },
-    { titlu: "Un nume nou", tip: "Program" },
-    { titlu: "Lucruri noi", tip: "Program" },
-    { titlu: "Fii binecuvântat", tip: "Program" },
-    { titlu: "Cei ce se încred", tip: "Ambele" },
-    { titlu: "Aud ciocanele", tip: "Rugăciune" },
-    { titlu: "Ești Dumnezeu", tip: "Program" },
-    { titlu: "Isus iubit când va veni", tip: "Rugăciune" },
-    { titlu: "Eu cred în vindecările divine", tip: "Rugăciune" },
-    { titlu: "Doamne dă-ne înțelepciune", tip: "Rugăciune" },
-    { titlu: "Destinul tău e să învingi", tip: "Program" },
-    { titlu: "Cântecul binecuvântării", tip: "Program" },
-    { titlu: "Cerul privește", tip: "Program" },
-    { titlu: "Promisiuni", tip: "Program" },
-    { titlu: "Iubire iertare", tip: "Rugăciune" },
-    { titlu: "Bunătatea ta", tip: "Program" },
-    { titlu: "Pe marea acestei lumi", tip: "Rugăciune" },
-    { titlu: "După ploaie și furtună", tip: "Rugăciune" },
-    { titlu: "Eu de tine am nevoie", tip: "Rugăciune" },
-    { titlu: "Numeri 6", tip: "Program" },
-    { titlu: "Nu ești singur", tip: "Program" },
-    { titlu: "Tu nu pleci niciodată", tip: "Rugăciune" },
-    { titlu: "Curățit ești de păcat (vrei să fii)", tip: "Rugăciune" },
-    { titlu: "Mă chemi să umblu peste ape", tip: "Program" },
-    { titlu: "Pentru noi e taină mare", tip: "Ambele" },
-    { titlu: "Ce minune va fi", tip: "Program" },
-    { titlu: "Eroii slavei", tip: "Program" },
-    { titlu: "Mai sus de oameni", tip: "Program" },
-    { titlu: "Cânt lui Dumnezeu glorie", tip: "Program" },
-    { titlu: "Când oceanele", tip: "Program" },
-    { titlu: "O de-aș avea eu limbi o mie", tip: "Rugăciune" },
-    { titlu: "Pot să se sfărâme munții", tip: "Program" },
-    { titlu: "Nu ești învins", tip: "Program" },
-    { titlu: "Isus cu slavă îmbrăcat", tip: "Program" },
-    { titlu: "Voi cânta bunătatea ta", tip: "Program" },
-    { titlu: "Splendoare de împărat", tip: "Program" },
-    { titlu: "Când nu te cunoșteam", tip: "Program" },
-    { titlu: "Lipește-mi Doamne", tip: "Program" },
-    { titlu: "La crucea de la Golgota", tip: "Rugăciune" },
-    { titlu: "La al trâmbiței răsunet", tip: "Rugăciune" },
-    { titlu: "Isus e rege", tip: "Program" },
-    { titlu: "Lumina lumii", tip: "Program" },
-    { titlu: "Puterea lui Dumnezeu", tip: "Program" },
-    { titlu: "M-ai binecuvântat o Doamne", tip: "Rugăciune" },
-    { titlu: "Doamne atinge-ne din nou", tip: "Rugăciune" },
-    { titlu: "La miezul nopții", tip: "Rugăciune" },
-    { titlu: "Tu ești creatorul", tip: "Program" },
-    { titlu: "Mi-e așa de dor de tine", tip: "Program" },
-    { titlu: "M-ai trecut prin valuri grele", tip: "Rugăciune" },
-    { titlu: "Când noi eram departe", tip: "Rugăciune" },
-    { titlu: "Lăsați Duhul Sfânt să lucreze", tip: "Rugăciune" },
-    { titlu: "Te prind fiori", tip: "Program" },
-    { titlu: "Arcuri încordate", tip: "Program" },
-    { titlu: "Drumul slavei", tip: "Program" },
-    { titlu: "La Calvar", tip: "Rugăciune" },
-    { titlu: "Ogoarele sunt gata", tip: "Program" },
-    { titlu: "Sunt săpat", tip: "Program" },
-    { titlu: "Vrei tu să scapi de păcat", tip: "Rugăciune" },
-    { titlu: "Doamne unde voi pleca", tip: "Rugăciune" },
-    { titlu: "Jos la picioarele-ți", tip: "Rugăciune" },
-    { titlu: "Aș vrea Isuse", tip: "Rugăciune" },
-    { titlu: "Vreau să spună", tip: "Program" },
-    { titlu: "Sunt pe calea Domnului", tip: "Rugăciune" },
-    { titlu: "Nădejdea mea", tip: "Rugăciune" },
-    { titlu: "Să ne trezim frați și surori", tip: "Rugăciune" },
-    { titlu: "Cântă ca David", tip: "Rugăciune" },
-    { titlu: "O cântare de mărire", tip: "Rugăciune" },
-    { titlu: "Domnul meu", tip: "Program" },
-    { titlu: "Te aștept Isuse", tip: "Program" },
-    { titlu: "O Doamne mare", tip: "Program" },
-    { titlu: "Inima mea tânjește", tip: "Program" },
-    { titlu: "Dragostea ta", tip: "Program" },
-    { titlu: "Suntem trecători", tip: "Program" },
-    { titlu: "O zi Isus a pregătit", tip: "Program" },
-    { titlu: "Dragoste divină sfântă", tip: "Rugăciune" },
-    { titlu: "Îndeajuns mi-e Doamne", tip: "Rugăciune" },
-    { titlu: "Când Isus Hristos m-a mântuit", tip: "Rugăciune" },
-    { titlu: "Ridicati-vă porți capetele", tip: "Program" },
-    { titlu: "Pe oceanul infinit cu valuri", tip: "Rugăciune" },
-    { titlu: "Trece Isus pe aici", tip: "Program" },
-    { titlu: "O crește-mi iubirea", tip: "Program" },
-    { titlu: "Mărețul har", tip: "Rugăciune" },
-    { titlu: "Și de ce oare să mă tem", tip: "Rugăciune" },
-    { titlu: "Și dacă trăim", tip: "Ambele" },
-    { titlu: "Dragostea lui", tip: "Program" },
-    { titlu: "Aceasta e", tip: "Program" },
-    { titlu: "Cântați cu toți", tip: "Rugăciune" },
-    { titlu: "O vino iarăși ca pe vremuri", tip: "Rugăciune" },
-    { titlu: "Unii se bizuiesc", tip: "Program" },
-    { titlu: "Spre lauda ta", tip: "Program" },
-    { titlu: "Doamne tu ești bucuria mea", tip: "Program" },
-    { titlu: "Nicidecum nicidecum niciodată", tip: "Program" },
-    { titlu: "În țara eternă", tip: "Program" },
-    { titlu: "Doar harul tău", tip: "Program" },
-    { titlu: "Pregătește acum", tip: "Program" },
-    { titlu: "Cântă suflet al meu", tip: "Program" },
-    { titlu: "Cum dorește un cerb", tip: "Program" },
-    { titlu: "Eram jos în păcat", tip: "Rugăciune" },
-    { titlu: "Eu mă încred în Domnul meu", tip: "Program" },
-    { titlu: "Nimic nu-i prea greu pentru El", tip: "Program" },
-    { titlu: "Fă-ți timp", tip: "Program" },
-    { titlu: "Calea crucii", tip: "Rugăciune" },
-    { titlu: "În această oră", tip: "Rugăciune" }
-];
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection, addDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const songListElement = document.getElementById('songList');
-const searchInput = document.getElementById('searchInput');
+const firebaseConfig = {
+  apiKey: "AIzaSyDKO99h9zibkcz2yD0Cn091yRWFgV9HLNA",
+  authDomain: "catalog-absente.firebaseapp.com",
+  projectId: "catalog-absente",
+  storageBucket: "catalog-absente.appspot.com",
+  messagingSenderId: "1042227111577",
+  appId: "1:1042227111577:web:3d09dfb323420a5f5fba08"
+};
 
-// Funcție care deschide căutarea pe Resurse Creștine
-function deschideResurseCrestine(titlu) {
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let selectateRugaciune = [];
+let selectateProgram = [];
+let dateRugaciuneComplete = [];
+let dateProgramComplete = [];
+
+// Deschide direct căutarea versurilor & acordurilor pe Resurse Creștine
+window.deschideResurse = function(titlu) {
     const url = `https://www.resursecrestine.ro/cautare?q=${encodeURIComponent(titlu)}`;
     window.open(url, '_blank');
 }
 
-// Afișează melodiile în interfață
-function afiseazaCantari(lista) {
-    songListElement.innerHTML = '';
-    
-    lista.forEach(cantare => {
-        const card = document.createElement('div');
-        card.className = 'song-card';
-        
-        card.innerHTML = `
-            <div class="song-info">
-                <div class="song-title">${cantare.titlu}</div>
-                <div class="song-tag">${cantare.tip}</div>
-            </div>
-            <button class="btn-resurse" onclick="deschideResurseCrestine('${cantare.titlu}')">
-                🔗 Vezi Versuri & Acorduri
-            </button>
-        `;
-        
-        songListElement.appendChild(card);
-    });
-}
-
-// Filtrare căutare în timp real
-searchInput.addEventListener('input', (e) => {
-    const textCautat = e.target.value.toLowerCase();
-    const rezultate = cantari.filter(c => c.titlu.toLowerCase().includes(textCautat));
-    afiseazaCantari(rezultate);
+onSnapshot(doc(db, "playlist_zi", "astazi"), (docSnap) => {
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        selectateRugaciune = data.rugaciune || [];
+        selectateProgram = data.program || [];
+    } else {
+        selectateRugaciune = [];
+        selectateProgram = [];
+    }
+    randeazaPlaylisturiAzi();
 });
 
-// Inițializare
-afiseazaCantari(cantari);
-</script>
+window.trimiteInPlaylist = async function(titlu, gamaSalvata, categorie) {
+    const titluriExistente = (categorie === 'rugaciune' ? selectateRugaciune : selectateProgram).map(x => x.titlu);
+    
+    if (categorie === 'rugaciune') {
+        if (selectateRugaciune.length >= 10) return alert("Ai selectat deja maximul de 10 cântări la Rugăciune!");
+        if (titluriExistente.includes(titlu)) return alert("Cântarea este deja adăugată!");
+    } else {
+        if (selectateProgram.length >= 10) return alert("Ai selectat deja maximul de 10 cântări la Program!");
+        if (titluriExistente.includes(titlu)) return alert("Cântarea este deja adăugată!");
+    }
 
+    const obiectMelodie = { titlu: titlu, gama: gamaSalvata || "" };
+
+    if (categorie === 'rugaciune') {
+        selectateRugaciune.push(obiectMelodie);
+    } else {
+        selectateProgram.push(obiectMelodie);
+    }
+    
+    try {
+        await setDoc(doc(db, "playlist_zi", "astazi"), {
+            rugaciune: selectateRugaciune,
+            program: selectateProgram
+        });
+    } catch(e) { console.error(e); }
+}
+
+window.scoateSlot = async function(categorie, index) {
+    if(categorie === 'rugaciune') selectateRugaciune.splice(index, 1);
+    else selectateProgram.splice(index, 1);
+    
+    try {
+        await setDoc(doc(db, "playlist_zi", "astazi"), {
+            rugaciune: selectateRugaciune,
+            program: selectateProgram
+        });
+    } catch(e) { console.error(e); }
+}
+
+function randeazaPlaylisturiAzi() {
+    let htmlR = "";
+    for(let i=0; i<10; i++){
+        if(selectateRugaciune[i]) {
+            let infoGama = selectateRugaciune[i].gama ? `<span class="badge-gama">${selectateRugaciune[i].gama}</span>` : '';
+            let titluEscape = selectateRugaciune[i].titlu.replace(/'/g, "\\'");
+            htmlR += `<div class="slot-cantec ocupat">
+                <span>${selectateRugaciune[i].titlu} ${infoGama}</span>
+                <div style="display:flex; gap:4px; align-items:center;">
+                    <button class="btn-inline resurse" style="padding:2px 6px;" onclick="window.deschideResurse('${titluEscape}')">🔗</button>
+                    <button class="btn-elimina-slot" onclick="window.scoateSlot('rugaciune', ${i})">×</button>
+                </div>
+            </div>`;
+        } else {
+            htmlR += `<div class="slot-cantec" style="opacity:0.4;"><span>Liber</span></div>`;
+        }
+    }
+    document.getElementById("playlistRugaciune").innerHTML = htmlR;
+
+    let htmlP = "";
+    for(let i=0; i<10; i++){
+        if(selectateProgram[i]) {
+            let infoGama = selectateProgram[i].gama ? `<span class="badge-gama">${selectateProgram[i].gama}</span>` : '';
+            let titluEscape = selectateProgram[i].titlu.replace(/'/g, "\\'");
+            htmlP += `<div class="slot-cantec ocupat">
+                <span>${selectateProgram[i].titlu} ${infoGama}</span>
+                <div style="display:flex; gap:4px; align-items:center;">
+                    <button class="btn-inline resurse" style="padding:2px 6px;" onclick="window.deschideResurse('${titluEscape}')">🔗</button>
+                    <button class="btn-elimina-slot" onclick="window.scoateSlot('program', ${i})">×</button>
+                </div>
+            </div>`;
+        } else {
+            htmlP += `<div class="slot-cantec" style="opacity:0.4;"><span>Liber</span></div>`;
+        }
+    }
+    document.getElementById("playlistProgram").innerHTML = htmlP;
+}
+
+window.filtreazaCantari = function(categorie) {
+    const textCautat = document.getElementById(categorie === 'rugaciune' ? 'cautaRugaciune' : 'cautaProgram').value.toLowerCase();
+    const dateSursa = categorie === 'rugaciune' ? dateRugaciuneComplete : dateProgramComplete;
+    
+    const filtrate = dateSursa.filter(m => m.titlu && m.titlu.toLowerCase().includes(textCautat));
+    afiseazaInLista(filtrate, categorie);
+}
+
+function afiseazaInLista(vectorMelodii, categorie) {
+    let html = "";
+    vectorMelodii.forEach((m) => {
+        let infoGama = m.gama ? `<span class="badge-gama">${m.gama}</span>` : '';
+        let titluEscape = m.titlu.replace(/'/g, "\\'");
+        html += `<li>
+            <span>${m.titlu} ${infoGama}</span>
+            <div class="actiuni-inline-cantari">
+                <button class="btn-inline selecteaza" onclick="window.trimiteInPlaylist('${titluEscape}', '${(m.gama || "").replace(/'/g, "\\'")}', '${categorie}')">Alege</button>
+                <button class="btn-inline resurse" onclick="window.deschideResurse('${titluEscape}')">🔗 Acorduri</button>
+                <button class="btn-inline" onclick="window.editeazaGama('${m.id}', '${(m.gama || "").replace(/'/g, "\\'")}', '${categorie}')"># Gamă</button>
+                <button class="btn-inline" onclick="window.editeazaCantare('${m.id}', '${titluEscape}', '${categorie}')">✏️</button>
+                <button class="btn-inline sterge" onclick="window.stergeCantare('${m.id}', '${categorie}')">🗑️</button>
+            </div>
+        </li>`;
+    });
+    
+    const containerId = categorie === 'rugaciune' ? 'listaRugaciune' : 'listaProgram';
+    document.getElementById(containerId).innerHTML = html || `<p style="opacity:0.5; font-size:12px; padding:10px;">Nicio melodie găsită.</p>`;
+}
+
+window.adaugaCantare = async function(categorie) {
+    let t = prompt("Numele melodiei noi:");
+    if(!t || t.trim() === "") return;
+    try { await addDoc(collection(db, `cantari_${categorie}`), { titlu: t.trim(), gama: "", creatLa: Date.now() }); } catch(e){ console.error(e); }
+}
+
+window.editeazaCantare = async function(id, titluVechi, categorie) {
+    let t = prompt("Modifică numele melodiei:", titluVechi);
+    if(!t || t.trim() === "" || t.trim() === titluVechi) return;
+    try { await updateDoc(doc(db, `cantari_${categorie}`, id), { titlu: t.trim() }); } catch(e){ console.error(e); }
+}
+
+window.editeazaGama = async function(id, gamaVeche, categorie) {
+    let g = prompt("Introdu sau modifică gama (ex: Do, Re, Mim, Lam):", gamaVeche);
+    if(g === null) return;
+    try { await updateDoc(doc(db, `cantari_${categorie}`, id), { gama: g.trim() }); } catch(e){ console.error(e); }
+}
+
+window.stergeCantare = async function(id, categorie) {
+    if(confirm("Ștergi definitiv această melodie?")) {
+        try { await deleteDoc(doc(db, `cantari_${categorie}`, id)); } catch(e){ console.error(e); }
+    }
+}
+
+onSnapshot(collection(db, "cantari_rugaciune"), (snapshot) => {
+    dateRugaciuneComplete = [];
+    snapshot.forEach((docSnap) => {
+        const d = docSnap.data();
+        if(d.titlu) {
+            dateRugaciuneComplete.push({ id: docSnap.id, ...d });
+        }
+    });
+    dateRugaciuneComplete.sort((a, b) => a.titlu.localeCompare(b.titlu));
+    window.filtreazaCantari('rugaciune');
+});
+
+onSnapshot(collection(db, "cantari_program"), (snapshot) => {
+    dateProgramComplete = [];
+    snapshot.forEach((docSnap) => {
+        const d = docSnap.data();
+        if(d.titlu) {
+            dateProgramComplete.push({ id: docSnap.id, ...d });
+        }
+    });
+    dateProgramComplete.sort((a, b) => a.titlu.localeCompare(b.titlu));
+    window.filtreazaCantari('program');
+});
+</script>
 </body>
 </html>
