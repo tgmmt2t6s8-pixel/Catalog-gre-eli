@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aplicație Cântări & Ghidaj Acorduri</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+<title>Catalog Melodii Biserică & Resurse Creștine</title>
 <style>
     body {
         font-family: system-ui, -apple-system, sans-serif;
@@ -19,7 +18,7 @@
     }
 
     .container {
-        max-width: 800px;
+        max-width: 700px;
         width: 100%;
         background: #1e293b;
         padding: 25px;
@@ -32,281 +31,271 @@
         text-align: center;
         color: #38bdf8;
         margin-top: 0;
+        margin-bottom: 20px;
     }
 
-    /* BARA DE CONTROL: Melodie, Transpunere, Instrument */
-    .controls {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-        justify-content: space-between;
-        align-items: center;
-        background: #0f172a;
-        padding: 15px;
-        border-radius: 12px;
-        margin-bottom: 25px;
+    /* Cautare */
+    .search-box {
+        width: 100%;
+        margin-bottom: 20px;
     }
 
-    select, button {
-        background: #334155;
-        color: white;
+    .search-input {
+        width: 100%;
+        padding: 12px 16px;
+        border-radius: 10px;
         border: 1px solid #475569;
-        padding: 8px 14px;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
+        background: #0f172a;
+        color: white;
+        font-size: 16px;
+        box-sizing: border-box;
         outline: none;
     }
 
-    button:hover { background: #475569; }
+    .search-input:focus {
+        border-color: #38bdf8;
+    }
 
-    .transpose-box {
+    /* Lista de melodii */
+    .song-list {
         display: flex;
-        align-items: center;
-        gap: 8px;
+        flex-direction: column;
+        gap: 12px;
+        max-height: 70vh;
+        overflow-y: auto;
+        padding-right: 5px;
     }
 
-    .transpose-val {
-        color: #38bdf8;
-        font-weight: bold;
-        min-width: 45px;
-        text-align: center;
-    }
-
-    /* ZONA AFISARE VERSURI SI ACORDURI */
-    .song-display {
+    .song-card {
         background: #0f172a;
+        padding: 14px 18px;
         border-radius: 12px;
-        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         border: 1px solid #334155;
+        transition: transform 0.1s ease, border-color 0.2s;
+    }
+
+    .song-card:hover {
+        border-color: #38bdf8;
+    }
+
+    .song-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
     }
 
     .song-title {
-        font-size: 22px;
-        color: #facc15;
-        margin-bottom: 15px;
-        text-align: center;
-    }
-
-    .verse-block {
-        margin-bottom: 20px;
-        line-height: 1.8;
-    }
-
-    .line {
-        margin-bottom: 10px;
-        font-size: 18px;
-    }
-
-    /* Stilul acordurilor */
-    .chord {
-        display: inline-block;
+        font-size: 17px;
         font-weight: bold;
-        color: #38bdf8;
-        background: rgba(56, 189, 248, 0.15);
-        padding: 2px 8px;
-        border-radius: 6px;
-        margin: 0 4px;
-        cursor: pointer;
-        border: 1px solid rgba(56, 189, 248, 0.3);
-        transition: all 0.2s;
+        color: #f8fafc;
     }
 
-    .chord:hover {
-        background: #38bdf8;
-        color: #0f172a;
-    }
-
-    .audio-notice {
-        text-align: center;
+    .song-tag {
         font-size: 12px;
         color: #94a3b8;
-        margin-top: 15px;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2px 8px;
+        border-radius: 4px;
+        width: fit-content;
+    }
+
+    /* Buton Resurse Crestine */
+    .btn-resurse {
+        background-color: #0284c7;
+        color: white;
+        text-decoration: none;
+        padding: 8px 14px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: bold;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: background-color 0.2s;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-resurse:hover {
+        background-color: #0369a1;
+    }
+
+    /* Scrollbar personalizat */
+    .song-list::-webkit-scrollbar {
+        width: 6px;
+    }
+    .song-list::-webkit-scrollbar-thumb {
+        background: #334155;
+        border-radius: 10px;
     }
 </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🎶 Melodii & Acorduri Interactive</h1>
+    <h1>📖 Catalog Melodii Biserică</h1>
 
-    <!-- Controls -->
-    <div class="controls">
-        <div>
-            <label style="font-size: 12px; color: #94a3b8; display:block;">Selectează piesa:</label>
-            <select id="songSelect"></select>
-        </div>
-
-        <div class="transpose-box">
-            <label style="font-size: 12px; color: #94a3b8; display:block; width:100%;">Transpunere (Gama):</label>
-            <button id="downBtn"><b>-</b></button>
-            <span class="transpose-val" id="transposeDisplay">0 ST</span>
-            <button id="upBtn"><b>+</b></button>
-        </div>
-
-        <div>
-            <label style="font-size: 12px; color: #94a3b8; display:block;">Instrument:</label>
-            <select id="instSelect">
-                <option value="piano">🎹 Pian</option>
-                <option value="guitar">🎸 Chitară</option>
-                <option value="synth">🎛️ Sintezator</option>
-            </select>
-        </div>
+    <div class="search-box">
+        <input type="text" id="searchInput" class="search-input" placeholder="Caută o melodie din listă...">
     </div>
 
-    <!-- Zonă Redare Piesa -->
-    <div class="song-display">
-        <div class="song-title" id="songTitle">Se încarcă...</div>
-        <div id="lyricsContent"></div>
+    <div class="song-list" id="songList">
+        <!-- Melodiile se generează automat aici -->
     </div>
-
-    <div class="audio-notice">💡 Apasă pe orice acord evidențiat (ex: [ C ]) pentru a-l auzi cântat!</div>
 </div>
 
 <script>
-// Catalogul cu melodiile tale
-const songs = [
-    {
-        title: "Cântă suflet al meu",
-        lyrics: [
-            { text: "Cântă suflet al meu, pentru Domnul", chords: [{ pos: 0, note: "F" }] },
-            { text: "Cântă suflet al meu!", chords: [{ pos: 0, note: "C" }] },
-            { text: "Numele Lui cel Sfânt laudă-L azi", chords: [{ pos: 0, note: "G" }] },
-            { text: "Cântă ca niciodată, suflet al meu", chords: [{ pos: 0, note: "Am" }] },
-            { text: "O, nume-I înălțat!", chords: [{ pos: 0, note: "F" }] }
-        ]
-    },
-    {
-        title: "Splendoare de împărat",
-        lyrics: [
-            { text: "Splendoare de Împărat, îmbrăcat în maiestate", chords: [{ pos: 0, note: "C" }] },
-            { text: "Pământul va cânta, pământul va cânta!", chords: [{ pos: 0, note: "Am" }] },
-            { text: "El este îmbrăcat în lumină și har", chords: [{ pos: 0, note: "F" }] },
-            { text: "Și întunericul va pieri din cale...", chords: [{ pos: 0, note: "G" }] }
-        ]
-    },
-    {
-        title: "Mă chemi să umblu peste ape",
-        lyrics: [
-            { text: "Mă chemi să umblu peste ape", chords: [{ pos: 0, note: "Am" }] },
-            { text: "Unde credința-mi poate cădea...", chords: [{ pos: 0, note: "G" }] },
-            { text: "Acolo Te găsesc în taină", chords: [{ pos: 0, note: "F" }] },
-            { text: "În ape adânci mă vei purta!", chords: [{ pos: 0, note: "C" }] }
-        ]
-    },
-    {
-        title: "Destinul tău e să învingi",
-        lyrics: [
-            { text: "Nu te uita la valul greu ce vine", chords: [{ pos: 0, note: "C" }] },
-            { text: "Încrede-te în Domnul, El e cu tine!", chords: [{ pos: 0, note: "G" }] },
-            { text: "Destinul tău e să învingi mereu", chords: [{ pos: 0, note: "Am" }, { pos: 25, note: "F" }] }
-        ]
-    }
+// Lista ta de melodii extrasă din catalog
+const cantari = [
+    { titlu: "Cel care s-a dat pe sine", tip: "Rugăciune" },
+    { titlu: "Un nume nou", tip: "Program" },
+    { titlu: "Lucruri noi", tip: "Program" },
+    { titlu: "Fii binecuvântat", tip: "Program" },
+    { titlu: "Cei ce se încred", tip: "Ambele" },
+    { titlu: "Aud ciocanele", tip: "Rugăciune" },
+    { titlu: "Ești Dumnezeu", tip: "Program" },
+    { titlu: "Isus iubit când va veni", tip: "Rugăciune" },
+    { titlu: "Eu cred în vindecările divine", tip: "Rugăciune" },
+    { titlu: "Doamne dă-ne înțelepciune", tip: "Rugăciune" },
+    { titlu: "Destinul tău e să învingi", tip: "Program" },
+    { titlu: "Cântecul binecuvântării", tip: "Program" },
+    { titlu: "Cerul privește", tip: "Program" },
+    { titlu: "Promisiuni", tip: "Program" },
+    { titlu: "Iubire iertare", tip: "Rugăciune" },
+    { titlu: "Bunătatea ta", tip: "Program" },
+    { titlu: "Pe marea acestei lumi", tip: "Rugăciune" },
+    { titlu: "După ploaie și furtună", tip: "Rugăciune" },
+    { titlu: "Eu de tine am nevoie", tip: "Rugăciune" },
+    { titlu: "Numeri 6", tip: "Program" },
+    { titlu: "Nu ești singur", tip: "Program" },
+    { titlu: "Tu nu pleci niciodată", tip: "Rugăciune" },
+    { titlu: "Curățit ești de păcat (vrei să fii)", tip: "Rugăciune" },
+    { titlu: "Mă chemi să umblu peste ape", tip: "Program" },
+    { titlu: "Pentru noi e taină mare", tip: "Ambele" },
+    { titlu: "Ce minune va fi", tip: "Program" },
+    { titlu: "Eroii slavei", tip: "Program" },
+    { titlu: "Mai sus de oameni", tip: "Program" },
+    { titlu: "Cânt lui Dumnezeu glorie", tip: "Program" },
+    { titlu: "Când oceanele", tip: "Program" },
+    { titlu: "O de-aș avea eu limbi o mie", tip: "Rugăciune" },
+    { titlu: "Pot să se sfărâme munții", tip: "Program" },
+    { titlu: "Nu ești învins", tip: "Program" },
+    { titlu: "Isus cu slavă îmbrăcat", tip: "Program" },
+    { titlu: "Voi cânta bunătatea ta", tip: "Program" },
+    { titlu: "Splendoare de împărat", tip: "Program" },
+    { titlu: "Când nu te cunoșteam", tip: "Program" },
+    { titlu: "Lipește-mi Doamne", tip: "Program" },
+    { titlu: "La crucea de la Golgota", tip: "Rugăciune" },
+    { titlu: "La al trâmbiței răsunet", tip: "Rugăciune" },
+    { titlu: "Isus e rege", tip: "Program" },
+    { titlu: "Lumina lumii", tip: "Program" },
+    { titlu: "Puterea lui Dumnezeu", tip: "Program" },
+    { titlu: "M-ai binecuvântat o Doamne", tip: "Rugăciune" },
+    { titlu: "Doamne atinge-ne din nou", tip: "Rugăciune" },
+    { titlu: "La miezul nopții", tip: "Rugăciune" },
+    { titlu: "Tu ești creatorul", tip: "Program" },
+    { titlu: "Mi-e așa de dor de tine", tip: "Program" },
+    { titlu: "M-ai trecut prin valuri grele", tip: "Rugăciune" },
+    { titlu: "Când noi eram departe", tip: "Rugăciune" },
+    { titlu: "Lăsați Duhul Sfânt să lucreze", tip: "Rugăciune" },
+    { titlu: "Te prind fiori", tip: "Program" },
+    { titlu: "Arcuri încordate", tip: "Program" },
+    { titlu: "Drumul slavei", tip: "Program" },
+    { titlu: "La Calvar", tip: "Rugăciune" },
+    { titlu: "Ogoarele sunt gata", tip: "Program" },
+    { titlu: "Sunt săpat", tip: "Program" },
+    { titlu: "Vrei tu să scapi de păcat", tip: "Rugăciune" },
+    { titlu: "Doamne unde voi pleca", tip: "Rugăciune" },
+    { titlu: "Jos la picioarele-ți", tip: "Rugăciune" },
+    { titlu: "Aș vrea Isuse", tip: "Rugăciune" },
+    { titlu: "Vreau să spună", tip: "Program" },
+    { titlu: "Sunt pe calea Domnului", tip: "Rugăciune" },
+    { titlu: "Nădejdea mea", tip: "Rugăciune" },
+    { titlu: "Să ne trezim frați și surori", tip: "Rugăciune" },
+    { titlu: "Cântă ca David", tip: "Rugăciune" },
+    { titlu: "O cântare de mărire", tip: "Rugăciune" },
+    { titlu: "Domnul meu", tip: "Program" },
+    { titlu: "Te aștept Isuse", tip: "Program" },
+    { titlu: "O Doamne mare", tip: "Program" },
+    { titlu: "Inima mea tânjește", tip: "Program" },
+    { titlu: "Dragostea ta", tip: "Program" },
+    { titlu: "Suntem trecători", tip: "Program" },
+    { titlu: "O zi Isus a pregătit", tip: "Program" },
+    { titlu: "Dragoste divină sfântă", tip: "Rugăciune" },
+    { titlu: "Îndeajuns mi-e Doamne", tip: "Rugăciune" },
+    { titlu: "Când Isus Hristos m-a mântuit", tip: "Rugăciune" },
+    { titlu: "Ridicati-vă porți capetele", tip: "Program" },
+    { titlu: "Pe oceanul infinit cu valuri", tip: "Rugăciune" },
+    { titlu: "Trece Isus pe aici", tip: "Program" },
+    { titlu: "O crește-mi iubirea", tip: "Program" },
+    { titlu: "Mărețul har", tip: "Rugăciune" },
+    { titlu: "Și de ce oare să mă tem", tip: "Rugăciune" },
+    { titlu: "Și dacă trăim", tip: "Ambele" },
+    { titlu: "Dragostea lui", tip: "Program" },
+    { titlu: "Aceasta e", tip: "Program" },
+    { titlu: "Cântați cu toți", tip: "Rugăciune" },
+    { titlu: "O vino iarăși ca pe vremuri", tip: "Rugăciune" },
+    { titlu: "Unii se bizuiesc", tip: "Program" },
+    { titlu: "Spre lauda ta", tip: "Program" },
+    { titlu: "Doamne tu ești bucuria mea", tip: "Program" },
+    { titlu: "Nicidecum nicidecum niciodată", tip: "Program" },
+    { titlu: "În țara eternă", tip: "Program" },
+    { titlu: "Doar harul tău", tip: "Program" },
+    { titlu: "Pregătește acum", tip: "Program" },
+    { titlu: "Cântă suflet al meu", tip: "Program" },
+    { titlu: "Cum dorește un cerb", tip: "Program" },
+    { titlu: "Eram jos în păcat", tip: "Rugăciune" },
+    { titlu: "Eu mă încred în Domnul meu", tip: "Program" },
+    { titlu: "Nimic nu-i prea greu pentru El", tip: "Program" },
+    { titlu: "Fă-ți timp", tip: "Program" },
+    { titlu: "Calea crucii", tip: "Rugăciune" },
+    { titlu: "În această oră", tip: "Rugăciune" }
 ];
 
-// Note de bază pentru sinteză audio
-const chordNotesMap = {
-    "C": ["C4", "E4", "G4"],
-    "Dm": ["D4", "F4", "A4"],
-    "Em": ["E4", "G4", "B4"],
-    "F": ["F4", "A4", "C5"],
-    "G": ["G4", "B4", "D5"],
-    "Am": ["A4", "C5", "E5"]
-};
+const songListElement = document.getElementById('songList');
+const searchInput = document.getElementById('searchInput');
 
-const noteNames = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+// Funcție care deschide căutarea pe Resurse Creștine
+function deschideResurseCrestine(titlu) {
+    const url = `https://www.resursecrestine.ro/cautare?q=${encodeURIComponent(titlu)}`;
+    window.open(url, '_blank');
+}
 
-let currentSongIdx = 0;
-let transposeSteps = 0;
-let audioStarted = false;
-
-// Inițializare Audio Tone.js
-const reverb = new Tone.Reverb(1.5).toDestination();
-const synth = new Tone.PolySynth(Tone.Synth).connect(reverb);
-
-function playChordAudio(chordName) {
-    Tone.start();
-    // Transpunem acordul și audio
-    let base = chordName.replace("m", "");
-    let isMinor = chordName.includes("m");
+// Afișează melodiile în interfață
+function afiseazaCantari(lista) {
+    songListElement.innerHTML = '';
     
-    let baseIdx = noteNames.indexOf(base);
-    if (baseIdx !== -1) {
-        let newIdx = (baseIdx + transposeSteps) % 12;
-        if (newIdx < 0) newIdx += 12;
-        let rootNote = noteNames[newIdx] + "4";
+    lista.forEach(cantare => {
+        const card = document.createElement('div');
+        card.className = 'song-card';
         
-        let notes = isMinor ? 
-            [rootNote, Tone.Frequency(rootNote).transpose(3).toNote(), Tone.Frequency(rootNote).transpose(7).toNote()] :
-            [rootNote, Tone.Frequency(rootNote).transpose(4).toNote(), Tone.Frequency(rootNote).transpose(7).toNote()];
-            
-        synth.triggerAttackRelease(notes, "1n");
-    }
-}
-
-// Transpunere Acorduri în Text
-function transposeChordText(chord, steps) {
-    let isMinor = chord.endsWith("m");
-    let root = isMinor ? chord.slice(0, -1) : chord;
-    let idx = noteNames.indexOf(root);
-    if (idx === -1) return chord;
-    
-    let transposedIdx = (idx + steps) % 12;
-    if (transposedIdx < 0) transposedIdx += 12;
-    
-    return noteNames[transposedIdx] + (isMinor ? "m" : "");
-}
-
-function renderSong() {
-    const song = songs[currentSongIdx];
-    document.getElementById("songTitle").innerText = song.title;
-    const container = document.getElementById("lyricsContent");
-    container.innerHTML = "";
-
-    song.lyrics.forEach(lineObj => {
-        const lineDiv = document.createElement("div");
-        lineDiv.className = "line";
-
-        let chordSpan = "";
-        lineObj.chords.forEach(c => {
-            let transposed = transposeChordText(c.note, transposeSteps);
-            chordSpan += `<span class="chord" onclick="playChordAudio('${c.note}')">[ ${transposed} ]</span>`;
-        });
-
-        lineDiv.innerHTML = `${chordSpan} ${lineObj.text}`;
-        container.appendChild(lineDiv);
+        card.innerHTML = `
+            <div class="song-info">
+                <div class="song-title">${cantare.titlu}</div>
+                <div class="song-tag">${cantare.tip}</div>
+            </div>
+            <button class="btn-resurse" onclick="deschideResurseCrestine('${cantare.titlu}')">
+                🔗 Vezi Versuri & Acorduri
+            </button>
+        `;
+        
+        songListElement.appendChild(card);
     });
 }
 
-// Event Listeners
-const songSelect = document.getElementById("songSelect");
-songs.forEach((song, idx) => {
-    const opt = document.createElement("option");
-    opt.value = idx;
-    opt.innerText = song.title;
-    songSelect.appendChild(opt);
+// Filtrare căutare în timp real
+searchInput.addEventListener('input', (e) => {
+    const textCautat = e.target.value.toLowerCase();
+    const rezultate = cantari.filter(c => c.titlu.toLowerCase().includes(textCautat));
+    afiseazaCantari(rezultate);
 });
 
-songSelect.addEventListener("change", (e) => {
-    currentSongIdx = parseInt(e.target.value);
-    renderSong();
-});
-
-document.getElementById("upBtn").addEventListener("click", () => {
-    transposeSteps++;
-    document.getElementById("transposeDisplay").innerText = (transposeSteps >= 0 ? "+" : "") + transposeSteps + " ST";
-    renderSong();
-});
-
-document.getElementById("downBtn").addEventListener("click", () => {
-    transposeSteps--;
-    document.getElementById("transposeDisplay").innerText = (transposeSteps >= 0 ? "+" : "") + transposeSteps + " ST";
-    renderSong();
-});
-
-// Pornire inițială
-renderSong();
+// Inițializare
+afiseazaCantari(cantari);
 </script>
+
 </body>
 </html>
