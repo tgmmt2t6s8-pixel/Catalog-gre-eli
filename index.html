@@ -167,9 +167,9 @@ h2 {
 .badge-gama {
     background: #67e8f9;
     color: #0b0f19;
-    padding: 3px 8px;
-    border-radius: 6px;
-    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 10px;
     font-weight: 800;
     white-space: nowrap;
     text-transform: uppercase;
@@ -231,61 +231,61 @@ h2 {
     margin: 0;
 }
 
-/* NOU LAYOUT ELEMENT LISTĂ: Structură verticală pe 2 rânduri pe mobil */
 .lista-cantari li {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 12px 14px;
-    border-radius: 14px;
-    margin-bottom: 10px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    margin-bottom: 8px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
 .rand-titlu-gama {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     width: 100%;
 }
 
 .titlu-cantare {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
     color: #ffffff;
-    line-height: 1.3;
+    line-height: 1.2;
 }
 
 .actiuni-inline-cantari {
     display: flex;
-    gap: 8px;
+    gap: 4px;
     align-items: center;
-    flex-wrap: wrap;
     width: 100%;
+    flex-wrap: nowrap;
 }
 
 .btn-inline {
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.12);
     color: white;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 12px;
+    padding: 4px 6px;
+    border-radius: 6px;
+    font-size: 11px;
     font-weight: 700;
     cursor: pointer;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 2px;
     flex: 1;
     text-align: center;
+    white-space: nowrap;
 }
 .btn-inline.selecteaza { background: #67e8f9; color: #0b0f19; border: none; }
 .btn-inline.resurse { background: rgba(2, 132, 199, 0.35); color: #38bdf8; border-color: rgba(56, 189, 248, 0.4); }
-.btn-inline.sterge { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border-color: rgba(239, 68, 68, 0.3); flex: 0 0 auto; padding: 6px 10px; }
+.btn-inline.sterge { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border-color: rgba(239, 68, 68, 0.3); flex: 0 0 auto; padding: 4px 8px; }
 </style>
 </head>
 <body>
@@ -317,7 +317,7 @@ h2 {
     <div class="card">
         <div class="header-sectiune">
             <h2>🙏 Toate de Rugăciune</h2>
-            <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:13px; border:none; flex:none;" onclick="window.adaugaCantare('rugaciune')">➕ Adaugă</button>
+            <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:12px; border:none; flex:none;" onclick="window.adaugaCantare('rugaciune')">➕ Adaugă</button>
         </div>
         <ul id="listaRugaciune" class="lista-cantari"></ul>
     </div>
@@ -325,7 +325,7 @@ h2 {
     <div class="card">
         <div class="header-sectiune">
             <h2>⛪ Toate de Program</h2>
-            <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:13px; border:none; flex:none;" onclick="window.adaugaCantare('program')">➕ Adaugă</button>
+            <button class="btn-inline" style="background:#fff; color:#0b0f19; font-size:12px; border:none; flex:none;" onclick="window.adaugaCantare('program')">➕ Adaugă</button>
         </div>
         <ul id="listaProgram" class="lista-cantari"></ul>
     </div>
